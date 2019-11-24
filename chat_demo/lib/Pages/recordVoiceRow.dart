@@ -24,10 +24,11 @@ class RecordVoiceRow extends StatelessWidget {
                       provider.start.millisecondsSinceEpoch) /
                   1000)
               .ceil();
+          
 
           signalRProvider.addVoiceChatRecord(second,1);
           // sleep( Duration(seconds: 1));
-          provider.uploadVoice();
+          provider.uploadVoice(signalRProvider.connId,signalRProvider,second.toString());
         },
         onTapCancel: () {
           provider.cancelRecord();

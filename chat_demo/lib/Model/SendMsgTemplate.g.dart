@@ -11,6 +11,7 @@ SendMsgTemplate _$SendMsgTemplateFromJson(Map<String, dynamic> json) {
     fromWho: json['fromWho'] as String,
     message: json['message'] as String,
     toWho: json['toWho'] as String,
+    voiceLength: json['voiceLength'] as String,
   );
 }
 
@@ -19,4 +20,5 @@ Map<String, dynamic> _$SendMsgTemplateToJson(SendMsgTemplate instance) =>
       'fromWho': instance.fromWho,
       'toWho': instance.toWho,
       'message': instance.message,
+      'voiceLength':instance.voiceLength
     };

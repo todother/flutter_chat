@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
@@ -87,28 +86,19 @@ class VoiceRecordProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  uploadVoice() async {
-
-
-
-    String url = 'http://localhost:5000/upload/uploadFiles';
-    uploadPath=uploadPath.replaceAll('file:///', '');
-    String convertPath="";
-    if(Platform.isIOS){
-      convertPath=uploadPath.replaceAll(".m4a", ".mp3");
-    }
-    else{
-      convertPath=uploadPath.replaceAll('mp4', '.mp3');
-    }
-    var ffmpeg=FlutterFFmpeg();
-    await ffmpeg.execute('-i '+uploadPath+" -acodec libmp3lame -aq 2 "+convertPath);
-    var dio=Dio();
-    var formData= FormData.fromMap({
-      "file":await MultipartFile.fromFile(convertPath),
-      "name":fileName.split('.').first
+  uploadVoice(sender,SignalRProvider signalR,voiceLength) async {
+    String path=File(uploadPath).path.replaceAll("file:///", "");
+    
+    Dio dio=Dio();
+    var formData=FormData.fromMap({
+      "file":await MultipartFile.fromFile(path,filename: filePath),
+      "name":filePath,
+      "sender":sender
     });
-    var response=await dio.post(url,data:formData );
-    print(response);
+    String urlPath="http://192.168.0.6:5000/upload/uploadFiles";
+    var response=await dio.post(urlPath,data:formData );
+    signalR.notifyVoice(fileName,voiceLength);
+    dio.close();
   }
 
   playVoice(filePath) async {
