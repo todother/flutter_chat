@@ -8,6 +8,47 @@
 
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
+		365AD8EE23910FE400C92FFB /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD8ED23910FE400C92FFB /* libz.tbd */; };
+		365AD8F023910FF300C92FFB /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD8EF23910FF300C92FFB /* libbz2.tbd */; };
+		365AD8F223910FFF00C92FFB /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD8F123910FFF00C92FFB /* libiconv.tbd */; };
+		365AD8F42391100800C92FFB /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD8F32391100800C92FFB /* CoreMedia.framework */; };
+		365AD8F62391101200C92FFB /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD8F52391101200C92FFB /* VideoToolbox.framework */; };
+		365AD9102393E75700C92FFB /* soxr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD8F72393E75600C92FFB /* soxr.framework */; };
+		365AD9112393E75700C92FFB /* wavpack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD8F82393E75600C92FFB /* wavpack.framework */; };
+		365AD9122393E75700C92FFB /* libavfilter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD8F92393E75600C92FFB /* libavfilter.framework */; };
+		365AD9132393E75700C92FFB /* libvorbisfile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD8FA2393E75600C92FFB /* libvorbisfile.framework */; };
+		365AD9142393E75700C92FFB /* libopencore-amrwb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD8FB2393E75600C92FFB /* libopencore-amrwb.framework */; };
+		365AD9152393E75700C92FFB /* libavdevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD8FC2393E75600C92FFB /* libavdevice.framework */; };
+		365AD9162393E75700C92FFB /* libavcodec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD8FD2393E75600C92FFB /* libavcodec.framework */; };
+		365AD9172393E75700C92FFB /* libcharset.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD8FE2393E75600C92FFB /* libcharset.framework */; };
+		365AD9182393E75700C92FFB /* libswscale.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD8FF2393E75600C92FFB /* libswscale.framework */; };
+		365AD9192393E75700C92FFB /* speex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD9002393E75600C92FFB /* speex.framework */; };
+		365AD91A2393E75700C92FFB /* libopencore-amrnb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD9012393E75600C92FFB /* libopencore-amrnb.framework */; };
+		365AD91B2393E75700C92FFB /* libsndfile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD9022393E75600C92FFB /* libsndfile.framework */; };
+		365AD91C2393E75700C92FFB /* libiconv.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD9032393E75600C92FFB /* libiconv.framework */; };
+		365AD91D2393E75700C92FFB /* mobileffmpeg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD9042393E75600C92FFB /* mobileffmpeg.framework */; };
+		365AD91E2393E75700C92FFB /* libswresample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD9052393E75600C92FFB /* libswresample.framework */; };
+		365AD91F2393E75700C92FFB /* libvorbisenc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD9062393E75600C92FFB /* libvorbisenc.framework */; };
+		365AD9202393E75700C92FFB /* lame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD9072393E75700C92FFB /* lame.framework */; };
+		365AD9212393E75700C92FFB /* shine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD9082393E75700C92FFB /* shine.framework */; };
+		365AD9222393E75700C92FFB /* opus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD9092393E75700C92FFB /* opus.framework */; };
+		365AD9232393E75700C92FFB /* libvorbis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD90A2393E75700C92FFB /* libvorbis.framework */; };
+		365AD9242393E75700C92FFB /* twolame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD90B2393E75700C92FFB /* twolame.framework */; };
+		365AD9252393E75700C92FFB /* libogg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD90C2393E75700C92FFB /* libogg.framework */; };
+		365AD9262393E75700C92FFB /* libavutil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD90D2393E75700C92FFB /* libavutil.framework */; };
+		365AD9272393E75700C92FFB /* libavformat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD90E2393E75700C92FFB /* libavformat.framework */; };
+		365AD9282393E75700C92FFB /* libilbc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD90F2393E75700C92FFB /* libilbc.framework */; };
+		365AD92A2393E77800C92FFB /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 365AD9292393E77800C92FFB /* libc++.tbd */; };
+		368E5826238D8E1B0002F884 /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368E5825238D8E1B0002F884 /* iflyMSC.framework */; };
+		368E5828238D8E550002F884 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368E5827238D8E550002F884 /* CoreTelephony.framework */; };
+		368E582A238D8E7D0002F884 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368E5829238D8E7D0002F884 /* CoreGraphics.framework */; };
+		368E582C238D8EA40002F884 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368E582B238D8EA40002F884 /* Foundation.framework */; };
+		368E582E238D8EAC0002F884 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368E582D238D8EAC0002F884 /* UIKit.framework */; };
+		368E5830238D8EB70002F884 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368E582F238D8EB70002F884 /* SystemConfiguration.framework */; };
+		368E5832238D8EC30002F884 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368E5831238D8EC30002F884 /* AudioToolbox.framework */; };
+		368E5834238D8ED40002F884 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368E5833238D8ED40002F884 /* AddressBook.framework */; };
+		368E5836238D8EDD0002F884 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368E5835238D8EDD0002F884 /* AVFoundation.framework */; };
+		368E5838238D8EE70002F884 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368E5837238D8EE70002F884 /* CoreLocation.framework */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		3B80C3941E831B6300D905FE /* App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B80C3931E831B6300D905FE /* App.framework */; };
 		3B80C3951E831B6300D905FE /* App.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3B80C3931E831B6300D905FE /* App.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -39,6 +80,48 @@
 /* Begin PBXFileReference section */
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
+		365AD8ED23910FE400C92FFB /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		365AD8EF23910FF300C92FFB /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
+		365AD8F123910FFF00C92FFB /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		365AD8F32391100800C92FFB /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		365AD8F52391101200C92FFB /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		365AD8F72393E75600C92FFB /* soxr.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = soxr.framework; sourceTree = "<group>"; };
+		365AD8F82393E75600C92FFB /* wavpack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = wavpack.framework; sourceTree = "<group>"; };
+		365AD8F92393E75600C92FFB /* libavfilter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libavfilter.framework; sourceTree = "<group>"; };
+		365AD8FA2393E75600C92FFB /* libvorbisfile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libvorbisfile.framework; sourceTree = "<group>"; };
+		365AD8FB2393E75600C92FFB /* libopencore-amrwb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "libopencore-amrwb.framework"; sourceTree = "<group>"; };
+		365AD8FC2393E75600C92FFB /* libavdevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libavdevice.framework; sourceTree = "<group>"; };
+		365AD8FD2393E75600C92FFB /* libavcodec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libavcodec.framework; sourceTree = "<group>"; };
+		365AD8FE2393E75600C92FFB /* libcharset.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libcharset.framework; sourceTree = "<group>"; };
+		365AD8FF2393E75600C92FFB /* libswscale.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libswscale.framework; sourceTree = "<group>"; };
+		365AD9002393E75600C92FFB /* speex.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = speex.framework; sourceTree = "<group>"; };
+		365AD9012393E75600C92FFB /* libopencore-amrnb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "libopencore-amrnb.framework"; sourceTree = "<group>"; };
+		365AD9022393E75600C92FFB /* libsndfile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libsndfile.framework; sourceTree = "<group>"; };
+		365AD9032393E75600C92FFB /* libiconv.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libiconv.framework; sourceTree = "<group>"; };
+		365AD9042393E75600C92FFB /* mobileffmpeg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = mobileffmpeg.framework; sourceTree = "<group>"; };
+		365AD9052393E75600C92FFB /* libswresample.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libswresample.framework; sourceTree = "<group>"; };
+		365AD9062393E75600C92FFB /* libvorbisenc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libvorbisenc.framework; sourceTree = "<group>"; };
+		365AD9072393E75700C92FFB /* lame.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = lame.framework; sourceTree = "<group>"; };
+		365AD9082393E75700C92FFB /* shine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = shine.framework; sourceTree = "<group>"; };
+		365AD9092393E75700C92FFB /* opus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opus.framework; sourceTree = "<group>"; };
+		365AD90A2393E75700C92FFB /* libvorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libvorbis.framework; sourceTree = "<group>"; };
+		365AD90B2393E75700C92FFB /* twolame.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = twolame.framework; sourceTree = "<group>"; };
+		365AD90C2393E75700C92FFB /* libogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libogg.framework; sourceTree = "<group>"; };
+		365AD90D2393E75700C92FFB /* libavutil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libavutil.framework; sourceTree = "<group>"; };
+		365AD90E2393E75700C92FFB /* libavformat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libavformat.framework; sourceTree = "<group>"; };
+		365AD90F2393E75700C92FFB /* libilbc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libilbc.framework; sourceTree = "<group>"; };
+		365AD9292393E77800C92FFB /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		368E5823238D8DF50002F884 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = ../../../../Downloads/iOS_iat1180_tts_online1180_5ddc9677/lib; sourceTree = "<group>"; };
+		368E5825238D8E1B0002F884 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iflyMSC.framework; path = "../../../../Downloads/iOS_iat1180_tts_online1180_5ddc9677 2/lib/iflyMSC.framework"; sourceTree = "<group>"; };
+		368E5827238D8E550002F884 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		368E5829238D8E7D0002F884 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		368E582B238D8EA40002F884 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		368E582D238D8EAC0002F884 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		368E582F238D8EB70002F884 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		368E5831238D8EC30002F884 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		368E5833238D8ED40002F884 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		368E5835238D8EDD0002F884 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		368E5837238D8EE70002F884 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		3B80C3931E831B6300D905FE /* App.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = App.framework; path = Flutter/App.framework; sourceTree = "<group>"; };
 		588B3F15550AFD544FCFF54D /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
@@ -63,6 +146,47 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				365AD92A2393E77800C92FFB /* libc++.tbd in Frameworks */,
+				365AD9102393E75700C92FFB /* soxr.framework in Frameworks */,
+				365AD9112393E75700C92FFB /* wavpack.framework in Frameworks */,
+				365AD9122393E75700C92FFB /* libavfilter.framework in Frameworks */,
+				365AD9132393E75700C92FFB /* libvorbisfile.framework in Frameworks */,
+				365AD9142393E75700C92FFB /* libopencore-amrwb.framework in Frameworks */,
+				365AD9152393E75700C92FFB /* libavdevice.framework in Frameworks */,
+				365AD9162393E75700C92FFB /* libavcodec.framework in Frameworks */,
+				365AD9172393E75700C92FFB /* libcharset.framework in Frameworks */,
+				365AD9182393E75700C92FFB /* libswscale.framework in Frameworks */,
+				365AD9192393E75700C92FFB /* speex.framework in Frameworks */,
+				365AD91A2393E75700C92FFB /* libopencore-amrnb.framework in Frameworks */,
+				365AD91B2393E75700C92FFB /* libsndfile.framework in Frameworks */,
+				365AD91C2393E75700C92FFB /* libiconv.framework in Frameworks */,
+				365AD91D2393E75700C92FFB /* mobileffmpeg.framework in Frameworks */,
+				365AD91E2393E75700C92FFB /* libswresample.framework in Frameworks */,
+				365AD91F2393E75700C92FFB /* libvorbisenc.framework in Frameworks */,
+				365AD9202393E75700C92FFB /* lame.framework in Frameworks */,
+				365AD9212393E75700C92FFB /* shine.framework in Frameworks */,
+				365AD9222393E75700C92FFB /* opus.framework in Frameworks */,
+				365AD9232393E75700C92FFB /* libvorbis.framework in Frameworks */,
+				365AD9242393E75700C92FFB /* twolame.framework in Frameworks */,
+				365AD9252393E75700C92FFB /* libogg.framework in Frameworks */,
+				365AD9262393E75700C92FFB /* libavutil.framework in Frameworks */,
+				365AD9272393E75700C92FFB /* libavformat.framework in Frameworks */,
+				365AD9282393E75700C92FFB /* libilbc.framework in Frameworks */,
+				368E5836238D8EDD0002F884 /* AVFoundation.framework in Frameworks */,
+				365AD8F62391101200C92FFB /* VideoToolbox.framework in Frameworks */,
+				365AD8F42391100800C92FFB /* CoreMedia.framework in Frameworks */,
+				365AD8F223910FFF00C92FFB /* libiconv.tbd in Frameworks */,
+				365AD8F023910FF300C92FFB /* libbz2.tbd in Frameworks */,
+				365AD8EE23910FE400C92FFB /* libz.tbd in Frameworks */,
+				368E5838238D8EE70002F884 /* CoreLocation.framework in Frameworks */,
+				368E5834238D8ED40002F884 /* AddressBook.framework in Frameworks */,
+				368E5832238D8EC30002F884 /* AudioToolbox.framework in Frameworks */,
+				368E5830238D8EB70002F884 /* SystemConfiguration.framework in Frameworks */,
+				368E582E238D8EAC0002F884 /* UIKit.framework in Frameworks */,
+				368E582C238D8EA40002F884 /* Foundation.framework in Frameworks */,
+				368E582A238D8E7D0002F884 /* CoreGraphics.framework in Frameworks */,
+				368E5828238D8E550002F884 /* CoreTelephony.framework in Frameworks */,
+				368E5826238D8E1B0002F884 /* iflyMSC.framework in Frameworks */,
 				9705A1C61CF904A100538489 /* Flutter.framework in Frameworks */,
 				3B80C3941E831B6300D905FE /* App.framework in Frameworks */,
 				B7CCB6928B208B3570470B7D /* Pods_Runner.framework in Frameworks */,
@@ -72,9 +196,58 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		365AD8EC23910EB300C92FFB /* FFMPEG */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FFMPEG;
+			sourceTree = "<group>";
+		};
 		7025F86E2DD864EAD0887684 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				365AD9292393E77800C92FFB /* libc++.tbd */,
+				365AD9072393E75700C92FFB /* lame.framework */,
+				365AD8FD2393E75600C92FFB /* libavcodec.framework */,
+				365AD8FC2393E75600C92FFB /* libavdevice.framework */,
+				365AD8F92393E75600C92FFB /* libavfilter.framework */,
+				365AD90E2393E75700C92FFB /* libavformat.framework */,
+				365AD90D2393E75700C92FFB /* libavutil.framework */,
+				365AD8FE2393E75600C92FFB /* libcharset.framework */,
+				365AD9032393E75600C92FFB /* libiconv.framework */,
+				365AD90F2393E75700C92FFB /* libilbc.framework */,
+				365AD90C2393E75700C92FFB /* libogg.framework */,
+				365AD9012393E75600C92FFB /* libopencore-amrnb.framework */,
+				365AD8FB2393E75600C92FFB /* libopencore-amrwb.framework */,
+				365AD9022393E75600C92FFB /* libsndfile.framework */,
+				365AD9052393E75600C92FFB /* libswresample.framework */,
+				365AD8FF2393E75600C92FFB /* libswscale.framework */,
+				365AD90A2393E75700C92FFB /* libvorbis.framework */,
+				365AD9062393E75600C92FFB /* libvorbisenc.framework */,
+				365AD8FA2393E75600C92FFB /* libvorbisfile.framework */,
+				365AD9042393E75600C92FFB /* mobileffmpeg.framework */,
+				365AD9092393E75700C92FFB /* opus.framework */,
+				365AD9082393E75700C92FFB /* shine.framework */,
+				365AD8F72393E75600C92FFB /* soxr.framework */,
+				365AD9002393E75600C92FFB /* speex.framework */,
+				365AD90B2393E75700C92FFB /* twolame.framework */,
+				365AD8F82393E75600C92FFB /* wavpack.framework */,
+				365AD8F52391101200C92FFB /* VideoToolbox.framework */,
+				365AD8F32391100800C92FFB /* CoreMedia.framework */,
+				365AD8F123910FFF00C92FFB /* libiconv.tbd */,
+				365AD8EF23910FF300C92FFB /* libbz2.tbd */,
+				365AD8ED23910FE400C92FFB /* libz.tbd */,
+				368E5837238D8EE70002F884 /* CoreLocation.framework */,
+				368E5835238D8EDD0002F884 /* AVFoundation.framework */,
+				368E5833238D8ED40002F884 /* AddressBook.framework */,
+				368E5831238D8EC30002F884 /* AudioToolbox.framework */,
+				368E582F238D8EB70002F884 /* SystemConfiguration.framework */,
+				368E582D238D8EAC0002F884 /* UIKit.framework */,
+				368E582B238D8EA40002F884 /* Foundation.framework */,
+				368E5829238D8E7D0002F884 /* CoreGraphics.framework */,
+				368E5827238D8E550002F884 /* CoreTelephony.framework */,
+				368E5825238D8E1B0002F884 /* iflyMSC.framework */,
+				368E5823238D8DF50002F884 /* lib */,
 				9DB2A4967C150F8EC21C5FAD /* Pods_Runner.framework */,
 			);
 			name = Frameworks;
@@ -115,6 +288,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				365AD8EC23910EB300C92FFB /* FFMPEG */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
@@ -361,6 +535,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/flutter_sound/flutter_sound.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/path_provider/path_provider.framework/Headers\"",
+					"$(SRCROOT)/$(PRODUCT_NAME)/FFmpeg-iOS/include",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -376,11 +556,20 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 7DFM6K6KA8;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
+					"$(PROJECT_DIR)/Runner",
+					"$(PROJECT_DIR)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/flutter_sound/flutter_sound.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/path_provider/path_provider.framework/Headers\"",
+					"$(SRCROOT)/FFmpeg-iOS/include",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -389,11 +578,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.guojio.geyan;
+				PRODUCT_BUNDLE_IDENTIFIER = com.guojio.todother;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
+				a = a;
 			};
 			name = Profile;
 		};
@@ -445,6 +635,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/flutter_sound/flutter_sound.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/path_provider/path_provider.framework/Headers\"",
+					"$(SRCROOT)/$(PRODUCT_NAME)/FFmpeg-iOS/include",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -495,6 +691,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/flutter_sound/flutter_sound.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/path_provider/path_provider.framework/Headers\"",
+					"$(SRCROOT)/$(PRODUCT_NAME)/FFmpeg-iOS/include",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -511,11 +713,20 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 7DFM6K6KA8;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
+					"$(PROJECT_DIR)/Runner",
+					"$(PROJECT_DIR)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/flutter_sound/flutter_sound.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/path_provider/path_provider.framework/Headers\"",
+					"$(SRCROOT)/FFmpeg-iOS/include",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -524,12 +735,13 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.guojio.geyan;
+				PRODUCT_BUNDLE_IDENTIFIER = com.guojio.todother;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
+				a = a;
 			};
 			name = Debug;
 		};
@@ -540,11 +752,20 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 7DFM6K6KA8;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
+					"$(PROJECT_DIR)/Runner",
+					"$(PROJECT_DIR)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/flutter_sound/flutter_sound.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/path_provider/path_provider.framework/Headers\"",
+					"$(SRCROOT)/FFmpeg-iOS/include",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -553,11 +774,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.guojio.geyan;
+				PRODUCT_BUNDLE_IDENTIFIER = com.guojio.todother;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
+				a = a;
 			};
 			name = Release;
 		};

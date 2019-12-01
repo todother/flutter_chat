@@ -3,8 +3,10 @@ import 'package:provider/provider.dart';
 
 class ContentEditingProvider with ChangeNotifier{
   bool ifEdited;
+  int times;
   TextEditingController txtController = TextEditingController();
   ContentEditingProvider(){
+    // times=;
     ifEdited=false;
   }
   updateEditStatus(String content){

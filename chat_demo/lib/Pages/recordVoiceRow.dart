@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
 class RecordVoiceRow extends StatelessWidget {
   const RecordVoiceRow({Key key}) : super(key: key);
 
@@ -16,7 +18,6 @@ class RecordVoiceRow extends StatelessWidget {
     return GestureDetector(
         onTapDown: (result) {
           provider.beginRecord(signalRProvider);
-          // signalRProvider.updateVoicePath(filePath);
         },
         onTapUp: (result) {
           provider.stopRecord();
@@ -24,11 +25,11 @@ class RecordVoiceRow extends StatelessWidget {
                       provider.start.millisecondsSinceEpoch) /
                   1000)
               .ceil();
-          
-
-          signalRProvider.addVoiceChatRecord(second,1);
-          // sleep( Duration(seconds: 1));
-          provider.uploadVoice(signalRProvider.connId,signalRProvider,second.toString());
+          provider.ffmpegConverter(
+              provider.uploadPath, signalRProvider);
+          // signalRProvider.addVoiceChatRecord(second, 1);
+          // provider.uploadVoice(
+          //     signalRProvider.connId, signalRProvider, second.toString());
         },
         onTapCancel: () {
           provider.cancelRecord();

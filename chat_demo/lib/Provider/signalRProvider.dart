@@ -28,15 +28,17 @@ class SignalRProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  addVoiceChatRecord(time, sender) {
+  addVoiceChatRecord(time, sender,filePath) {
     records.add(ChatRecord(
         chatType: 1,
-        content: tempVoicePath,
+        content: filePath,
         voiceDuration: time,
         sender: sender,
         avatarUrl: ava1));
     notifyListeners();
   }
+
+  
 
   SignalRProvider() {
     records = List<ChatRecord>();
@@ -55,9 +57,9 @@ class SignalRProvider with ChangeNotifier {
         content: "原来你不请我吃饭啊 \n 我还在这等你呢 \n 1231231231"));
     String url = '';
     if (Platform.isIOS) {
-      url = 'http://192.168.0.6:5000/chatHub';
+      url = 'http://192.168.0.2:5000/chatHub';
     } else {
-      url = 'http://192.168.0.6:5000/chatHub';
+      url = 'http://192.168.0.2:5000/chatHub';
     }
     conn = HubConnectionBuilder().withUrl(url).build();
     conn.start();
@@ -95,6 +97,17 @@ class SignalRProvider with ChangeNotifier {
     });
   }
 
+  addVoiceFromXF(String filePath){
+    records.add(ChatRecord(
+          content: filePath,
+          avatarUrl: ava2,
+          sender: 0,
+          chatType: 1,
+          voiceDuration:3,
+        ));
+        notifyListeners();
+  }
+
   sendMessage(msg) {
     records
         .add(ChatRecord(content: msg, avatarUrl: ava1, sender: 1, chatType: 0));
@@ -120,6 +133,7 @@ class SignalRProvider with ChangeNotifier {
               message: fileName,
               voiceLength: voiceLength)
           .toJson())
+          
     ]);
   }
 }

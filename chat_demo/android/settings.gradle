@@ -1,4 +1,4 @@
-include ':app'
+include ':app', ':flutter-xfvoice', ':android-flutter_xfvoice'
 
 def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
 
