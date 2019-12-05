@@ -1,13 +1,9 @@
+import 'package:chat_demo/Provider/XFVoiceProvider.dart';
 import 'package:chat_demo/Provider/chatListProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:signalr_client/handshake_protocol.dart';
-import 'package:signalr_client/ihub_protocol.dart';
-import 'package:signalr_client/signalr_client.dart';
-
-import 'Model/SendMsgTemplate.dart';
 import 'Pages/chatDetail.dart';
 import 'Provider/contentEditingProvider.dart';
 
@@ -106,60 +102,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 }
 
-// class MainPage extends StatelessWidget {
-//   const MainPage({Key key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text("简单聊天"),
-//         actions: <Widget>[
-//           IconButton(
-//             icon: Icon(Icons.search),
-//             onPressed: () {},
-//           ),
-//           IconButton(
-//             icon: Icon(Icons.add_circle_outline),
-//             onPressed: () {},
-//           ),
-//         ],
-//       ),
-//       body: MultiProvider(providers: [
-//         ChangeNotifierProvider(
-//           builder: (_) => ChatListProvider(),
-//         )
-//       ], child: ChatList()),
-//       bottomNavigationBar: BottomNavigationBar(
-//         items: [
-//           BottomNavigationBarItem(
-//               icon: Icon(
-//                 Icons.chat_bubble_outline,
-//                 color: Colors.black,
-//               ),
-//               activeIcon: Icon(
-//                 Icons.chat_bubble,
-//                 color:
-//                     // Colors.blue
-//                     Theme.of(context).primaryColor,
-//               ),
-//               title: Text("聊天")),
-//           BottomNavigationBarItem(
-//               icon: Icon(
-//                 Icons.perm_identity,
-//                 color: Colors.black,
-//               ),
-//               activeIcon: Icon(
-//                 Icons.chat_bubble,
-//                 color: Colors.greenAccent,
-//               ),
-//               title: Text("聊天"))
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 class ChatList extends StatelessWidget {
   const ChatList({Key key}) : super(key: key);
 
@@ -189,7 +131,11 @@ class ChatList extends StatelessWidget {
                                     ChangeNotifierProvider(
                                       builder: (_) => VoiceRecordProvider(),
                                     ),
-                                    ChangeNotifierProvider(builder: (_)=>ContentEditingProvider(),)
+                                    ChangeNotifierProvider(
+                                      builder: (_) => ContentEditingProvider(),
+                                    ),
+                                    ChangeNotifierProvider(
+                                        builder: (_) => XFVoiceProvider())
                                   ], child: DetailPage())));
                     },
                     child: ListTile(

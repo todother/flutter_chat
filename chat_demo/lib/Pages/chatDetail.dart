@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:chat_demo/Model/SendMsgTemplate.dart';
 import 'package:chat_demo/Pages/chatBottomRow.dart';
+import 'package:chat_demo/Provider/XFVoiceProvider.dart';
 import 'package:chat_demo/Provider/contentEditingProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
@@ -22,7 +23,7 @@ class DetailPage extends StatelessWidget {
         Provider.of<VoiceRecordProvider>(context);
     ContentEditingProvider contentEditingProvider =
         Provider.of<ContentEditingProvider>(context);
-
+    XFVoiceProvider xfVoiceProvider = Provider.of<XFVoiceProvider>(context);
     if (provider == null || provider.conn == null || provider.connId == null) {
       return Center(
         child: CircularProgressIndicator(),
@@ -61,6 +62,7 @@ class DetailPage extends StatelessWidget {
             ChatBottomRow(
           provider: provider,
           voiceRecordProvider: voiceRecordProvider,
+          xfVoiceProvider: xfVoiceProvider,
           txtController: txtController,
           rpx: rpx,
           toBottom: toBottom,

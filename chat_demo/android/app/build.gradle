@@ -30,9 +30,6 @@ android {
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        main {
-            jniLibs.srcDirs=["libs/"]
-        }
     }
 
     lintOptions {
@@ -41,8 +38,8 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.chat_demo"
-        minSdkVersion 16
+        applicationId "com.guojio.todother"
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -67,5 +64,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation files('libs/Msc.jar')
+    implementation 'com.arthenica:mobile-ffmpeg-audio:4.3'
 }

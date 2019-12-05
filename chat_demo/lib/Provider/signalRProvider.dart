@@ -3,10 +3,9 @@ import 'dart:io';
 
 import 'package:chat_demo/Model/SendMsgTemplate.dart';
 import 'package:chat_demo/Model/chatRecordModel.dart';
-import 'package:chat_demo/Pages/chatDetail.dart';
+import 'package:chat_demo/Tools/nativeTool.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:signalr_client/hub_connection.dart';
 import 'package:signalr_client/signalr_client.dart';
 import 'package:path/path.dart' as p;
@@ -23,12 +22,7 @@ class SignalRProvider with ChangeNotifier {
 
   List<ChatRecord> records;
 
-  updateVoicePath(filePath) {
-    tempVoicePath = filePath;
-    notifyListeners();
-  }
-
-  addVoiceChatRecord(time, sender,filePath) {
+  addVoiceChatRecord(time, sender, filePath) {
     records.add(ChatRecord(
         chatType: 1,
         content: filePath,
@@ -38,7 +32,20 @@ class SignalRProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  
+  uploadVoice(sender, String fileName, String filePath) async {
+    String path = File(filePath).path.replaceAll("file:///", "");
+
+    Dio dio = Dio();
+    var formData = FormData.fromMap({
+      "file": await MultipartFile.fromFile(path, filename: fileName),
+      "name": fileName,
+      "sender": sender
+    });
+    String urlPath = "http://192.168.0.6:5000/upload/uploadFiles";
+    var response = await dio.post(urlPath, data: formData);
+    notifyVoice(fileName);
+    dio.close();
+  }
 
   SignalRProvider() {
     records = List<ChatRecord>();
@@ -77,7 +84,7 @@ class SignalRProvider with ChangeNotifier {
 
     conn.on("receiveVoice", (message) async {
       Dio dio = Dio();
-      String urlPath = "http://192.168.0.6:5000/voiceTemp/" +
+      String urlPath = "http://192.168.0.2:5000/voiceTemp/" +
           message.first.toString() +
           ".mp3";
       Directory folder = await getTemporaryDirectory();
@@ -89,7 +96,7 @@ class SignalRProvider with ChangeNotifier {
           avatarUrl: ava2,
           sender: 0,
           chatType: 1,
-          voiceDuration:int.parse( message[1]),
+          voiceDuration: int.parse(message[1]),
         ));
         dio.close();
         notifyListeners();
@@ -97,15 +104,15 @@ class SignalRProvider with ChangeNotifier {
     });
   }
 
-  addVoiceFromXF(String filePath){
+  addVoiceFromXF(String filePath) {
     records.add(ChatRecord(
-          content: filePath,
-          avatarUrl: ava2,
-          sender: 0,
-          chatType: 1,
-          voiceDuration:3,
-        ));
-        notifyListeners();
+      content: filePath,
+      avatarUrl: ava2,
+      sender: 0,
+      chatType: 1,
+      voiceDuration: 3,
+    ));
+    notifyListeners();
   }
 
   sendMessage(msg) {
@@ -119,13 +126,8 @@ class SignalRProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  notifyVoice(fileName, voiceLength) async {
-    print(jsonEncode(SendMsgTemplate(
-              fromWho: connId,
-              toWho: connId,
-              message: fileName,
-              voiceLength: voiceLength)
-          .toJson()));
+  notifyVoice(fileName) async {
+    int voiceLength = NativeTool.getMediaDuration(fileName);
     conn.invoke("notifyVoice", args: [
       jsonEncode(SendMsgTemplate(
               fromWho: connId,
@@ -133,7 +135,6 @@ class SignalRProvider with ChangeNotifier {
               message: fileName,
               voiceLength: voiceLength)
           .toJson())
-          
     ]);
   }
 }

@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
+import 'package:chat_demo/Model/xFVoiceConvertModel.dart';
 import 'package:chat_demo/Pages/recordVoiceRow.dart';
+import 'package:chat_demo/Provider/XFVoiceProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
 import 'package:crypto/crypto.dart';
@@ -19,16 +21,18 @@ class ChatBottomRow extends StatelessWidget {
       @required this.rpx,
       @required this.toBottom,
       @required this.voiceRecordProvider,
+      @required this.xfVoiceProvider,
       @required this.txtController})
       : super(key: key);
   final double rpx;
   final double toBottom;
   final VoiceRecordProvider voiceRecordProvider;
+  final XFVoiceProvider xfVoiceProvider;
   final TextEditingController txtController;
   final SignalRProvider provider;
   @override
   Widget build(BuildContext context) {
-    var channel = voiceRecordProvider.channel;
+    // var channel = voiceRecordProvider.channel;
     return Container(
         color: Colors.grey[100],
         child: SafeArea(
@@ -103,11 +107,17 @@ class ChatBottomRow extends StatelessWidget {
               SizedBox(
                 width: 10 * rpx,
               ),
+              voiceRecordProvider.appDocPath == null
+                  ? Container()
+                  : ChannelWatcher(
+                      docPath: voiceRecordProvider.appDocPath,
+                      signalR: provider,
+                      xFVoice: xfVoiceProvider,
+                    ),
               // voiceRecordProvider.appDocPath == null
               //     ? Container()
-              //     : ChannelWatcher(
-              //         docPath: voiceRecordProvider.appDocPath,
-              //         signalR: provider,
+              //     : ChannelWatcherVTT(
+              //         xfVoice: xfVoiceProvider,
               //       )
             ],
           ),
@@ -115,12 +125,57 @@ class ChatBottomRow extends StatelessWidget {
   }
 }
 
+class ChannelWatcherVTT extends StatefulWidget {
+  ChannelWatcherVTT({Key key, @required this.xfVoice}) : super(key: key);
+  final XFVoiceProvider xfVoice;
+  @override
+  _ChannelWatcherVTTState createState() => _ChannelWatcherVTTState();
+}
+
+class _ChannelWatcherVTTState extends State<ChannelWatcherVTT> {
+  XFVoiceProvider xfVoiceProvider;
+  @override
+  void initState() {
+    // TODO: implement initState
+    xfVoiceProvider=widget.xfVoice;
+    xfVoiceProvider.addListener((){
+      setState(() {
+        
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var channel = xfVoiceProvider.channelVTT;
+    return (channel != null && channel.stream != null)
+        ? StreamBuilder(
+            stream: channel.stream,
+            builder: (context, snapShot) {
+              if (snapShot.hasData) {
+                XFVoiceConvertModel data =
+                    XFVoiceConvertModel.fromJson(json.decode(snapShot.data));
+                print(data.data.result);
+              }
+              return Container();
+            },
+          )
+        : Container();
+  }
+}
+
 class ChannelWatcher extends StatefulWidget {
-  ChannelWatcher({Key key, @required this.docPath, @required this.signalR})
+  ChannelWatcher(
+      {Key key,
+      @required this.docPath,
+      @required this.signalR,
+      @required this.xFVoice})
       : super(key: key);
   // final IOWebSocketChannel channel;
   final String docPath;
   final SignalRProvider signalR;
+  final XFVoiceProvider xFVoice;
   @override
   _ChannelWatcherState createState() => _ChannelWatcherState();
 }
@@ -129,57 +184,11 @@ class _ChannelWatcherState extends State<ChannelWatcher> {
   IOWebSocketChannel channel;
   String filePath;
   String fileStream = "";
-  List<int> fileIntList=List<int>();
+  List<int> fileIntList = List<int>();
   bool ifAdded = false;
   @override
   void initState() {
     super.initState();
-
-    String auth = genChannelToken();
-
-    Uri uri = Uri(
-        host: "tts-api.xfyun.cn",
-        scheme: "wss",
-        path: "v2/tts",
-        port: null,
-        queryParameters: <String, dynamic>{
-          "authorization": auth,
-          "data":
-              HttpDate.format(DateTime.now().toLocal().add(Duration(hours: 8))),
-          "host": "tts-api.xfyun.cn"
-        });
-    String url =
-        "wss://tts-api.xfyun.cn/v2/tts?authorization=$auth&date=${HttpDate.format(DateTime.now().toLocal().add(Duration(hours: 8)))}&host=tts-api.xfyun.cn";
-    Uri trans = Uri.tryParse(url);
-    channel = IOWebSocketChannel.connect(trans);
-    var data = <String, dynamic>{
-      "common": {"app_id": "5ddc9677"},
-      "business": {"vcn": "aisjiuxu", "aue": "raw", "tte": "UTF8", "speed": 50},
-      "data": {
-        "status": 2,
-        "text": base64.encode(utf8.encode('我们遇到什么问题也不要怕勇敢的面对它战胜恐惧的最好办法就是面对恐惧加油奥利给'))
-      }
-    };
-    String jsonString = jsonEncode(data);
-    channel.sink.add(jsonString);
-  }
-
-  String genChannelToken() {
-    String host = "tts-api.xfyun.cn";
-    String date =
-        HttpDate.format(DateTime.now().toLocal().add(Duration(hours: 8)));
-    String request = "GET /v2/tts HTTP/1.1";
-    String apiSecret = "da7f50cf02885bb7501195c258d49630";
-    String apiKey = "71f9a0ab12cdf0a22ed82a82c1c57eaf";
-    String signatureOrigin = "host: $host\ndate: $date\n$request";
-    var shaKey = utf8.encode(apiSecret);
-    var hmac = Hmac(sha256, shaKey);
-    var signatureSha = hmac.convert(utf8.encode(signatureOrigin)).bytes;
-    var signatureResult = base64Encode(signatureSha);
-    String authOrig =
-        'api_key="$apiKey",algorithm="hmac-sha256",headers="host date request-line",signature="$signatureResult"';
-
-    return base64Encode(utf8.encode(authOrig));
   }
 
   @override
@@ -190,7 +199,7 @@ class _ChannelWatcherState extends State<ChannelWatcher> {
 
   @override
   Widget build(BuildContext context) {
-    // IOWebSocketChannel channel=widget.channel;
+    channel = widget.xFVoice.channelTTV;
     return (channel == null || channel.stream == null)
         ? Container()
         : StreamBuilder(
@@ -199,7 +208,7 @@ class _ChannelWatcherState extends State<ChannelWatcher> {
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 var result = jsonDecode(snapshot.data);
-                  fileStream = result["data"]["audio"].toString();
+                fileStream = result["data"]["audio"].toString();
                 fileIntList.addAll(base64.decode(fileStream));
                 if (result["data"]["status"] == 2) {
                   String docPath = widget.docPath;

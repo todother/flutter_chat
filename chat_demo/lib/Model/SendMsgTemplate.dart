@@ -7,7 +7,7 @@ class SendMsgTemplate{
   String fromWho;
   String toWho;
   String message;
-  String voiceLength;
+  int voiceLength;
   SendMsgTemplate({this.fromWho,this.message,this.toWho,this.voiceLength});
 
   factory SendMsgTemplate.fromJson(Map<String, dynamic> json) => _$SendMsgTemplateFromJson(json);
