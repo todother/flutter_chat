@@ -30,17 +30,31 @@
 	<integer>3600</integer>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>LSApplicationQueriesSchemes</key>
+<array>
+    <string>iosamap</string>
+</array>
 	<key>NSContactsUsageDescription</key>
 	<string>lianxiren</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>需要使用定位</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>weizhi</string>
 	<key>NSLocationUsageDescription</key>
 	<string>weizhi</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>需要使用定位</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>应用将使用您的麦克风进行语音录制，请确认。</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
+		<string>location</string>
 		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
@@ -63,5 +77,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
 </dict>
 </plist>

@@ -28,5 +28,10 @@
 	</array>
 	<key>NSPrincipalClass</key>
 	<string></string>
+	<key>NSAppTransportSecurity</key>
+<dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <true></true>
+</dict>
 </dict>
 </plist>

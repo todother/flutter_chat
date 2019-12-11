@@ -33,6 +33,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   json_annotation:
   uuid:
+  after_layout:
 
 dev_dependencies:
   flutter_test:

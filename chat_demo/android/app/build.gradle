@@ -30,6 +30,9 @@ android {
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+        main{
+            jniLibs.srcDirs=['libs']
+        }
     }
 
     lintOptions {
@@ -60,9 +63,14 @@ flutter {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.arthenica:mobile-ffmpeg-audio:4.3'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+//    implementation 'com.amap.api:navi-3dmap:latest.integration'
+//    implementation 'com.amap.api:location:latest.integration'
+//    implementation 'com.amap.api:search:latest.integration'
 }

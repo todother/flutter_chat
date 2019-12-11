@@ -15,12 +15,24 @@ class NativeTool {
   }
 
   static getMediaDuration(String filePath) async {
-    String channel = "com.guojio.todother/ffmpeg";
+    String channel = "com.guojio.todother/nativeFunc";
     var methodChannel = MethodChannel(channel);
     try {
       var result = await methodChannel
           .invokeMethod("getMediaDuration", {"filePath": filePath});
       return int.parse(result["duration"]);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static requireLocation() async {
+    String channel = "com.guojio.todother/nativeFunc";
+    var methodChannel = MethodChannel(channel);
+    try {
+      var result = await methodChannel
+          .invokeMethod("requireLocation");
+      return (result["result"]);
     } catch (e) {
       print(e);
     }

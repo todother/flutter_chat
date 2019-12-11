@@ -1,4 +1,14 @@
 PODS:
+  - AMap3DMap (7.1.0):
+    - AMapFoundation (~> 1.5)
+  - AMapFoundation (1.6.0)
+  - AMapLocation (2.6.3):
+    - AMapFoundation (~> 1.4)
+  - AMapNavi (7.1.0):
+    - AMap3DMap (~> 7.0)
+    - AMapFoundation (~> 1.5)
+  - AMapSearch (7.1.0):
+    - AMapFoundation (~> 1.4)
   - Flutter (1.0.0)
   - flutter_sound (0.0.1):
     - Flutter
@@ -6,9 +16,20 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - AMapLocation
+  - AMapNavi
+  - AMapSearch
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_sound (from `.symlinks/plugins/flutter_sound/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
+
+SPEC REPOS:
+  trunk:
+    - AMap3DMap
+    - AMapFoundation
+    - AMapLocation
+    - AMapNavi
+    - AMapSearch
 
 EXTERNAL SOURCES:
   Flutter:
@@ -19,10 +40,15 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider/ios"
 
 SPEC CHECKSUMS:
+  AMap3DMap: ef26e2fb120ae9f1635b4b26b28df6d1379a05f0
+  AMapFoundation: bc2f6e077b9279942734ba55f9624222fcf42848
+  AMapLocation: dc2c4fde95d72087d73934338160fadc72104bb7
+  AMapNavi: 28a5c56377342428a7381ac6abab286ff33c6251
+  AMapSearch: 6bd6d361c5eb00110e0bffa4acf88b7bb9f7e059
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_sound: 0e8163ceac1e00eb6d894e2ae4641ba726a2c479
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
 
-PODFILE CHECKSUM: 26f67d7c90289b450e81411fb7af381622bba055
+PODFILE CHECKSUM: 4e20cb004052df8ce9b111ea49cc37a3ce13cce5
 
 COCOAPODS: 1.8.4

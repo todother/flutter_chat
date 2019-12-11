@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:after_layout/after_layout.dart';
 import 'package:chat_demo/Provider/XFVoiceProvider.dart';
 import 'package:chat_demo/Provider/chatListProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
+import 'package:chat_demo/Tools/nativeTool.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'Pages/chatDetail.dart';
@@ -102,6 +106,52 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 }
 
+class GaodeMapView extends StatefulWidget {
+  GaodeMapView({Key key}) : super(key: key);
+
+  @override
+  _GaodeMapViewState createState() => _GaodeMapViewState();
+}
+
+class _GaodeMapViewState extends State<GaodeMapView>
+    with AfterLayoutMixin<GaodeMapView> {
+  @override
+  void initState() {
+    super.initState();
+    if (Platform.isIOS) {
+      var result = NativeTool.requireLocation();
+    }
+  }
+
+  double height = 1000;
+  updateHeight(value) {
+    height = value;
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: height,
+      child: Platform.isIOS
+          ? UiKitView(
+              viewType: "gaodeMap",
+            )
+          : AndroidView(
+              viewType: "gaodeMap",
+            ),
+    );
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    RenderBox box = context.findRenderObject();
+    double value = box.getMaxIntrinsicHeight(MediaQuery.of(context).size.width);
+    updateHeight(value);
+  }
+}
+
 class ChatList extends StatelessWidget {
   const ChatList({Key key}) : super(key: key);
 
@@ -112,10 +162,13 @@ class ChatList extends StatelessWidget {
       return Center(child: CircularProgressIndicator());
     }
     ScrollController controller = ScrollController();
-    return SingleChildScrollView(
+    return 
+    // GaodeMapView();
+    SingleChildScrollView(
         controller: controller,
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          // ChatBox(),
+
+          ChatBox(),
           ListView.builder(
             shrinkWrap: true,
             itemCount: provider.chats.length,
