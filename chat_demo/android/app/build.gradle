@@ -30,9 +30,6 @@ android {
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        main{
-            jniLibs.srcDirs=['libs']
-        }
     }
 
     lintOptions {
@@ -70,7 +67,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.arthenica:mobile-ffmpeg-audio:4.3'
     implementation 'androidx.appcompat:appcompat:1.0.0'
-//    implementation 'com.amap.api:navi-3dmap:latest.integration'
-//    implementation 'com.amap.api:location:latest.integration'
-//    implementation 'com.amap.api:search:latest.integration'
+    api 'com.google.code.gson:gson:2.8.2'
 }

@@ -32,6 +32,11 @@ class SignalRProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  addLocationRecord(ChatRecord record){
+    records.add(record);
+    notifyListeners();
+  }
+
   uploadVoice(sender, String fileName, String filePath) async {
     String path = File(filePath).path.replaceAll("file:///", "");
 

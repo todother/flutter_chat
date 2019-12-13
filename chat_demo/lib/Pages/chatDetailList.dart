@@ -1,10 +1,15 @@
 import 'package:chat_demo/Model/chatRecordModel.dart';
+import 'package:chat_demo/Pages/locationRecordRow.dart';
+import 'package:chat_demo/Pages/textRecordRow.dart';
+import 'package:chat_demo/Pages/voiceRecordRow.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
+import 'package:chat_demo/Tools/StaticMembers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'chatRow.dart';
+
 class ChatDetailList extends StatelessWidget {
   const ChatDetailList({Key key, @required this.chatProvider})
       : super(key: key);
@@ -30,26 +35,17 @@ class ChatDetailList extends StatelessWidget {
     return ListView.builder(
       itemCount: records.length,
       itemBuilder: (context, index) {
-        if (records[index].chatType == 0) {
-          return ChatRow(
-              avatarUrl: records[index].avatarUrl,
-              content: records[index].content,
-              sender: records[index].sender,
-              chatType: 0,
-              );
-        } else if (records[index].chatType == 1) {
-          return GestureDetector(
-            onTap: () {
-                      voiceRecordProvider.playVoice(records[index].content);
-                    },
-            child: ChatRow(
-              avatarUrl: records[index].avatarUrl,
-                content: records[index].content,
-                sender: records[index].sender,
-                chatType: 1,
-                voiceDuration: records[index].voiceDuration,
-            )
+        if (records[index].chatType == CHATTYPE.TEXT) {
+          return TextRecordRow(
+            record: records[index],
           );
+        } else if (records[index].chatType == CHATTYPE.VOICE) {
+          return VoiceRecordRow(
+            voiceRecordProvider: voiceRecordProvider,
+            record: records[index],
+          );
+        } else if (records[index].chatType == CHATTYPE.LOCATION) {
+          return LocationRecordRow(record: records[index],);
         } else {
           return Container();
         }

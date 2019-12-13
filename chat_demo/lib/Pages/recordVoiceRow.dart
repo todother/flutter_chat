@@ -34,6 +34,7 @@ class RecordVoiceRow extends StatelessWidget {
           provider.beginRecord();
           // provider.updateVoiceRecord();
         },
+        
         onTapUp: (result) {
           provider.stopRecord();
           String resultPath = provider.uploadPath;

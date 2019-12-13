@@ -12,3 +12,15 @@ class MEDIATYPE{
   static const String M4A=".m4a";
   static const String PCM=".pcm";
 }
+
+class CHATTYPE{
+  static const int TEXT=0;
+  static const int VOICE=1;
+  static const int LOCATION=2;
+
+}
+
+class SENDER{
+  static const int SELF=0;
+  static const int OTHER=1;
+}

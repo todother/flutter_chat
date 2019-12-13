@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'xFVoiceConvertDataModel.dart';
+import 'xFvoiceConverterDataModel.dart';
 part 'xFVoiceConvertModel.g.dart';
 
 @JsonSerializable()

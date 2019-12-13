@@ -30,8 +30,7 @@ class NativeTool {
     String channel = "com.guojio.todother/nativeFunc";
     var methodChannel = MethodChannel(channel);
     try {
-      var result = await methodChannel
-          .invokeMethod("requireLocation");
+      var result = await methodChannel.invokeMethod("requireLocation");
       return (result["result"]);
     } catch (e) {
       print(e);
@@ -52,5 +51,89 @@ class NativeTool {
     String cmd =
         " -i $filePath -acodec pcm_s16le -f s16le -ac 1 -ar 16000 $resultPath";
     return cmd;
+  }
+
+  static initGaodeMap() async {
+    String channel = "com.guojio.todother/nativeFunc";
+    var methodChannel = MethodChannel(channel);
+    try {
+      var result = await methodChannel.invokeMethod("initGaodeMap");
+      return result;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static initMapPosition() async {
+    String channel = "com.guojio.todother/nativeFunc";
+    var methodChannel = MethodChannel(channel);
+    try {
+      var result = await methodChannel.invokeMethod("initMapPosition");
+      return result["result"];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static getSelPosition()async{
+    String channel = "com.guojio.todother/nativeFunc";
+    var methodChannel = MethodChannel(channel);
+    try {
+      var result = await methodChannel.invokeMethod("getSelPosition");
+      return result;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static getPoiList()async{
+    String channel = "com.guojio.todother/nativeFunc";
+    var methodChannel = MethodChannel(channel);
+    try {
+      var result = await methodChannel.invokeMethod("getPoiInfo");
+      return result;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static moveCameraToPoi(double lati,double longi,int zoomTo)async{
+    String channel = "com.guojio.todother/nativeFunc";
+    var methodChannel = MethodChannel(channel);
+    try {
+      var result = await methodChannel.invokeMethod("moveCameraToPoi",{
+        "lati":lati,
+        "longi":longi,
+        "zoomTo":zoomTo
+      });
+      return result;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static getScreenShot()async{
+    String channel = "com.guojio.todother/nativeFunc";
+    var methodChannel = MethodChannel(channel);
+    try {
+      var result = await methodChannel.invokeMethod("shotScreen",);
+      if(result!=null){
+        return result["filePath"];
+      }
+      return "failed";
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static disposeMapView()async{
+    String channel = "com.guojio.todother/nativeFunc";
+    var methodChannel = MethodChannel(channel);
+    try {
+      var result = await methodChannel.invokeMethod("disposeMapView",);
+      
+    } catch (e) {
+      print(e);
+    }
   }
 }

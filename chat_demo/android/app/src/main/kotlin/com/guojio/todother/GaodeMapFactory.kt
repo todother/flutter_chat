@@ -16,6 +16,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 import io.flutter.plugin.common.StandardMessageCodec
 //import com.amap.api
 import com.amap.api.maps.MapView
+import com.amap.api.maps.model.CameraPosition
 import com.amap.api.maps.model.MyLocationStyle
 import com.amap.api.navi.MyNaviListener
 import io.flutter.app.FlutterActivity
@@ -35,13 +36,13 @@ public class GaodeMapFactory(val messager:BinaryMessenger,val registrar:Registra
     }
 
     override fun create(context: Context?, i: Int, o: Any?): PlatformView {
-//        MapView(context).onCreate(_savedInstantState)
         return GaodeMapView(context!!,messager,i,_savedInstantState,_mapView)//To change body of created functions use File | Settings | File Templates.
     }
 }
 
 public class GaodeMapView(context: Context,messager: BinaryMessenger,id:Int,savedInstantState: Bundle?,mapView: MapView)
     :PlatformView{
+
     val gaodeView:MapView
     val viewId:Int
     val _context:Context
@@ -58,20 +59,10 @@ public class GaodeMapView(context: Context,messager: BinaryMessenger,id:Int,save
     }
 
     override fun getView(): View  {
-
-//        gaodeView.onCreate(_savedInstantState)
-//        val aMap=gaodeView.map
-//        val locationStyle=MyLocationStyle()
-//        locationStyle.interval(2000)
-//        locationStyle.showMyLocation(true)
-//        locationStyle.strokeColor(Color.blue(125))
-//        aMap.myLocationStyle=locationStyle
-//        aMap.isMyLocationEnabled=true
-//        aMap.setOnMyLocationChangeListener { location ->
-//            print(location.latitude.toString()+"  "+location.longitude.toString())
-//        }
+        gaodeView!!.onCreate(_savedInstantState)
         return gaodeView
-
     }
+
+
 
 }

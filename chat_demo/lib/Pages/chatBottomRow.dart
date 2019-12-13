@@ -114,11 +114,6 @@ class ChatBottomRow extends StatelessWidget {
                       signalR: provider,
                       xFVoice: xfVoiceProvider,
                     ),
-              // voiceRecordProvider.appDocPath == null
-              //     ? Container()
-              //     : ChannelWatcherVTT(
-              //         xfVoice: xfVoiceProvider,
-              //       )
             ],
           ),
         )));

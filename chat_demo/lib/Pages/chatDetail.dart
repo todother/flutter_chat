@@ -1,17 +1,16 @@
-import 'dart:io';
-import 'dart:math';
-
-import 'package:chat_demo/Model/SendMsgTemplate.dart';
+import 'package:chat_demo/Model/chatRecordModel.dart';
 import 'package:chat_demo/Pages/chatBottomRow.dart';
+import 'package:chat_demo/Pages/gaodeMapPage.dart';
 import 'package:chat_demo/Provider/XFVoiceProvider.dart';
 import 'package:chat_demo/Provider/contentEditingProvider.dart';
+import 'package:chat_demo/Provider/gaodeMapProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
+import 'package:chat_demo/Tools/StaticMembers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'chatDetailList.dart';
-import 'chatRow.dart';
 
 class DetailPage extends StatelessWidget {
   const DetailPage({Key key}) : super(key: key);
@@ -50,7 +49,24 @@ class DetailPage extends StatelessWidget {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.more_horiz),
-              onPressed: () {},
+              onPressed: () async {
+                final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MultiProvider(providers: [
+                              ChangeNotifierProvider(
+                                builder: (_) => GaodeMapProvider(context),
+                              ),
+                            ], child: GaodeMapMain())));
+                ChatRecord chatRecord = ChatRecord(
+                    address: result["address"],
+                    title: result["title"],
+                    locationImg: result["filePath"],
+                    chatType: CHATTYPE.LOCATION,
+                    avatarUrl:'https://pic2.zhimg.com/v2-d2f3715564b0b40a8dafbfdec3803f97_is.jpg' ,
+                    sender: SENDER.SELF);
+                provider.addLocationRecord(chatRecord);
+              },
             )
           ],
         ),
