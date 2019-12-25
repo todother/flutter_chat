@@ -17,6 +17,7 @@ class CHATTYPE{
   static const int TEXT=0;
   static const int VOICE=1;
   static const int LOCATION=2;
+  static const int IMAGE=3;
 
 }
 

@@ -1,18 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
 import 'package:chat_demo/Model/xFVoiceConvertModel.dart';
+import 'package:chat_demo/Pages/chatBottomFuncSheet.dart';
 import 'package:chat_demo/Pages/recordVoiceRow.dart';
 import 'package:chat_demo/Provider/XFVoiceProvider.dart';
+import 'package:chat_demo/Provider/bottomRowAnimProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
-import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:path/path.dart' as p;
+import 'package:image_picker/image_picker.dart';
 
 class ChatBottomRow extends StatelessWidget {
   const ChatBottomRow(
@@ -33,90 +34,101 @@ class ChatBottomRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // var channel = voiceRecordProvider.channel;
+    BottomRowAnimProvider bottomRowAnimProvider=Provider.of<BottomRowAnimProvider>(context);
+    var file=null;
     return Container(
-        color: Colors.grey[100],
-        child: SafeArea(
-            child: Container(
-          color: Colors.grey[100],
-          width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.only(bottom: toBottom),
-          height: 110 * rpx,
-          child: Row(
-            children: <Widget>[
-              voiceRecordProvider.ifVoiceRecord
-                  ? OutlinedIconButton(
-                      icon: Icon(Icons.keyboard),
-                      onTap: () {
-                        voiceRecordProvider.updateVoiceRecord();
-                      },
-                    )
-                  : Transform.rotate(
-                      angle: pi / 2,
-                      child: OutlinedIconButton(
-                        icon: Icon(Icons.wifi),
-                        onTap: () {
-                          voiceRecordProvider.updateVoiceRecord();
+      color: Colors.grey[100],
+      child: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [ Container(
+                  color: Colors.grey[100],
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.only(bottom: toBottom),
+                  height: 110 * rpx,
+                  child: Row(
+                    children: <Widget>[
+                      voiceRecordProvider.ifVoiceRecord
+                          ? OutlinedIconButton(
+                              icon: Icon(Icons.keyboard),
+                              onTap: () {
+                                voiceRecordProvider.updateVoiceRecord();
+                              },
+                            )
+                          : Transform.rotate(
+                              angle: pi / 2,
+                              child: OutlinedIconButton(
+                                icon: Icon(Icons.wifi),
+                                onTap: () {
+                                  voiceRecordProvider.updateVoiceRecord();
+                                },
+                              )),
+                      SizedBox(
+                        width: 10 * rpx,
+                      ),
+                      Expanded(
+                          child: voiceRecordProvider.ifVoiceRecord
+                              ? RecordVoiceRow()
+                              : Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 10 * rpx),
+                                  color: Colors.white,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                    ),
+                                    maxLines: 1,
+                                    autocorrect: false,
+                                    controller: txtController,
+                                  ))),
+                      SizedBox(
+                        width: 10 * rpx,
+                      ),
+                      OutlinedIconButton(
+                        icon: Icon(Icons.face),
+                        onTap: () async {
+                          file=await ImagePicker.pickVideo(source: ImageSource.gallery);
+                          var a=0;
                         },
-                      )),
-              SizedBox(
-                width: 10 * rpx,
-              ),
-              Expanded(
-                  child: voiceRecordProvider.ifVoiceRecord
-                      ? RecordVoiceRow()
-                      : Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10 * rpx),
-                          color: Colors.white,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
+                      ),
+                      txtController.text.length > 0
+                          ? Container(
+                              width: 140 * rpx,
+                              child: RaisedButton(
+                                color: Colors.green[300],
+                                child: Text(
+                                  "提交",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  provider.sendMessage(txtController.text);
+                                  txtController.clear();
+                                },
+                              ))
+                          : OutlinedIconButton(
+                              icon: Icon(Icons.add),
+                              onTap: () {
+                                bottomRowAnimProvider.runAnimation();
+                              },
                             ),
-                            maxLines: 1,
-                            autocorrect: false,
-                            controller: txtController,
-                          ))),
-              SizedBox(
-                width: 10 * rpx,
-              ),
-              OutlinedIconButton(
-                icon: Icon(Icons.face),
-                onTap: () {
-                  print('tapped face');
-                },
-              ),
-              txtController.text.length > 0
-                  ? Container(
-                      width: 140 * rpx,
-                      child: RaisedButton(
-                        color: Colors.green[300],
-                        child: Text(
-                          "提交",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: () {
-                          provider.sendMessage(txtController.text);
-                          txtController.clear();
-                        },
-                      ))
-                  : OutlinedIconButton(
-                      icon: Icon(Icons.add),
-                      onTap: () {
-                        print('tapped add');
-                      },
-                    ),
-              SizedBox(
-                width: 10 * rpx,
-              ),
-              voiceRecordProvider.appDocPath == null
-                  ? Container()
-                  : ChannelWatcher(
-                      docPath: voiceRecordProvider.appDocPath,
-                      signalR: provider,
-                      xFVoice: xfVoiceProvider,
-                    ),
-            ],
-          ),
-        )));
+                      SizedBox(
+                        width: 10 * rpx,
+                      ),
+                      voiceRecordProvider.appDocPath == null
+                          ? Container()
+                          : ChannelWatcher(
+                              docPath: voiceRecordProvider.appDocPath,
+                              signalR: provider,
+                              xFVoice: xfVoiceProvider,
+                            ),
+                    ],
+                  ),
+                ),
+                ChatBottomFuncSheet()
+                
+          ]
+        )
+      )
+    );
   }
 }
 
@@ -188,7 +200,10 @@ class _ChannelWatcherState extends State<ChannelWatcher> {
 
   @override
   void dispose() {
-    channel.sink.close();
+    if(channel?.sink!=null){
+      channel.sink.close();
+    }
+    
     super.dispose();
   }
 

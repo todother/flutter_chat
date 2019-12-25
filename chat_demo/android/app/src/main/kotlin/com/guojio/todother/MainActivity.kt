@@ -22,11 +22,13 @@ import kotlin.math.ceil
 import android.os.Environment
 import com.amap.api.maps.AMap
 import com.amap.api.maps.CameraUpdateFactory
+import com.amap.api.maps.TextureMapView
 import com.amap.api.maps.model.*
 import com.amap.api.services.core.LatLonPoint
 import com.amap.api.services.core.PoiItem
 import com.amap.api.services.poisearch.PoiResult
 import com.amap.api.services.poisearch.PoiSearch
+import com.arthenica.mobileffmpeg.FFmpeg.getFFmpegVersion
 import com.google.gson.Gson
 import java.io.File
 import java.io.FileOutputStream
@@ -43,7 +45,7 @@ class MainActivity : FlutterActivity(),AMap.OnCameraChangeListener,PoiSearch.OnP
     var longi:Double=0.0
     private val CHANNELFFMPEG = "com.guojio.todother/nativeFunc";
     var latLng=LatLng(0.0,0.0)
-    var mapView:MapView?= null
+    var mapView:TextureMapView?= null
     val MY_PERMISSIONS_REQUEST_LOCATION = 99
     val MY_PERMISSIONS_REQUEST_EXTWRITE = 1
     var poiModels:MutableList<PoiReturnModel>?=null
@@ -54,7 +56,7 @@ class MainActivity : FlutterActivity(),AMap.OnCameraChangeListener,PoiSearch.OnP
         super.onCreate(savedInstanceState)
         requireLocationPermission()
         GeneratedPluginRegistrant.registerWith(this@MainActivity)
-        mapView= MapView(flutterView.context)
+        mapView= TextureMapView(flutterView.context)
 
         GaodePlugin.registerWith(this.registrarFor("gaodeMap"),savedInstanceState,mapView!!)
 
@@ -285,7 +287,7 @@ class MainActivity : FlutterActivity(),AMap.OnCameraChangeListener,PoiSearch.OnP
             ))
         }
         else{
-            result.error("failed",null,null)
+            result.error("failed", FFmpeg.getLastCommandOutput(),null)
         }
     }
 
@@ -299,7 +301,7 @@ class MainActivity : FlutterActivity(),AMap.OnCameraChangeListener,PoiSearch.OnP
         ))
     }
     object GaodePlugin {
-        fun registerWith(registrar: Registrar,savedInstantState:Bundle?,mapView: MapView) {
+        fun registerWith(registrar: Registrar,savedInstantState:Bundle?,mapView: TextureMapView) {
             registrar
                     .platformViewRegistry()
                     .registerViewFactory(

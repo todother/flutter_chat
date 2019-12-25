@@ -5,7 +5,7 @@ import 'package:chat_demo/Model/poiModel.dart';
 import 'package:chat_demo/Tools/nativeTool.dart';
 import 'package:flutter/material.dart';
 
-class GaodeMapProvider with ChangeNotifier {
+class GaodeMapProvider extends State<StatefulWidget> with ChangeNotifier,TickerProviderStateMixin {
   @override
   void dispose() {
     super.dispose();
@@ -26,6 +26,7 @@ class GaodeMapProvider with ChangeNotifier {
   double curY = 0;
   double lati = 0;
   double longi = 0;
+  
   List<PoiModel> poiItems = List<PoiModel>();
   Timer job;
   int curSel = -1;
@@ -36,10 +37,11 @@ class GaodeMapProvider with ChangeNotifier {
   AnimationController animationController;
   GaodeMapProvider(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+    
     totalHeight = screenSize.height;
     mapHeight = mapHeightPercent * totalHeight;
     poiListHeight = (1 - mapHeightPercent) * totalHeight;
-
+    animationController=AnimationController(vsync: this,duration: Duration(milliseconds: 300));
     initGaodeMap();
   }
 
@@ -64,7 +66,7 @@ class GaodeMapProvider with ChangeNotifier {
     curY = movedTo;
     mapHeight = mapHeight - changed;
     poiListHeight = poiListHeight + changed;
-    print("changed:$changed,mapHeight:$mapHeight");
+    // print("changed:$changed,mapHeight:$mapHeight");
     notifyListeners();
   }
 
@@ -79,7 +81,7 @@ class GaodeMapProvider with ChangeNotifier {
           ..addListener(() {
             mapHeight = animation.value;
             poiListHeight = totalHeight - mapHeight;
-            print("mapheight:$mapHeight,poiListHeight:$poiListHeight");
+            // print("mapheight:$mapHeight,poiListHeight:$poiListHeight");
             notifyListeners();
           })
           ..addStatusListener((status) {
@@ -144,5 +146,11 @@ class GaodeMapProvider with ChangeNotifier {
     longi = result["longi"];
     var poiresult = await NativeTool.getPoiList();
     updatePoiList(poiresult["result"]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return null;
   }
 }

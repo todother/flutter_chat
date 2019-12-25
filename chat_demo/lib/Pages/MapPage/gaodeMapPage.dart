@@ -4,6 +4,7 @@ import 'package:chat_demo/Model/poiModel.dart';
 import 'package:chat_demo/Provider/gaodeMapProvider.dart';
 import 'package:chat_demo/Tools/nativeTool.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class GaodeMapMain extends StatelessWidget {
@@ -12,7 +13,7 @@ class GaodeMapMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GaodeMapProvider gaodeMapProvider = Provider.of<GaodeMapProvider>(context);
-    
+
     return Scaffold(
         body: Container(
       child: Column(
@@ -23,7 +24,20 @@ class GaodeMapMain extends StatelessWidget {
             child: GaodeMapView(),
             color: Colors.blue,
           ),
-          Container(height: gaodeMapProvider.poiListHeight, child: POIList()),
+          Listener(
+              onPointerDown: (result) {
+                double y = result.position.dy;
+                gaodeMapProvider.updateStartY(y);
+              },
+              onPointerMove: (result) {
+                double y = result.position.dy;
+                gaodeMapProvider.updateMapHeight(y);
+              },
+              onPointerUp: (result) {
+                gaodeMapProvider.runMapHeightAnimationUp();
+              },
+              child: Container(
+                  height: gaodeMapProvider.poiListHeight, child: POIList())),
         ],
       ),
     ));
@@ -37,6 +51,8 @@ class GaodeMapView extends StatelessWidget {
   Widget build(BuildContext context) {
     GaodeMapProvider provider = Provider.of<GaodeMapProvider>(context);
     double rpx = MediaQuery.of(context).size.width / 750;
+    var pixRatio=MediaQuery.of(context).devicePixelRatio;
+    print(provider.mapHeight*pixRatio);
     return Stack(children: [
       Listener(
           onPointerMove: (result) {
@@ -55,6 +71,10 @@ class GaodeMapView extends StatelessWidget {
                   )
                 : AndroidView(
                     viewType: "gaodeMap",
+                    creationParams: {
+                      "height":provider.mapHeight*pixRatio,
+                    },
+                    creationParamsCodec: StandardMessageCodec(),
                   ),
           )),
       Positioned(
@@ -63,7 +83,7 @@ class GaodeMapView extends StatelessWidget {
         child: FlatButton(
           child: Text("取消"),
           onPressed: () {
-            Navigator.pop(context,"");
+            Navigator.pop(context, "");
           },
         ),
       ),
@@ -75,9 +95,9 @@ class GaodeMapView extends StatelessWidget {
           onPressed: () async {
             String filePath = await NativeTool.getScreenShot();
             Navigator.pop(context, {
-              "filePath":filePath,
-              "address":provider.poiItems.first?.address,
-              "title":provider.poiItems.first?.title
+              "filePath": filePath,
+              "address": provider.poiItems.first?.address,
+              "title": provider.poiItems.first?.title
             });
           },
         ),
@@ -95,7 +115,7 @@ class POIList extends StatelessWidget {
     List<PoiModel> poiItems = provider.poiItems;
     ScrollController _controller = ScrollController();
     return ListView.builder(
-      controller: _controller,
+      controller: provider.ifMapPrimary ? null : _controller,
       itemCount: poiItems.length,
       shrinkWrap: true,
       itemBuilder: (context, index) {

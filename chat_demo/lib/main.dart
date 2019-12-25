@@ -1,15 +1,9 @@
-import 'dart:io';
 
-import 'package:after_layout/after_layout.dart';
-import 'package:chat_demo/Provider/XFVoiceProvider.dart';
 import 'package:chat_demo/Provider/chatListProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
-import 'package:chat_demo/Provider/voiceRecordProvider.dart';
-import 'package:chat_demo/Tools/nativeTool.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'Pages/chatDetail.dart';
-import 'Provider/contentEditingProvider.dart';
+import 'Pages/MainPage/chatList.dart';
 
 void main(List<String> args) {
   runApp(MultiProvider(
@@ -22,14 +16,26 @@ void main(List<String> args) {
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget with WidgetsBindingObserver {
   const MyApp({Key key}) : super(key: key);
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: implement didChangeAppLifecycleState
+    if(state==AppLifecycleState.resumed){
+      print('resumed');
+    }
+    super.didChangeAppLifecycleState(state);
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
       title: '简单聊天',
-      theme: ThemeData(primaryColor: Colors.blueGrey),
+      theme: ThemeData(
+          primaryColor: Colors.blueGrey,
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent),
       home: MainPage(),
     );
   }
@@ -104,165 +110,4 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       ),
     );
   }
-}
-
-class GaodeMapView extends StatefulWidget {
-  GaodeMapView({Key key}) : super(key: key);
-
-  @override
-  _GaodeMapViewState createState() => _GaodeMapViewState();
-}
-
-class _GaodeMapViewState extends State<GaodeMapView>
-    with AfterLayoutMixin<GaodeMapView> {
-  @override
-  void initState() {
-    super.initState();
-    if (Platform.isIOS) {
-      var result = NativeTool.requireLocation();
-    }
-  }
-
-  double height = 1000;
-  updateHeight(value) {
-    height = value;
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: height,
-      child: Platform.isIOS
-          ? UiKitView(
-              viewType: "gaodeMap",
-            )
-          : AndroidView(
-              viewType: "gaodeMap",
-            ),
-    );
-  }
-
-  @override
-  void afterFirstLayout(BuildContext context) {
-    RenderBox box = context.findRenderObject();
-    double value = box.getMaxIntrinsicHeight(MediaQuery.of(context).size.width);
-    updateHeight(value);
-  }
-}
-
-class ChatList extends StatelessWidget {
-  const ChatList({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    ChatListProvider provider = Provider.of<ChatListProvider>(context);
-    if (provider == null) {
-      return Center(child: CircularProgressIndicator());
-    }
-    ScrollController controller = ScrollController();
-    return 
-    // GaodeMapView();
-    SingleChildScrollView(
-        controller: controller,
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-
-          ChatBox(),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: provider.chats.length,
-            controller: controller,
-            itemBuilder: (BuildContext context, int index) {
-              return Column(mainAxisSize: MainAxisSize.min, children: [
-                GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MultiProvider(providers: [
-                                    ChangeNotifierProvider(
-                                      builder: (_) => VoiceRecordProvider(),
-                                    ),
-                                    ChangeNotifierProvider(
-                                      builder: (_) => ContentEditingProvider(),
-                                    ),
-                                    ChangeNotifierProvider(
-                                        builder: (_) => XFVoiceProvider())
-                                  ], child: DetailPage())));
-                    },
-                    child: ListTile(
-                      leading: Image.network(
-                          provider.chats[index].userIds[0].avatarUrl),
-                      title: Text(provider.chats[index].userIds[0].userName),
-                      subtitle: Text(provider.chats[index].lastContent),
-                      trailing: Text(provider.chats[index].lastUpdateTime),
-                    )),
-                Divider()
-              ]);
-            },
-          )
-        ]));
-  }
-}
-
-class ChatBox extends StatelessWidget {
-  const ChatBox({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    double rpx = MediaQuery.of(context).size.width / 750;
-    double triHeight = 14 * rpx;
-    double triWidth = 20 * rpx;
-    return Container(
-      // width: 500 * rpx,
-      // alignment: Alignment.centerLeft,
-      child: Stack(
-        alignment: Alignment.centerLeft,
-        // mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(left: triWidth),
-            padding: EdgeInsets.all(20 * rpx),
-            decoration: BoxDecoration(
-                color: Colors.greenAccent,
-                borderRadius: BorderRadius.circular(10 * rpx)),
-            child: Text("safasdfasdfasdf asdf asa  asdf \n asdfasdf "),
-          ),
-          Positioned(
-              left: 0,
-              top: 25 * rpx,
-              child: CustomPaint(
-                painter: ChatBoxPainter(height: triHeight, width: triWidth),
-              )),
-        ],
-      ),
-    );
-  }
-}
-
-class ChatBoxPainter extends CustomPainter {
-  ChatBoxPainter({@required this.width, @required this.height});
-  final double width;
-  final double height;
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..style = PaintingStyle.fill
-      ..strokeWidth = 1
-      ..color = Colors.greenAccent;
-
-    Path path = Path()
-      ..moveTo(0, height / 2)
-      ..lineTo(width, height)
-      ..lineTo(width, 0)
-      ..lineTo(0, height / 2);
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(ChatBoxPainter oldDelegate) => false;
-
-  @override
-  bool shouldRebuildSemantics(ChatBoxPainter oldDelegate) => false;
 }

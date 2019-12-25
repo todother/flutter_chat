@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:chat_demo/Model/chatRecordModel.dart';
 import 'package:chat_demo/Pages/chatBottomRow.dart';
 import 'package:chat_demo/Pages/gaodeMapPage.dart';
 import 'package:chat_demo/Provider/XFVoiceProvider.dart';
+import 'package:chat_demo/Provider/bottomRowAnimProvider.dart';
 import 'package:chat_demo/Provider/contentEditingProvider.dart';
 import 'package:chat_demo/Provider/gaodeMapProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
@@ -23,6 +26,8 @@ class DetailPage extends StatelessWidget {
     ContentEditingProvider contentEditingProvider =
         Provider.of<ContentEditingProvider>(context);
     XFVoiceProvider xfVoiceProvider = Provider.of<XFVoiceProvider>(context);
+    BottomRowAnimProvider bottomRowAnimProvider =
+        Provider.of<BottomRowAnimProvider>(context);
     if (provider == null || provider.conn == null || provider.connId == null) {
       return Center(
         child: CircularProgressIndicator(),
@@ -36,6 +41,7 @@ class DetailPage extends StatelessWidget {
       contentEditingProvider.updateEditStatus(txtController.text);
     });
     return Scaffold(
+        backgroundColor: Color.fromARGB(255, 231, 231, 231),
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(
@@ -58,21 +64,28 @@ class DetailPage extends StatelessWidget {
                                 builder: (_) => GaodeMapProvider(context),
                               ),
                             ], child: GaodeMapMain())));
-                ChatRecord chatRecord = ChatRecord(
-                    address: result["address"],
-                    title: result["title"],
-                    locationImg: result["filePath"],
-                    chatType: CHATTYPE.LOCATION,
-                    avatarUrl:'https://pic2.zhimg.com/v2-d2f3715564b0b40a8dafbfdec3803f97_is.jpg' ,
-                    sender: SENDER.SELF);
-                provider.addLocationRecord(chatRecord);
+                if (result != null) {
+                  ChatRecord chatRecord = ChatRecord(
+                      address: result["address"],
+                      title: result["title"],
+                      locationImg: result["filePath"],
+                      chatType: CHATTYPE.LOCATION,
+                      avatarUrl:
+                          'https://pic2.zhimg.com/v2-d2f3715564b0b40a8dafbfdec3803f97_is.jpg',
+                      sender: SENDER.SELF);
+                  provider.addChatRecord(chatRecord);
+                }
               },
             )
           ],
         ),
-        body: ChatDetailList(
-          chatProvider: provider,
-        ),
+        body: GestureDetector(
+            onTap: () {
+              bottomRowAnimProvider.reverseAnim();
+            },
+            child: ChatDetailList(
+              chatProvider: provider,
+            )),
         bottomNavigationBar:
             // RecordVoiceRow()
             ChatBottomRow(
@@ -85,6 +98,8 @@ class DetailPage extends StatelessWidget {
         ));
   }
 }
+
+
 
 class ChatBoxPainter extends CustomPainter {
   ChatBoxPainter(

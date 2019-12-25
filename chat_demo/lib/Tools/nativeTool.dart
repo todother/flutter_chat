@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
@@ -131,6 +132,22 @@ class NativeTool {
     var methodChannel = MethodChannel(channel);
     try {
       var result = await methodChannel.invokeMethod("disposeMapView",);
+      
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  
+
+  static changeVideoSpeed(double value,dynamic textureId)async{
+    const MethodChannel _channel = MethodChannel('flutter.io/videoPlayer');
+    // var methodChannel = MethodChannel(channel);
+    try {
+      await _channel.invokeMethod<void>("changePlayBackSpeed",{
+        "changedSpeed":value,
+        "textureId":textureId
+      });
       
     } catch (e) {
       print(e);

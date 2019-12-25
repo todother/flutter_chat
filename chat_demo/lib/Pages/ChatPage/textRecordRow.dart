@@ -9,16 +9,26 @@ class TextRecordRow extends StatelessWidget {
   final ChatRecord record;
   @override
   Widget build(BuildContext context) {
+
+     
     double rpx=MediaQuery.of(context).size.width/750;
     return ChatRow(
             avatarUrl: record.avatarUrl,
-            content: Text(
-                    record.content,
-                    style: TextStyle(
-                        fontSize: 27 * rpx,
-                        letterSpacing: 1.5 * rpx,
-                        height: 1.7),
-                  ),
+            content: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15*rpx,vertical: 10*rpx),
+                  
+                  child: Text(
+                          record.content,
+                          style: TextStyle(
+                              fontSize: 30 * rpx,
+                              letterSpacing: 1.2 * rpx,
+                              height: 1.5),
+                        )
+                )
+              ]
+            ),
             sender: record.sender,
             chatType: CHATTYPE.TEXT,
           );

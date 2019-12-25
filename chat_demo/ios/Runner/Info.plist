@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>需要相册</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -36,9 +38,9 @@
 		<true/>
 	</dict>
 	<key>LSApplicationQueriesSchemes</key>
-<array>
-    <string>iosamap</string>
-</array>
+	<array>
+		<string>iosamap</string>
+	</array>
 	<key>NSContactsUsageDescription</key>
 	<string>lianxiren</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -77,6 +79,8 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>使用摄像头</string>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
 </dict>

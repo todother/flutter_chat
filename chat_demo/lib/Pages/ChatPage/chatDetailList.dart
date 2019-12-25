@@ -1,4 +1,5 @@
 import 'package:chat_demo/Model/chatRecordModel.dart';
+import 'package:chat_demo/Pages/imageRecordRow.dart';
 import 'package:chat_demo/Pages/locationRecordRow.dart';
 import 'package:chat_demo/Pages/textRecordRow.dart';
 import 'package:chat_demo/Pages/voiceRecordRow.dart';
@@ -7,6 +8,7 @@ import 'package:chat_demo/Provider/voiceRecordProvider.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 import 'chatRow.dart';
 
@@ -46,7 +48,11 @@ class ChatDetailList extends StatelessWidget {
           );
         } else if (records[index].chatType == CHATTYPE.LOCATION) {
           return LocationRecordRow(record: records[index],);
-        } else {
+        } 
+        else if (records[index].chatType==CHATTYPE.IMAGE){
+          return ImageRecordRow(record: records[index],);
+        }
+        else {
           return Container();
         }
       },

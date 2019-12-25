@@ -12,10 +12,11 @@ class LocationRecordRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double rpx = MediaQuery.of(context).size.width / 750;
+    double width=450*rpx;
     return ChatRow(
       avatarUrl: record.avatarUrl,
       content: Container(
-        width: 375 * rpx,
+        width: width,
         child: Row(
           mainAxisAlignment: record.sender == SENDER.SELF
               ? MainAxisAlignment.end
@@ -25,12 +26,13 @@ class LocationRecordRow extends StatelessWidget {
               address: record.address,
               title: record.title,
               locationImg: record.locationImg,
+              width: width,
             )
           ],
         ),
       ),
       sender: record.sender,
-      chatType: CHATTYPE.VOICE,
+      chatType: CHATTYPE.LOCATION,
       voiceDuration: record.voiceDuration,
     );
   }
@@ -41,46 +43,51 @@ class LocationCard extends StatelessWidget {
       {Key key,
       @required this.title,
       @required this.address,
-      @required this.locationImg})
+      @required this.locationImg,
+      @required this.width})
       : super(key: key);
   final String title;
   final String address;
   final String locationImg;
+  final double width;
   @override
   Widget build(BuildContext context) {
     double rpx = MediaQuery.of(context).size.width / 750;
+    
     return Container(
-        width: 375 * rpx,
+        width: width,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            SizedBox(height: 15*rpx,),
             Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: 10 * rpx, vertical: 5 * rpx),
+                    horizontal: 20 * rpx, vertical: 5 * rpx),
                 child: Text(
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 30 * rpx),
+                      fontWeight: FontWeight.w500, fontSize: 30 * rpx),
                 )),
             Container(
                 padding: EdgeInsets.symmetric(
-                    horizontal: 10 * rpx, vertical: 5 * rpx),
+                    horizontal: 20 * rpx, vertical: 5 * rpx),
                 child: Text(
                   address,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontWeight: FontWeight.normal, fontSize: 26 * rpx),
+                      fontWeight: FontWeight.w200, fontSize: 26 * rpx),
                 )),
+                SizedBox(height: 5*rpx,),
             Image.file(
               File(locationImg),
               fit: BoxFit.fitWidth,
-              width: 375 * rpx,
-              height: 0.7 * 375 * rpx,
+              width: width,
+              height: 0.45 * width,
             )
           ],
         ));

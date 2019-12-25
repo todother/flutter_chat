@@ -21,7 +21,7 @@ class SignalRProvider with ChangeNotifier {
       'https://pic4.zhimg.com/v2-0edac6fcc7bf69f6da105fe63268b84c_is.jpg';
 
   List<ChatRecord> records;
-
+  String hostUrl="http://192.168.0.3";
   addVoiceChatRecord(time, sender, filePath) {
     records.add(ChatRecord(
         chatType: 1,
@@ -32,7 +32,7 @@ class SignalRProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  addLocationRecord(ChatRecord record){
+  addChatRecord(ChatRecord record){
     records.add(record);
     notifyListeners();
   }
@@ -46,7 +46,7 @@ class SignalRProvider with ChangeNotifier {
       "name": fileName,
       "sender": sender
     });
-    String urlPath = "http://192.168.0.8:5000/upload/uploadFiles";
+    String urlPath = "$hostUrl:5000/upload/uploadFiles";
     var response = await dio.post(urlPath, data: formData);
     notifyVoice(fileName);
     dio.close();
@@ -69,9 +69,9 @@ class SignalRProvider with ChangeNotifier {
         content: "原来你不请我吃饭啊 \n 我还在这等你呢 \n 1231231231"));
     String url = '';
     if (Platform.isIOS) {
-      url = 'http://192.168.0.8:5000/chatHub';
+      url = '$hostUrl:5000/chatHub';
     } else {
-      url = 'http://192.168.0.8:5000/chatHub';
+      url = '$hostUrl:5000/chatHub';
     }
     conn = HubConnectionBuilder().withUrl(url).build();
     conn.start();
