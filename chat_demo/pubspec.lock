@@ -212,6 +212,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_webrtc:
+    dependency: "direct main"
+    description:
+      name: flutter_webrtc
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.2"
   front_end:
     dependency: transitive
     description:

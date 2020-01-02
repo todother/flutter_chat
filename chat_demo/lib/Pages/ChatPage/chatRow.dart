@@ -1,8 +1,8 @@
 import 'dart:math';
-
-import 'package:chat_demo/Pages/chatDetail.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
 import 'package:flutter/material.dart';
+
+import 'chatDetail.dart';
 
 class ChatRow extends StatelessWidget {
   const ChatRow(

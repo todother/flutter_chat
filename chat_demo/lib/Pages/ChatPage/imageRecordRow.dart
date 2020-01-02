@@ -1,14 +1,13 @@
 import 'dart:io';
 
 import 'package:chat_demo/Model/chatRecordModel.dart';
-import 'package:chat_demo/Pages/chatRow.dart';
-import 'package:chat_demo/Pages/videoPlayerPage.dart';
-import 'package:chat_demo/Provider/barrageProvider.dart';
+import 'package:chat_demo/Pages/VideoPage/videoPageMain.dart';
 import 'package:chat_demo/Provider/videoProvider.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import 'chatRow.dart';
 
 class ImageRecordRow extends StatelessWidget {
   const ImageRecordRow({Key key, @required this.record}) : super(key: key);

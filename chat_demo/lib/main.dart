@@ -1,6 +1,6 @@
-
 import 'package:chat_demo/Provider/chatListProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
+import 'package:chat_demo/Provider/webRTCProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'Pages/MainPage/chatList.dart';
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // TODO: implement didChangeAppLifecycleState
-    if(state==AppLifecycleState.resumed){
+    if (state == AppLifecycleState.resumed) {
       print('resumed');
     }
     super.didChangeAppLifecycleState(state);
@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
       title: '简单聊天',
       theme: ThemeData(
           primaryColor: Colors.blueGrey,
@@ -80,6 +79,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       body: MultiProvider(providers: [
         ChangeNotifierProvider(
           builder: (_) => ChatListProvider(),
+        ),
+        ChangeNotifierProvider(
+          builder: (_) => WebRTCProvider(context),
         )
       ], child: ChatList()),
       bottomNavigationBar: BottomNavigationBar(

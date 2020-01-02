@@ -1,4 +1,5 @@
 import 'package:chat_demo/Provider/videoProvider.dart';
+import 'package:chat_demo/Tools/nativeTool.dart';
 import 'package:flutter/material.dart';
 
 class VideoToolBar extends StatelessWidget {
@@ -51,26 +52,69 @@ class VideoToolBar extends StatelessWidget {
             )),
         Row(
           children: <Widget>[
-            Container(
-                child: Center(
-              child: provider.ifPlaying
-                  ? IconButton(
-                      icon: Icon(Icons.pause),
-                      iconSize: 80 * rpx,
-                      color: Colors.white,
-                      onPressed: () {
-                        provider.pauseVideo();
-                      },
-                    )
-                  : IconButton(
-                      icon: Icon(Icons.play_arrow),
-                      iconSize: 80 * rpx,
-                      color: Colors.white,
-                      onPressed: () {
-                        provider.playVideo();
-                      },
-                    ),
-            )),
+            provider.ifPlaying
+                ? IconButton(
+                    icon: Icon(Icons.pause),
+                    iconSize: 80 * rpx,
+                    color: Colors.white,
+                    onPressed: () {
+                      provider.pauseVideo();
+                    },
+                  )
+                : IconButton(
+                    icon: Icon(Icons.play_arrow),
+                    iconSize: 80 * rpx,
+                    color: Colors.white,
+                    onPressed: () {
+                      provider.playVideo();
+                    },
+                  ),
+            PopupMenuButton(
+              child: Text(
+                "倍速",
+                style: TextStyle(
+                    fontSize: 30 * rpx,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500),
+              ),
+              // icon: Icon(Icons.accessible),
+              onSelected: (result) {
+                provider.updateVideoSpeed(double.parse(result));
+              },
+              itemBuilder: (context) {
+                List<PopupMenuEntry<Object>> items =
+                    List<PopupMenuEntry<Object>>();
+                items = [
+                  PopupMenuItem(
+                    child: Text(0.5.toString()),
+                    value: 0.5.toString(),
+                  ),
+                  PopupMenuDivider(
+                    height: 2,
+                  ),
+                  PopupMenuItem(
+                    child: Text(1.0.toString()),
+                    value: 1.0.toString(),
+                  ),
+                  PopupMenuDivider(),
+                  PopupMenuItem(
+                    child: Text(1.25.toString()),
+                    value: 1.25.toString(),
+                  ),
+                  PopupMenuDivider(),
+                  PopupMenuItem(
+                    child: Text(1.5.toString()),
+                    value: 1.5.toString(),
+                  ),
+                  PopupMenuDivider(),
+                  PopupMenuItem(
+                    child: Text(2.toString()),
+                    value: 2.toString(),
+                  ),
+                ];
+                return items;
+              },
+            ),
           ],
         )
       ]),

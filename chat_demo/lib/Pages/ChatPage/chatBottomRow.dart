@@ -2,18 +2,20 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:chat_demo/Model/xFVoiceConvertModel.dart';
-import 'package:chat_demo/Pages/chatBottomFuncSheet.dart';
-import 'package:chat_demo/Pages/recordVoiceRow.dart';
 import 'package:chat_demo/Provider/XFVoiceProvider.dart';
 import 'package:chat_demo/Provider/bottomRowAnimProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
+import 'package:chat_demo/Provider/webRTCProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:path/path.dart' as p;
 import 'package:image_picker/image_picker.dart';
+
+import 'chatBottomFuncSheet.dart';
+import 'recordVoiceRow.dart';
 
 class ChatBottomRow extends StatelessWidget {
   const ChatBottomRow(
@@ -23,7 +25,8 @@ class ChatBottomRow extends StatelessWidget {
       @required this.toBottom,
       @required this.voiceRecordProvider,
       @required this.xfVoiceProvider,
-      @required this.txtController})
+      @required this.txtController,
+      @required this.webRTCProvider})
       : super(key: key);
   final double rpx;
   final double toBottom;
@@ -31,6 +34,7 @@ class ChatBottomRow extends StatelessWidget {
   final XFVoiceProvider xfVoiceProvider;
   final TextEditingController txtController;
   final SignalRProvider provider;
+  final WebRTCProvider webRTCProvider;
   @override
   Widget build(BuildContext context) {
     // var channel = voiceRecordProvider.channel;
@@ -123,7 +127,7 @@ class ChatBottomRow extends StatelessWidget {
                     ],
                   ),
                 ),
-                ChatBottomFuncSheet()
+                ChatBottomFuncSheet(webRTCProvider: webRTCProvider,)
                 
           ]
         )

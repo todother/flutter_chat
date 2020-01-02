@@ -1,17 +1,20 @@
 import 'dart:io';
 
 import 'package:chat_demo/Model/chatRecordModel.dart';
+import 'package:chat_demo/Pages/VideoChat/webRtcPage.dart';
 import 'package:chat_demo/Provider/bottomRowAnimProvider.dart';
 import 'package:chat_demo/Provider/chooseFileProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
+import 'package:chat_demo/Provider/webRTCProvider.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 
 class ChatBottomFuncSheet extends StatelessWidget {
-  const ChatBottomFuncSheet({Key key}) : super(key: key);
+  const ChatBottomFuncSheet({Key key, @required this.webRTCProvider})
+      : super(key: key);
+  final WebRTCProvider webRTCProvider;
   @override
   Widget build(BuildContext context) {
     double rpx = MediaQuery.of(context).size.width / 750;
@@ -100,7 +103,21 @@ class ChatBottomFuncSheet extends StatelessWidget {
                           sender: SENDER.SELF);
                       signalRProvider.addChatRecord(record);
                     },
-                  ))
+                  )),
+                  Container(
+                    child: IconButton(
+                      icon: Icon(Icons.call),
+                      onPressed: () {
+                        webRTCProvider.createOffer();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => WebRtcMainPage(
+                                      webRtcProvider: webRTCProvider,
+                                    )));
+                      },
+                    ),
+                  )
                 ],
               )
             ],

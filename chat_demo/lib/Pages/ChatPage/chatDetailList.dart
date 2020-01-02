@@ -1,8 +1,4 @@
 import 'package:chat_demo/Model/chatRecordModel.dart';
-import 'package:chat_demo/Pages/imageRecordRow.dart';
-import 'package:chat_demo/Pages/locationRecordRow.dart';
-import 'package:chat_demo/Pages/textRecordRow.dart';
-import 'package:chat_demo/Pages/voiceRecordRow.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
@@ -11,6 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import 'chatRow.dart';
+import 'imageRecordRow.dart';
+import 'locationRecordRow.dart';
+import 'textRecordRow.dart';
+import 'voiceRecordRow.dart';
 
 class ChatDetailList extends StatelessWidget {
   const ChatDetailList({Key key, @required this.chatProvider})

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:chat_demo/Tools/nativeTool.dart';
 import 'package:flutter/material.dart';
 import 'package:screen/screen.dart';
 import 'package:video_player/video_player.dart';
@@ -116,6 +117,10 @@ class VideoProvider extends State<StatefulWidget>
     notifyListeners();
   }
 
+  updateVideoSpeed(double speed) {
+    NativeTool.changeVideoSpeed(speed, controller.textureId);
+  }
+
   initVideo(filePath) async {
     try {
       controller = VideoPlayerController.file(File(filePath));
@@ -137,7 +142,6 @@ class VideoProvider extends State<StatefulWidget>
         });
       loaded = true;
 
-      
       var volume = controller.value.volume;
       curVolume = volume;
       if (volume == 0.0) {

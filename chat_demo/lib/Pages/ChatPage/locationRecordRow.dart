@@ -2,9 +2,10 @@
 import 'dart:io';
 
 import 'package:chat_demo/Model/chatRecordModel.dart';
-import 'package:chat_demo/Pages/chatRow.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
 import 'package:flutter/material.dart';
+
+import 'chatRow.dart';
 
 class LocationRecordRow extends StatelessWidget {
   const LocationRecordRow({Key key, @required this.record}) : super(key: key);

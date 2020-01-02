@@ -1,23 +1,24 @@
 import 'dart:math';
 
 import 'package:chat_demo/Model/chatRecordModel.dart';
-import 'package:chat_demo/Pages/chatBottomRow.dart';
-import 'package:chat_demo/Pages/gaodeMapPage.dart';
+import 'package:chat_demo/Pages/MapPage/gaodeMapPage.dart';
 import 'package:chat_demo/Provider/XFVoiceProvider.dart';
 import 'package:chat_demo/Provider/bottomRowAnimProvider.dart';
 import 'package:chat_demo/Provider/contentEditingProvider.dart';
 import 'package:chat_demo/Provider/gaodeMapProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
+import 'package:chat_demo/Provider/webRTCProvider.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'chatBottomRow.dart';
 import 'chatDetailList.dart';
 
 class DetailPage extends StatelessWidget {
-  const DetailPage({Key key}) : super(key: key);
-
+  const DetailPage({Key key,@required this.webRTCProvider}) : super(key: key);
+  final WebRTCProvider webRTCProvider;
   @override
   Widget build(BuildContext context) {
     SignalRProvider provider = Provider.of<SignalRProvider>(context);
@@ -89,6 +90,7 @@ class DetailPage extends StatelessWidget {
         bottomNavigationBar:
             // RecordVoiceRow()
             ChatBottomRow(
+              webRTCProvider: webRTCProvider,
           provider: provider,
           voiceRecordProvider: voiceRecordProvider,
           xfVoiceProvider: xfVoiceProvider,
@@ -99,7 +101,41 @@ class DetailPage extends StatelessWidget {
   }
 }
 
+class TestFold extends StatefulWidget {
+  TestFold({Key key}) : super(key: key);
 
+  @override
+  _TestFoldState createState() => _TestFoldState();
+}
+
+class _TestFoldState extends State<TestFold> {
+  bool ifshow = true;
+
+  hideOrShowList() {
+    setState(() {
+      ifshow = !ifshow;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ifshow
+        ? Container(
+            child: ListView.builder(
+              itemCount: 1,
+              itemBuilder: (BuildContext context, int index) {
+                return FlatButton(
+                  child: Text("click to hide"),
+                  onPressed: () {
+                    hideOrShowList();
+                  },
+                );
+              },
+            ),
+          )
+        : Container();
+  }
+}
 
 class ChatBoxPainter extends CustomPainter {
   ChatBoxPainter(

@@ -107,6 +107,8 @@ class SignalRProvider with ChangeNotifier {
         notifyListeners();
       });
     });
+
+    
   }
 
   addVoiceFromXF(String filePath) {

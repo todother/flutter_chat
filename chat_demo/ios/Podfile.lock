@@ -12,8 +12,14 @@ PODS:
   - Flutter (1.0.0)
   - flutter_sound (0.0.1):
     - Flutter
+  - flutter_webrtc (0.1.6):
+    - Flutter
+    - GoogleWebRTC (= 1.1.27299)
+    - libyuv-iOS
+  - GoogleWebRTC (1.1.27299)
   - image_picker (0.0.1):
     - Flutter
+  - libyuv-iOS (1.0.2)
   - path_provider (0.0.1):
     - Flutter
   - screen (0.0.1):
@@ -29,6 +35,7 @@ DEPENDENCIES:
   - AMapSearch
   - Flutter (from `Flutter`)
   - flutter_sound (from `.symlinks/plugins/flutter_sound/ios`)
+  - flutter_webrtc (from `.symlinks/plugins/flutter_webrtc/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - screen (from `.symlinks/plugins/screen/ios`)
@@ -42,12 +49,16 @@ SPEC REPOS:
     - AMapLocation
     - AMapNavi
     - AMapSearch
+    - GoogleWebRTC
+    - libyuv-iOS
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
   flutter_sound:
     :path: ".symlinks/plugins/flutter_sound/ios"
+  flutter_webrtc:
+    :path: ".symlinks/plugins/flutter_webrtc/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
   path_provider:
@@ -67,7 +78,10 @@ SPEC CHECKSUMS:
   AMapSearch: 6bd6d361c5eb00110e0bffa4acf88b7bb9f7e059
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_sound: 0e8163ceac1e00eb6d894e2ae4641ba726a2c479
+  flutter_webrtc: b4d969a556b246378adb24262375b0204e1e89df
+  GoogleWebRTC: 893a5f2f3635437ec3b05ef240993d5713307804
   image_picker: e3eacd46b94694dde7cf2705955cece853aa1a8f
+  libyuv-iOS: 5a154ccc84ec754029886ecb607512731fe30640
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
   screen: abd91ca7bf3426e1cc3646d27e9b2358d6bf07b0
   video_player: 69c5f029fac4ffe4fc8a85ea7f7b793709661549
