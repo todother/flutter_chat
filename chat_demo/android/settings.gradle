@@ -1,4 +1,4 @@
-include ':app', ':flutter-xfvoice', ':android-flutter_xfvoice'
+include ':app', ':flutter-xfvoice', ':android-flutter_xfvoice', 'jpush', ':JPushExample(1558608)'
 
 def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
 

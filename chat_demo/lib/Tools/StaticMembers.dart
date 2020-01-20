@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class RECORDSTATUS {
   static const int NOT_STARTED = -1; //尚未开始
   static const int START = 0; //录音开始
@@ -24,4 +26,23 @@ class CHATTYPE{
 class SENDER{
   static const int SELF=0;
   static const int OTHER=1;
+}
+
+class THEMECOLORMAPPING{
+  static const int BLUEGREY=0;
+  static const int RED=1;
+  static const int PURPLE=2;
+  static const int YELLOW=3;
+}
+
+class THEMECOLOR{
+  static const Color BLUEGREY=Colors.blueGrey;
+  static const Color RED=Colors.redAccent;
+  static const Color PURPLE=Colors.purpleAccent;
+  static const Color YELLOW=Colors.yellowAccent;
+}
+
+class THEMEMODE{
+  static const int DARK=1;
+  static const int LIGHT=0;
 }

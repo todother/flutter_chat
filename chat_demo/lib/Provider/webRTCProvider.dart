@@ -79,25 +79,26 @@ class WebRTCProvider with ChangeNotifier {
                   )));
       var response = json.decode(result.first);
       pc = await createPeerConnection(iceServer, {});
+      await pc.addCandidate(RTCIceCandidate(response['candidate'],
+          response['sdpMid'], response['sdpMlineIndex']));
       localStream = await navigator.getUserMedia(mediaConstraints);
       pc.addStream(localStream);
+
       localRenderer.srcObject = localStream;
-      await pc.setRemoteDescription(
-          RTCSessionDescription(response['sdp'], response['type']));
       pc.onAddStream = (stream) {
         remoteStream = stream;
         remoteRenderer.srcObject = stream;
         // notifyListeners();
       };
-
-      pc.onAddTrack = (stream, track) {
-        remoteRenderer.srcObject = stream;
-      };
+      await pc.setRemoteDescription(
+          RTCSessionDescription(response['sdp'], response['type']));
       var ansSdp = await pc.createAnswer(defaultSdpConstraints);
-      pc.setLocalDescription(RTCSessionDescription(ansSdp.sdp, ansSdp.type));
+      
 
-      pc.addCandidate(RTCIceCandidate(response['candidate'], response['sdpMid'],
-          response['sdpMlineIndex']));
+      await pc.setLocalDescription(ansSdp);
+      
+
+      
       pc.onIceCandidate = (candidate) {
         if (!ifSendAnswer) {
           ifSendAnswer = true;
@@ -120,17 +121,8 @@ class WebRTCProvider with ChangeNotifier {
       var response = json.decode(result.first);
       await pc.setRemoteDescription(
           RTCSessionDescription(response['sdp'], response['type']));
-      pc.onAddStream = (stream) {
-        remoteStream = stream;
-        remoteRenderer.srcObject = stream;
-        // notifyListeners();
-      };
-
-      pc.onAddTrack = (stream, track) {
-        remoteRenderer.srcObject = stream;
-      };
-      pc.addCandidate(RTCIceCandidate(response['candidate'], response['sdpMid'],
-          response['sdpMlineIndex']));
+      await pc.addCandidate(RTCIceCandidate(response['candidate'],
+          response['sdpMid'], response['sdpMlineIndex']));
     });
   }
 
@@ -138,16 +130,14 @@ class WebRTCProvider with ChangeNotifier {
     localStream = await navigator.getUserMedia(mediaConstraints);
     localRenderer.srcObject = localStream;
     pc = await createPeerConnection(iceServer, {});
-    // pc.onAddStream = (stream) {
-    //   remoteStream = stream;
-    //   remoteRenderer.srcObject = stream;
-    //   // notifyListeners();
-    // };
-    // pc.onAddTrack = (stream, track) {
-    //   remoteRenderer.srcObject = stream;
-    // };
+
     RTCSessionDescription sdp = await pc.createOffer({});
-    pc.setLocalDescription(sdp);
+    pc.onAddStream = (stream) {
+      remoteStream = stream;
+      remoteRenderer.srcObject = stream;
+      // notifyListeners();
+    };
+    await pc.setLocalDescription(sdp);
     sessionId = Uuid().v4().toString();
 
     pc.onIceCandidate = (candidate) async {

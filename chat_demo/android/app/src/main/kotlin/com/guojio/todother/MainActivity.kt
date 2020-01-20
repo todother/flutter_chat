@@ -1,8 +1,11 @@
 package com.guojio.todother
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.media.MediaMetadataRetriever
+import android.os.Build
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -14,7 +17,6 @@ import com.arthenica.mobileffmpeg.FFmpeg
 import com.arthenica.mobileffmpeg.FFmpeg.RETURN_CODE_SUCCESS
 
 import io.flutter.app.FlutterActivity
-import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 import java.util.*
 import io.flutter.plugin.common.PluginRegistry.Registrar
@@ -30,11 +32,20 @@ import com.amap.api.services.poisearch.PoiResult
 import com.amap.api.services.poisearch.PoiSearch
 import com.arthenica.mobileffmpeg.FFmpeg.getFFmpegVersion
 import com.google.gson.Gson
+import com.huawei.agconnect.AGConnectInstance
+import com.huawei.agconnect.config.AGConnectServicesConfig
+import com.huawei.agconnect.config.LazyInputStream
+import com.huawei.hms.aaid.HmsInstanceId
+import com.huawei.hms.aaid.HmsInstanceIdEx
+import com.huawei.hms.push.HmsMessageService
+import io.flutter.plugin.common.*
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStream
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
+import kotlin.concurrent.thread
 
 
 class MainActivity : FlutterActivity(),AMap.OnCameraChangeListener,PoiSearch.OnPoiSearchListener,AMap.OnMapScreenShotListener {
@@ -57,9 +68,12 @@ class MainActivity : FlutterActivity(),AMap.OnCameraChangeListener,PoiSearch.OnP
         requireLocationPermission()
         GeneratedPluginRegistrant.registerWith(this@MainActivity)
         mapView= TextureMapView(flutterView.context)
-
+//        genToken(applicationContext)
         GaodePlugin.registerWith(this.registrarFor("gaodeMap"),savedInstanceState,mapView!!)
 
+//        var curIntent:Intent=Intent()
+//        var messageChannel=BasicMessageChannel<Any>(flutterView,"com.guojio.todother/pushNotification",StandardMessageCodec.INSTANCE);
+//        messageChannel.send("this is from messageChannel");
         MethodChannel(flutterView,CHANNELFFMPEG).setMethodCallHandler{
             call,result ->
 
@@ -97,12 +111,22 @@ class MainActivity : FlutterActivity(),AMap.OnCameraChangeListener,PoiSearch.OnP
                 "disposeMapView"->{
                     disposeMapView(result)
                 }
+//                "genToken"->{
+//                    genToken(this@MainActivity,result)
+//            }
+
                 else ->result.notImplemented()
             }
         }
     }
 
     override fun onMapScreenShot(bitmap: Bitmap?) {
+
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase)
+        var config:AGConnectServicesConfig= AGConnectServicesConfig.fromContext(this)
 
     }
 
@@ -214,6 +238,35 @@ class MainActivity : FlutterActivity(),AMap.OnCameraChangeListener,PoiSearch.OnP
     private fun moveCameraToPoi(lati: Double,longi: Double,zoomTo:Int,result:MethodChannel.Result){
         mapView!!.map.moveCamera(CameraUpdateFactory.changeLatLng(LatLng(lati,longi)))
         mapView!!.map.moveCamera(CameraUpdateFactory.zoomTo(zoomTo.toFloat()))
+
+    }
+
+
+    private fun genToken(context: Context,result: MethodChannel.Result){
+        Thread(object:Runnable{
+            override fun run() {
+                try {
+                    var appId:String=
+//                            "101587643";
+                    AGConnectServicesConfig.fromContext(context).getString("client/app_id");
+
+                    var token:String= HmsInstanceId.getInstance(context).getToken(appId,"HCM");
+                    if(token.length>0){
+                    result.success(mapOf(
+                            "token" to token
+                    ));
+
+                    }
+                    else{
+                    result.error("failed","get token failed", null);
+                    }
+                }
+                catch (e:Exception){
+                    print(e.message)
+                }
+
+            }
+        }).start();
 
     }
 

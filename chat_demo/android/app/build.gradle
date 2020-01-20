@@ -1,3 +1,5 @@
+
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -32,6 +34,15 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    signingConfigs {
+        config {
+            keyAlias 'todother'
+            keyPassword '123456'
+            storeFile file('todother.jks')
+            storePassword '123456'
+        }
+    }
+
     lintOptions {
         disable 'InvalidPackage'
     }
@@ -44,13 +55,24 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "94b20b3d1592e5ced84cf498", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL : "developer-default",
+        ]
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.config
+        }
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
+            signingConfig signingConfigs.config
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -68,4 +90,8 @@ dependencies {
     implementation 'com.arthenica:mobile-ffmpeg-audio:4.3'
     implementation 'androidx.appcompat:appcompat:1.0.0'
     api 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.huawei.hms:push:3.0.3.301'
+    implementation 'com.huawei.agconnect:agconnect-core:1.1.1.300'
+//    implementation 'com.huawei.hms:hwid:3.0.3.301'
 }
+apply plugin: 'com.huawei.agconnect'

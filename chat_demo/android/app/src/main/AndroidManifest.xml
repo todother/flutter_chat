@@ -12,6 +12,24 @@
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <service android:name="com.amap.api.location.APSService"></service>
+        <service
+            android:name=".HWPushMessageService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.huawei.push.action.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.huawei.hms.support.api.push.service.HmsMsgService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":pushservice">
+            <intent-filter>
+                <action android:name="com.huawei.push.msg.NOTIFY_MSG" />
+                <action android:name="com.huawei.push.msg.PASSBY_MSG" />
+            </intent-filter>
+        </service>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -30,6 +48,18 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".IntentDataActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="com.guojio.todother"
+                    android:path="/pushnoti"
+                    android:scheme="pushscheme" />
             </intent-filter>
         </activity>
         <meta-data android:name="com.amap.api.v2.apikey" android:value="927f55abb1a5088d96a1cde2ce4869f4"/>

@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 import 'dart:io';
 
 import 'package:flutter/services.dart';
@@ -76,7 +76,7 @@ class NativeTool {
     }
   }
 
-  static getSelPosition()async{
+  static getSelPosition() async {
     String channel = "com.guojio.todother/nativeFunc";
     var methodChannel = MethodChannel(channel);
     try {
@@ -87,7 +87,7 @@ class NativeTool {
     }
   }
 
-  static getPoiList()async{
+  static getPoiList() async {
     String channel = "com.guojio.todother/nativeFunc";
     var methodChannel = MethodChannel(channel);
     try {
@@ -98,27 +98,26 @@ class NativeTool {
     }
   }
 
-  static moveCameraToPoi(double lati,double longi,int zoomTo)async{
+  static moveCameraToPoi(double lati, double longi, int zoomTo) async {
     String channel = "com.guojio.todother/nativeFunc";
     var methodChannel = MethodChannel(channel);
     try {
-      var result = await methodChannel.invokeMethod("moveCameraToPoi",{
-        "lati":lati,
-        "longi":longi,
-        "zoomTo":zoomTo
-      });
+      var result = await methodChannel.invokeMethod(
+          "moveCameraToPoi", {"lati": lati, "longi": longi, "zoomTo": zoomTo});
       return result;
     } catch (e) {
       print(e);
     }
   }
 
-  static getScreenShot()async{
+  static getScreenShot() async {
     String channel = "com.guojio.todother/nativeFunc";
     var methodChannel = MethodChannel(channel);
     try {
-      var result = await methodChannel.invokeMethod("shotScreen",);
-      if(result!=null){
+      var result = await methodChannel.invokeMethod(
+        "shotScreen",
+      );
+      if (result != null) {
         return result["filePath"];
       }
       return "failed";
@@ -127,28 +126,50 @@ class NativeTool {
     }
   }
 
-  static disposeMapView()async{
+  static disposeMapView() async {
     String channel = "com.guojio.todother/nativeFunc";
     var methodChannel = MethodChannel(channel);
     try {
-      var result = await methodChannel.invokeMethod("disposeMapView",);
-      
+      var result = await methodChannel.invokeMethod(
+        "disposeMapView",
+      );
     } catch (e) {
       print(e);
     }
   }
 
-  
-
-  static changeVideoSpeed(double value,dynamic textureId)async{
+  static changeVideoSpeed(double value, dynamic textureId) async {
     const MethodChannel _channel = MethodChannel('flutter.io/videoPlayer');
     // var methodChannel = MethodChannel(channel);
     try {
-      await _channel.invokeMethod<void>("changePlayBackSpeed",{
-        "changedSpeed":value,
-        "textureId":textureId
-      });
-      
+      await _channel.invokeMethod<void>("changePlayBackSpeed",
+          {"changedSpeed": value, "textureId": textureId});
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static getIntentInfo() async {
+    String channel = "com.guojio.todother/notify";
+    var methodChannel = MethodChannel(channel);
+    try {
+      var result = await methodChannel.invokeMethod("getIntentInfo");
+      if (result["result"] == true) {
+        return result["chatId"];
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static getTokenForNotify() async {
+    String channel = "com.guojio.todother/nativeFunc";
+    var methodChannel = MethodChannel(channel);
+    try {
+      var result = await methodChannel.invokeMethod('genToken');
+      return result["token"];
     } catch (e) {
       print(e);
     }

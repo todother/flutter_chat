@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:chat_demo/Model/SendMsgTemplate.dart';
 import 'package:chat_demo/Model/chatRecordModel.dart';
+import 'package:chat_demo/Tools/StaticMembers.dart';
 import 'package:chat_demo/Tools/nativeTool.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class SignalRProvider with ChangeNotifier {
       'https://pic4.zhimg.com/v2-0edac6fcc7bf69f6da105fe63268b84c_is.jpg';
 
   List<ChatRecord> records;
-  String hostUrl="http://192.168.0.3";
+  String hostUrl = "http://192.168.0.3";
   addVoiceChatRecord(time, sender, filePath) {
     records.add(ChatRecord(
         chatType: 1,
@@ -32,7 +33,7 @@ class SignalRProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  addChatRecord(ChatRecord record){
+  addChatRecord(ChatRecord record) {
     records.add(record);
     notifyListeners();
   }
@@ -83,15 +84,17 @@ class SignalRProvider with ChangeNotifier {
 
     conn.on('receiveMsg', (message) async {
       records.add(ChatRecord(
-          content: message.first, avatarUrl: ava2, sender: 0, chatType: 0));
+          content: message.first,
+          avatarUrl: ava2,
+          sender: SENDER.OTHER,
+          chatType: 0));
       notifyListeners();
     });
 
     conn.on("receiveVoice", (message) async {
       Dio dio = Dio();
-      String urlPath = "http://192.168.0.2:5000/voiceTemp/" +
-          message.first.toString() +
-          ".mp3";
+      String urlPath =
+          "$hostUrl:5000/voiceTemp/" + message.first.toString() + ".mp3";
       Directory folder = await getTemporaryDirectory();
       String folderPath = folder.path;
       String savePath = p.join(folderPath, message.first.toString() + ".mp3");
@@ -107,8 +110,6 @@ class SignalRProvider with ChangeNotifier {
         notifyListeners();
       });
     });
-
-    
   }
 
   addVoiceFromXF(String filePath) {
@@ -123,11 +124,11 @@ class SignalRProvider with ChangeNotifier {
   }
 
   sendMessage(msg) {
-    records
-        .add(ChatRecord(content: msg, avatarUrl: ava1, sender: 1, chatType: 0));
+    records.add(ChatRecord(
+        content: msg, avatarUrl: ava1, sender: SENDER.SELF, chatType: 0));
     conn.invoke('receiveMsgAsync', args: [
       jsonEncode(
-          SendMsgTemplate(fromWho: connId, toWho: '', message: msg).toJson())
+          SendMsgTemplate(fromWho: connId, toWho: '', message: msg,avatarUrl: ava1,makerName: "张三").toJson())
     ]);
 
     notifyListeners();

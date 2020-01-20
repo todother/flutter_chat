@@ -176,6 +176,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.3.3"
+  device_info:
+    dependency: "direct main"
+    description:
+      name: device_info
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.4.1+4"
   dio:
     dependency: "direct main"
     description:
@@ -195,6 +202,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_jpush:
+    dependency: "direct main"
+    description:
+      name: flutter_jpush
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.4"
   flutter_sound:
     dependency: "direct main"
     description:
@@ -282,6 +296,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.6.2+3"
+  imei_plugin:
+    dependency: "direct main"
+    description:
+      name: imei_plugin
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.1.6"
   io:
     dependency: transitive
     description:
@@ -450,6 +471,34 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.0.5"
+  shared_preferences:
+    dependency: "direct main"
+    description:
+      name: shared_preferences
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.5.6"
+  shared_preferences_macos:
+    dependency: transitive
+    description:
+      name: shared_preferences_macos
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.1+3"
+  shared_preferences_platform_interface:
+    dependency: transitive
+    description:
+      name: shared_preferences_platform_interface
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.1"
+  shared_preferences_web:
+    dependency: transitive
+    description:
+      name: shared_preferences_web
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.2+2"
   shelf:
     dependency: transitive
     description:

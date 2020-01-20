@@ -1,7 +1,6 @@
 import 'package:chat_demo/Provider/webRTCProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/rtc_video_view.dart';
-import 'package:provider/provider.dart';
 
 class WebRtcMainPage extends StatelessWidget {
   const WebRtcMainPage({Key key, @required this.webRtcProvider})
