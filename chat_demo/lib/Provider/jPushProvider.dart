@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:chat_demo/Pages/ChatPage/chatDetail.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
 import 'package:chat_demo/Provider/webRTCProvider.dart';
-import 'package:device_info/device_info.dart';
 import 'package:flutter_jpush/flutter_jpush.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -176,13 +176,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.3.3"
-  device_info:
-    dependency: "direct main"
-    description:
-      name: device_info
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.4.1+4"
   dio:
     dependency: "direct main"
     description:
@@ -296,13 +289,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.6.2+3"
-  imei_plugin:
-    dependency: "direct main"
-    description:
-      name: imei_plugin
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.1.6"
   io:
     dependency: transitive
     description:
