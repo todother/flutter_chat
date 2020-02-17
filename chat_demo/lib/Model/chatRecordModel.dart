@@ -1,4 +1,9 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter/material.dart';
+part 'chatRecordModel.g.dart';
+@JsonSerializable()
+
+
 
 class ChatRecord {
   int sender;
@@ -26,4 +31,8 @@ class ChatRecord {
       this.imgHeight,
       this.imgWidth,
       this.videoPath});
+
+      factory ChatRecord.fromJson(Map<String, dynamic> json) =>
+      _$ChatRecordFromJson(json);
+  Map<String, dynamic> toJson() => _$ChatRecordToJson(this);
 }

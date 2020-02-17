@@ -1,4 +1,5 @@
 import 'package:chat_demo/Provider/chatListProvider.dart';
+import 'package:chat_demo/Provider/goSocketProvider.dart';
 import 'package:chat_demo/Provider/jPushProvider.dart';
 import 'package:chat_demo/Provider/loginProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
@@ -21,8 +22,12 @@ void main(List<String> args) async {
     await prefs.setString('token', token);
     print("token is : $token");
   }
+
   // runApp(MultiProvider(
   //   providers: [
+  //     ChangeNotifierProvider(
+  //       builder: (_) => GoSocketProvider(),
+  //     ),
   //     ChangeNotifierProvider(
   //       builder: (_) => SignalRProvider(),
   //     ),
@@ -42,7 +47,10 @@ void main(List<String> args) async {
         ChangeNotifierProvider(
           builder: (_) => LoginProvider(),
         )
-      ], child: LoginMain())));
+      ], child: 
+      LoginMain()
+      
+      )));
 }
 
 class MyApp extends StatelessWidget with WidgetsBindingObserver {
@@ -83,7 +91,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
-  SignalRProvider provider;
+  // SignalRProvider provider;
   SharedPreferences prefs;
   String chatId;
   @override

@@ -8,57 +8,90 @@ class LoginMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LoginProvider provider = Provider.of<LoginProvider>(context);
     double rpx = MediaQuery.of(context).size.width / 750;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          BackgroundSlideMain(),
-          BackgroundSlideToChange(),
-          Positioned(
-            left: 0,
-            top: 250 * rpx,
-            child: LoginBox(),
-          ),
-          Positioned(
-            bottom:230 * rpx,
-            left: 0,
-            child: Container(
-              width: 750 * rpx,
-              padding: EdgeInsets.symmetric(horizontal: 40 * rpx),
-              child: Divider(color: Colors.blueGrey),
-            ),
-          ),
-          Positioned(
-            bottom: 100 * rpx,
-            left: 0,
-            child: Container(
-              width: 750 * rpx,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Icon(
-                    Icons.face,
-                    size: 100 * rpx,
-                    color: Colors.white70,
-                  ),
-                  Icon(
-                    Icons.face,
-                    size: 100 * rpx,
-                    color: Colors.white70,
-                  ),
-                  Icon(
-                    Icons.face,
-                    size: 100 * rpx,
-                    color: Colors.white70,
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
+      body: AnimatedSwitcher(
+        duration: Duration(milliseconds: 500),
+        child:
+            provider.curLoginWidget == 0 ? QuickLoginMain() : OtherLoginBox(),
       ),
+    );
+  }
+}
+
+class QuickLoginMain extends StatelessWidget {
+  const QuickLoginMain({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double rpx = MediaQuery.of(context).size.width / 750;
+    return Stack(fit: StackFit.expand, children: <Widget>[
+      BackgroundSlideMain(),
+      BackgroundSlideToChange(),
+      Positioned(
+        left: 0,
+        top: 250 * rpx,
+        child: QuickLoginBox(),
+      ),
+    ]);
+  }
+}
+
+class OtherLoginBox extends StatelessWidget {
+  const OtherLoginBox({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double rpx = MediaQuery.of(context).size.width / 750;
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        BackgroundSlideMain(),
+        BackgroundSlideToChange(),
+        Positioned(
+          left: 0,
+          top: 250 * rpx,
+          child: LoginBox(),
+        ),
+        Positioned(
+          bottom: 230 * rpx,
+          left: 0,
+          child: Container(
+            width: 750 * rpx,
+            padding: EdgeInsets.symmetric(horizontal: 40 * rpx),
+            child: Divider(color: Colors.blueGrey),
+          ),
+        ),
+        Positioned(
+          bottom: 100 * rpx,
+          left: 0,
+          child: Container(
+            width: 750 * rpx,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Icon(
+                  Icons.face,
+                  size: 100 * rpx,
+                  color: Colors.white70,
+                ),
+                Icon(
+                  Icons.face,
+                  size: 100 * rpx,
+                  color: Colors.white70,
+                ),
+                Icon(
+                  Icons.face,
+                  size: 100 * rpx,
+                  color: Colors.white70,
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 }

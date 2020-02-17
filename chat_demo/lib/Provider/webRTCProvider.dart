@@ -4,8 +4,7 @@ import 'dart:io';
 import 'package:chat_demo/Pages/VideoChat/webRtcPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/webrtc.dart';
-import 'package:signalr_client/hub_connection.dart';
-import 'package:signalr_client/hub_connection_builder.dart';
+import 'package:signalr_client/signalr_client.dart';
 import 'package:uuid/uuid.dart';
 
 class WebRTCProvider with ChangeNotifier {

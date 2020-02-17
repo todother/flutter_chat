@@ -22,7 +22,7 @@ class SignalRProvider with ChangeNotifier {
       'https://pic4.zhimg.com/v2-0edac6fcc7bf69f6da105fe63268b84c_is.jpg';
 
   List<ChatRecord> records;
-  String hostUrl = "http://192.168.0.3";
+  String hostUrl = "http://192.168.0.6";
   addVoiceChatRecord(time, sender, filePath) {
     records.add(ChatRecord(
         chatType: 1,
@@ -70,9 +70,9 @@ class SignalRProvider with ChangeNotifier {
         content: "原来你不请我吃饭啊 \n 我还在这等你呢 \n 1231231231"));
     String url = '';
     if (Platform.isIOS) {
-      url = '$hostUrl:5000/chatHub';
+      url = '$hostUrl:5000/chat';
     } else {
-      url = '$hostUrl:5000/chatHub';
+      url = '$hostUrl:5000/chat';
     }
     conn = HubConnectionBuilder().withUrl(url).build();
     conn.start();
@@ -87,7 +87,7 @@ class SignalRProvider with ChangeNotifier {
           content: message.first,
           avatarUrl: ava2,
           sender: SENDER.OTHER,
-          chatType: 0));
+          chatType: CHATTYPE.TEXT));
       notifyListeners();
     });
 

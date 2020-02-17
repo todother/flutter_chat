@@ -1,0 +1,136 @@
+PODS:
+  - AMap3DMap (7.1.0):
+    - AMapFoundation (~> 1.5)
+  - AMapFoundation (1.6.0)
+  - AMapLocation (2.6.3):
+    - AMapFoundation (~> 1.4)
+  - AMapNavi (7.1.0):
+    - AMap3DMap (~> 7.0)
+    - AMapFoundation (~> 1.5)
+  - AMapSearch (7.1.0):
+    - AMapFoundation (~> 1.4)
+  - device_info (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+  - flutter_jpush (0.0.1):
+    - Flutter
+    - JPush
+  - flutter_sound (0.0.1):
+    - Flutter
+  - flutter_webrtc (0.1.6):
+    - Flutter
+    - GoogleWebRTC (= 1.1.27299)
+    - libyuv-iOS
+  - GoogleWebRTC (1.1.27299)
+  - image_picker (0.0.1):
+    - Flutter
+  - imei_plugin (0.0.1):
+    - Flutter
+  - JCore (2.1.8)
+  - JPush (3.2.8):
+    - JCore (< 3.0.0, >= 2.0.0)
+  - libyuv-iOS (1.0.2)
+  - path_provider (0.0.1):
+    - Flutter
+  - screen (0.0.1):
+    - Flutter
+  - shared_preferences (0.0.1):
+    - Flutter
+  - shared_preferences_macos (0.0.1):
+    - Flutter
+  - shared_preferences_web (0.0.1):
+    - Flutter
+  - video_player (0.0.1):
+    - Flutter
+  - video_player_web (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - AMapLocation
+  - AMapNavi
+  - AMapSearch
+  - device_info (from `.symlinks/plugins/device_info/ios`)
+  - Flutter (from `Flutter`)
+  - flutter_jpush (from `.symlinks/plugins/flutter_jpush/ios`)
+  - flutter_sound (from `.symlinks/plugins/flutter_sound/ios`)
+  - flutter_webrtc (from `.symlinks/plugins/flutter_webrtc/ios`)
+  - image_picker (from `.symlinks/plugins/image_picker/ios`)
+  - imei_plugin (from `.symlinks/plugins/imei_plugin/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - screen (from `.symlinks/plugins/screen/ios`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
+  - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
+  - video_player (from `.symlinks/plugins/video_player/ios`)
+  - video_player_web (from `.symlinks/plugins/video_player_web/ios`)
+
+SPEC REPOS:
+  trunk:
+    - AMap3DMap
+    - AMapFoundation
+    - AMapLocation
+    - AMapNavi
+    - AMapSearch
+    - GoogleWebRTC
+    - JCore
+    - JPush
+    - libyuv-iOS
+
+EXTERNAL SOURCES:
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
+  Flutter:
+    :path: Flutter
+  flutter_jpush:
+    :path: ".symlinks/plugins/flutter_jpush/ios"
+  flutter_sound:
+    :path: ".symlinks/plugins/flutter_sound/ios"
+  flutter_webrtc:
+    :path: ".symlinks/plugins/flutter_webrtc/ios"
+  image_picker:
+    :path: ".symlinks/plugins/image_picker/ios"
+  imei_plugin:
+    :path: ".symlinks/plugins/imei_plugin/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
+  screen:
+    :path: ".symlinks/plugins/screen/ios"
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
+  shared_preferences_macos:
+    :path: ".symlinks/plugins/shared_preferences_macos/ios"
+  shared_preferences_web:
+    :path: ".symlinks/plugins/shared_preferences_web/ios"
+  video_player:
+    :path: ".symlinks/plugins/video_player/ios"
+  video_player_web:
+    :path: ".symlinks/plugins/video_player_web/ios"
+
+SPEC CHECKSUMS:
+  AMap3DMap: ef26e2fb120ae9f1635b4b26b28df6d1379a05f0
+  AMapFoundation: bc2f6e077b9279942734ba55f9624222fcf42848
+  AMapLocation: dc2c4fde95d72087d73934338160fadc72104bb7
+  AMapNavi: 28a5c56377342428a7381ac6abab286ff33c6251
+  AMapSearch: 6bd6d361c5eb00110e0bffa4acf88b7bb9f7e059
+  device_info: cbf09d2ec12aa7110e0b09fabe54b5bd6c8efe74
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_jpush: bb278c661136b2a2032e96ffc15bbce871d3fb02
+  flutter_sound: 0e8163ceac1e00eb6d894e2ae4641ba726a2c479
+  flutter_webrtc: b4d969a556b246378adb24262375b0204e1e89df
+  GoogleWebRTC: 893a5f2f3635437ec3b05ef240993d5713307804
+  image_picker: e3eacd46b94694dde7cf2705955cece853aa1a8f
+  imei_plugin: cb1af7c223ac2d82dcd1457a7137d93d65d2a3cd
+  JCore: a7f1dead960d77a97717c73ea8b0aa5b33706491
+  JPush: 8ce888d6dedfa417e90c8b6bc87405a16ce2e699
+  libyuv-iOS: 5a154ccc84ec754029886ecb607512731fe30640
+  path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
+  screen: abd91ca7bf3426e1cc3646d27e9b2358d6bf07b0
+  shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
+  shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
+  shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
+  video_player: 69c5f029fac4ffe4fc8a85ea7f7b793709661549
+  video_player_web: da8cadb8274ed4f8dbee8d7171b420dedd437ce7
+
+PODFILE CHECKSUM: c627a17075e2aecda93dd12735bca5a029a70d79
+
+COCOAPODS: 1.8.4
