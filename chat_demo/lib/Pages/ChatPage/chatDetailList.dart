@@ -1,4 +1,5 @@
 import 'package:chat_demo/Model/chatRecordModel.dart';
+import 'package:chat_demo/Provider/goSocketProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
@@ -15,7 +16,7 @@ import 'voiceRecordRow.dart';
 class ChatDetailList extends StatelessWidget {
   const ChatDetailList({Key key, @required this.chatProvider})
       : super(key: key);
-  final SignalRProvider chatProvider;
+  final GoSocketProvider chatProvider;
   @override
   Widget build(BuildContext context) {
     String ava1 =

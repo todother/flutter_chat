@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:chat_demo/Model/xFVoiceConvertModel.dart';
 import 'package:chat_demo/Provider/XFVoiceProvider.dart';
 import 'package:chat_demo/Provider/bottomRowAnimProvider.dart';
-import 'package:chat_demo/Provider/signalRProvider.dart';
+import 'package:chat_demo/Provider/goSocketProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
 import 'package:chat_demo/Provider/webRTCProvider.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +33,7 @@ class ChatBottomRow extends StatelessWidget {
   final VoiceRecordProvider voiceRecordProvider;
   final XFVoiceProvider xfVoiceProvider;
   final TextEditingController txtController;
-  final SignalRProvider provider;
+  final GoSocketProvider provider;
   final WebRTCProvider webRTCProvider;
   @override
   Widget build(BuildContext context) {
@@ -121,7 +121,7 @@ class ChatBottomRow extends StatelessWidget {
                           ? Container()
                           : ChannelWatcher(
                               docPath: voiceRecordProvider.appDocPath,
-                              signalR: provider,
+                              goSocketProvider: provider,
                               xFVoice: xfVoiceProvider,
                             ),
                     ],
@@ -180,12 +180,12 @@ class ChannelWatcher extends StatefulWidget {
   ChannelWatcher(
       {Key key,
       @required this.docPath,
-      @required this.signalR,
+      @required this.goSocketProvider,
       @required this.xFVoice})
       : super(key: key);
   // final IOWebSocketChannel channel;
   final String docPath;
-  final SignalRProvider signalR;
+  final GoSocketProvider goSocketProvider;
   final XFVoiceProvider xFVoice;
   @override
   _ChannelWatcherState createState() => _ChannelWatcherState();
@@ -233,7 +233,7 @@ class _ChannelWatcherState extends State<ChannelWatcher> {
                       ifAdded = true;
                       File file = File(filePath);
                       file.writeAsBytesSync(fileIntList);
-                      widget.signalR.addVoiceFromXF(filePath);
+                      widget.goSocketProvider.addVoiceFromXF(filePath);
                     }
                   });
                 }

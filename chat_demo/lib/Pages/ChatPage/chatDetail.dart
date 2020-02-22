@@ -6,6 +6,7 @@ import 'package:chat_demo/Provider/XFVoiceProvider.dart';
 import 'package:chat_demo/Provider/bottomRowAnimProvider.dart';
 import 'package:chat_demo/Provider/contentEditingProvider.dart';
 import 'package:chat_demo/Provider/gaodeMapProvider.dart';
+import 'package:chat_demo/Provider/goSocketProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
 import 'package:chat_demo/Provider/webRTCProvider.dart';
@@ -21,7 +22,7 @@ class DetailPage extends StatelessWidget {
   final WebRTCProvider webRTCProvider;
   @override
   Widget build(BuildContext context) {
-    SignalRProvider provider = Provider.of<SignalRProvider>(context);
+    GoSocketProvider provider = Provider.of<GoSocketProvider>(context);
     VoiceRecordProvider voiceRecordProvider =
         Provider.of<VoiceRecordProvider>(context);
     ContentEditingProvider contentEditingProvider =
@@ -29,11 +30,11 @@ class DetailPage extends StatelessWidget {
     XFVoiceProvider xfVoiceProvider = Provider.of<XFVoiceProvider>(context);
     BottomRowAnimProvider bottomRowAnimProvider =
         Provider.of<BottomRowAnimProvider>(context);
-    if (provider == null || provider.conn == null || provider.connId == null) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    }
+    // if (provider == null || provider.conn == null || provider.connId == null) {
+    //   return Center(
+    //     child: CircularProgressIndicator(),
+    //   );
+    // }
     bool ifVoiceRecord = voiceRecordProvider.ifVoiceRecord;
     TextEditingController txtController = contentEditingProvider.txtController;
     double toBottom = MediaQuery.of(context).viewInsets.bottom;

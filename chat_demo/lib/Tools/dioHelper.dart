@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 class DioHelper {
-  static String host = "http://192.168.2.111:5000";
+  static String host = "http://192.168.0.2:5000";
   Dio dio;
   DioHelper() {
     dio = Dio(

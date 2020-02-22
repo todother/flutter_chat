@@ -9,6 +9,8 @@ PODS:
     - AMapFoundation (~> 1.5)
   - AMapSearch (7.1.0):
     - AMapFoundation (~> 1.4)
+  - device_info (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_jpush (0.0.1):
     - Flutter
@@ -21,6 +23,9 @@ PODS:
     - libyuv-iOS
   - fluttertoast (0.0.2):
     - Flutter
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
   - GoogleWebRTC (1.1.27299)
   - image_picker (0.0.1):
     - Flutter
@@ -38,6 +43,9 @@ PODS:
     - Flutter
   - shared_preferences_web (0.0.1):
     - Flutter
+  - sqflite (0.0.1):
+    - Flutter
+    - FMDB (~> 2.7.2)
   - Starscream (3.1.1)
   - video_player (0.0.1):
     - Flutter
@@ -51,6 +59,7 @@ DEPENDENCIES:
   - AMapLocation
   - AMapNavi
   - AMapSearch
+  - device_info (from `.symlinks/plugins/device_info/ios`)
   - Flutter (from `Flutter`)
   - flutter_jpush (from `.symlinks/plugins/flutter_jpush/ios`)
   - flutter_sound (from `.symlinks/plugins/flutter_sound/ios`)
@@ -62,6 +71,7 @@ DEPENDENCIES:
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
   - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
+  - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
   - video_player_web (from `.symlinks/plugins/video_player_web/ios`)
   - websocket_manager (from `.symlinks/plugins/websocket_manager/ios`)
@@ -73,6 +83,7 @@ SPEC REPOS:
     - AMapLocation
     - AMapNavi
     - AMapSearch
+    - FMDB
     - GoogleWebRTC
     - JCore
     - JPush
@@ -80,6 +91,8 @@ SPEC REPOS:
     - Starscream
 
 EXTERNAL SOURCES:
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
   Flutter:
     :path: Flutter
   flutter_jpush:
@@ -102,6 +115,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_macos/ios"
   shared_preferences_web:
     :path: ".symlinks/plugins/shared_preferences_web/ios"
+  sqflite:
+    :path: ".symlinks/plugins/sqflite/ios"
   video_player:
     :path: ".symlinks/plugins/video_player/ios"
   video_player_web:
@@ -115,11 +130,13 @@ SPEC CHECKSUMS:
   AMapLocation: dc2c4fde95d72087d73934338160fadc72104bb7
   AMapNavi: 28a5c56377342428a7381ac6abab286ff33c6251
   AMapSearch: 6bd6d361c5eb00110e0bffa4acf88b7bb9f7e059
+  device_info: cbf09d2ec12aa7110e0b09fabe54b5bd6c8efe74
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_jpush: bb278c661136b2a2032e96ffc15bbce871d3fb02
   flutter_sound: 0e8163ceac1e00eb6d894e2ae4641ba726a2c479
   flutter_webrtc: b4d969a556b246378adb24262375b0204e1e89df
   fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GoogleWebRTC: 893a5f2f3635437ec3b05ef240993d5713307804
   image_picker: e3eacd46b94694dde7cf2705955cece853aa1a8f
   JCore: a7f1dead960d77a97717c73ea8b0aa5b33706491
@@ -130,6 +147,7 @@ SPEC CHECKSUMS:
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
   shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
+  sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   video_player: 69c5f029fac4ffe4fc8a85ea7f7b793709661549
   video_player_web: da8cadb8274ed4f8dbee8d7171b420dedd437ce7

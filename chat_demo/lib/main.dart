@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:chat_demo/Model/userLoginModel.dart';
 import 'package:chat_demo/Provider/chatListProvider.dart';
 import 'package:chat_demo/Provider/goSocketProvider.dart';
 import 'package:chat_demo/Provider/jPushProvider.dart';
@@ -6,12 +9,54 @@ import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/themeProvider.dart';
 import 'package:chat_demo/Provider/webRTCProvider.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
+import 'package:chat_demo/Tools/dioHelper.dart';
 import 'package:chat_demo/Tools/nativeTool.dart';
+import 'package:chat_demo/Tools/sqliteHelper.dart';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Pages/Login/loginMain.dart';
 import 'Pages/MainPage/chatList.dart';
+
+getImei() async {
+  String imeiT;
+  if (Platform.isIOS) {
+    var iosInfo = await DeviceInfoPlugin().iosInfo;
+    imeiT = iosInfo.identifierForVendor;
+  } else if (Platform.isAndroid) {
+    var andInfo = await DeviceInfoPlugin().androidInfo;
+    imeiT = andInfo.androidId;
+  }
+  return imeiT;
+}
+
+void normalLogin() {
+  runApp(MaterialApp(
+      theme: ThemeData(
+          splashColor: Colors.transparent, highlightColor: Colors.transparent),
+      home: MultiProvider(providers: [
+        ChangeNotifierProvider(
+          builder: (_) => LoginProvider(),
+        )
+      ], child: LoginMain())));
+}
+
+void passLogin(SharedPreferences prefs) {
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        builder: (_) => GoSocketProvider(),
+      ),
+      ChangeNotifierProvider(
+        builder: (_) => ThemeProvider(prefs),
+      ),
+    ],
+    child: MyApp(
+      prefs: prefs,
+    ),
+  ));
+}
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,34 +68,25 @@ void main(List<String> args) async {
     print("token is : $token");
   }
 
-  // runApp(MultiProvider(
-  //   providers: [
-  //     ChangeNotifierProvider(
-  //       builder: (_) => GoSocketProvider(),
-  //     ),
-  //     ChangeNotifierProvider(
-  //       builder: (_) => SignalRProvider(),
-  //     ),
-  //     ChangeNotifierProvider(
-  //       builder: (_) => ThemeProvider(prefs),
-  //     ),
+  SqliteHelper sqliteHelper = SqliteHelper();
+  UserLoginModel loginModel = await sqliteHelper.findCurLoginRecord();
 
-  //   ],
-  //   child: MyApp(
-  //     prefs: prefs,
-  //   ),
-  // ));
-  runApp(MaterialApp(
-      theme: ThemeData(
-          splashColor: Colors.transparent, highlightColor: Colors.transparent),
-      home: MultiProvider(providers: [
-        ChangeNotifierProvider(
-          builder: (_) => LoginProvider(),
-        )
-      ], child: 
-      LoginMain()
-      
-      )));
+  if (loginModel.loginId != "" && loginModel.loginId != null) {
+    if (DateTime.now().difference(loginModel.loginDate).inDays <= 5) {
+      var dio = DioHelper().dio;
+      var result = await dio.get("/user/ifSameIMEI",
+          queryParameters: {"loginId": loginModel.loginId, "IMEI": await getImei()});
+      if (result.data['ifSame'] == true) {
+        passLogin(prefs);
+      } else {
+        normalLogin();
+      }
+    } else {
+      normalLogin();
+    }
+  } else {
+    normalLogin();
+  }
 }
 
 class MyApp extends StatelessWidget with WidgetsBindingObserver {

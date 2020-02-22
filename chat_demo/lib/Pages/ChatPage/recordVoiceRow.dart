@@ -1,12 +1,10 @@
 import 'dart:io';
 
 import 'package:chat_demo/Provider/XFVoiceProvider.dart';
-import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
 import 'package:chat_demo/Tools/nativeTool.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class RecordVoiceRow extends StatelessWidget {
@@ -15,7 +13,6 @@ class RecordVoiceRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VoiceRecordProvider provider = Provider.of<VoiceRecordProvider>(context);
-    SignalRProvider signalRProvider = Provider.of<SignalRProvider>(context);
     XFVoiceProvider xfVoiceProvider = Provider.of<XFVoiceProvider>(context);
     double rpx = MediaQuery.of(context).size.width / 750;
     // String filePath;

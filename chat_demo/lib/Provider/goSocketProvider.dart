@@ -1,25 +1,35 @@
 import 'dart:convert';
 
+import 'package:chat_demo/Model/SendMsgTemplate.dart';
 import 'package:chat_demo/Model/chatRecordModel.dart';
 import 'package:chat_demo/Model/goReceiveMsgModel.dart';
 import 'package:chat_demo/Model/goWebsocketModel.dart';
+import 'package:chat_demo/Tools/StaticMembers.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/io.dart';
 
 class GoSocketProvider with ChangeNotifier {
   IOWebSocketChannel channel;
-  String socketUrl = "ws://192.168.2.111/socket";
+  String socketUrl = "ws://192.168.0.2/socket";
   List<ChatRecord> records;
   var connId;
+  String ava1;
+  String ava2;
+  IOWebSocketChannel conn;
   GoSocketProvider() {
+    
     connWebSocket();
+  }
+  setConn(connection){
+    conn=connection;
+    notifyListeners();
   }
 
   connWebSocket() async {
     records = List<ChatRecord>();
-    String ava1 =
+     ava1 =
         'https://pic2.zhimg.com/v2-d2f3715564b0b40a8dafbfdec3803f97_is.jpg';
-    String ava2 =
+     ava2 =
         'https://pic4.zhimg.com/v2-0edac6fcc7bf69f6da105fe63268b84c_is.jpg';
 
     //chatRecord type 0 text 1 voice 2 image 3 video
@@ -46,6 +56,7 @@ class GoSocketProvider with ChangeNotifier {
           notifyListeners();
           break;
         case "onReceiveMsg":
+          
           break;
         default:
           break;
@@ -69,6 +80,28 @@ class GoSocketProvider with ChangeNotifier {
 
   addChatRecord(ChatRecord record) {
     records.add(record);
+    notifyListeners();
+  }
+
+  sendMessage(msg) {
+    records.add(ChatRecord(
+        content: msg, avatarUrl: ava1, sender: SENDER.SELF, chatType: 0));
+    // conn.invoke('receiveMsgAsync', args: [
+    //   jsonEncode(
+    //       SendMsgTemplate(fromWho: connId, toWho: '', message: msg,avatarUrl: ava1,makerName: "张三").toJson())
+    // ]);
+
+    notifyListeners();
+  }
+
+  addVoiceFromXF(String filePath) {
+    records.add(ChatRecord(
+      content: filePath,
+      avatarUrl: ava2,
+      sender: 0,
+      chatType: 1,
+      voiceDuration: 3,
+    ));
     notifyListeners();
   }
 }

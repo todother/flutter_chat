@@ -4,6 +4,7 @@ import 'package:chat_demo/Model/chatRecordModel.dart';
 import 'package:chat_demo/Pages/VideoChat/webRtcPage.dart';
 import 'package:chat_demo/Provider/bottomRowAnimProvider.dart';
 import 'package:chat_demo/Provider/chooseFileProvider.dart';
+import 'package:chat_demo/Provider/goSocketProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/webRTCProvider.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
@@ -22,7 +23,7 @@ class ChatBottomFuncSheet extends StatelessWidget {
         Provider.of<BottomRowAnimProvider>(context);
     ChooseFileProvider chooseFileProvider =
         Provider.of<ChooseFileProvider>(context);
-    SignalRProvider signalRProvider = Provider.of<SignalRProvider>(context);
+    GoSocketProvider goSocketProvider = Provider.of<GoSocketProvider>(context);
     return Container(
         height: provider.bottomSheetHeight,
         width: MediaQuery.of(context).size.width,
@@ -101,7 +102,7 @@ class ChatBottomFuncSheet extends StatelessWidget {
                           avatarUrl:
                               'https://pic2.zhimg.com/v2-d2f3715564b0b40a8dafbfdec3803f97_is.jpg',
                           sender: SENDER.SELF);
-                      signalRProvider.addChatRecord(record);
+                      goSocketProvider.addChatRecord(record);
                     },
                   )),
                   Container(

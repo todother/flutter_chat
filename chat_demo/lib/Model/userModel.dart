@@ -9,6 +9,7 @@ class UserModel {
   String userName;
   bool ifMale;
   String avatarUrl;
+  
 
   UserModel({this.ifMale,this.userId,this.userName,this.avatarUrl});
 

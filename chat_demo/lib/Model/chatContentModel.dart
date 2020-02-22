@@ -5,7 +5,6 @@ part 'chatContentModel.g.dart';
 
 @JsonSerializable()
 
-
 class ChatContentModel{
   List<UserModel> userIds;
   String lastContent;

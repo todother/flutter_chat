@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
-import 'package:chat_demo/Pages/Login/loginMain.dart';
-import 'package:chat_demo/Provider/signalRProvider.dart';
+import 'package:chat_demo/Model/userLoginModel.dart';
 import 'package:chat_demo/Provider/themeProvider.dart';
 import 'package:chat_demo/Tools/dioHelper.dart';
+import 'package:chat_demo/Tools/sqliteHelper.dart';
+import 'package:device_info/device_info.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -26,12 +28,34 @@ class LoginProvider extends State<StatefulWidget>
   Timer interval;
   bool ifValidUserName = false;
   String userName;
+  String imei;
+  SqliteHelper sqliteHelper;
 
   bool ifStartRequest = false;
 
   int curLoginWidget; //0 quick 1 normal
 
+  getImei() async {
+    String imeiT;
+    if (Platform.isIOS) {
+      var iosInfo = await DeviceInfoPlugin().iosInfo;
+      imeiT = iosInfo.identifierForVendor;
+    } else if (Platform.isAndroid) {
+      var andInfo = await DeviceInfoPlugin().androidInfo;
+      imeiT = andInfo.androidId;
+    }
+    return imeiT;
+  }
+
   LoginProvider() {
+    initPage();
+  }
+
+  Future ifNeedLogin() async {
+    
+  }
+
+  initPage() {
     curLoginWidget = 0;
     userNameController.addListener(() {
       // print('in');
@@ -88,12 +112,16 @@ class LoginProvider extends State<StatefulWidget>
     notifyListeners();
 
     await Future.delayed(Duration(seconds: 1));
-
+    imei = await getImei();
     var result = await dio.get("/user/ifUserExistsByTelNo",
-        queryParameters: {"telNo": "18611111881"});
+        queryParameters: {"telNo": "18611111881", "imei": imei});
     ifStartRequest = false;
     notifyListeners();
     if (result.data["result"] == true) {
+      sqliteHelper = SqliteHelper();
+      await sqliteHelper.delCurLoginRecord();
+      String loginId=result.data["userId"];
+      await sqliteHelper.addNewLogin(loginId, imei);
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
