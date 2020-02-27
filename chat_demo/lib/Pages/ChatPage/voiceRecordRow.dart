@@ -1,9 +1,12 @@
 import 'dart:math';
 
+import 'package:chat_demo/Model/chatModel.dart';
 import 'package:chat_demo/Model/chatRecordModel.dart';
+import 'package:chat_demo/Provider/globalDataProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'chatRow.dart';
 
@@ -12,35 +15,36 @@ class VoiceRecordRow extends StatelessWidget {
       {Key key, @required this.voiceRecordProvider, @required this.record})
       : super(key: key);
   final VoiceRecordProvider voiceRecordProvider;
-  final ChatRecord record;
+  final ChatModel record;
   @override
   Widget build(BuildContext context) {
+    GlobalDataProvider globalDataProvider=Provider.of<GlobalDataProvider>(context);
     double rpx = MediaQuery.of(context).size.width / 750;
     return GestureDetector(
         onTap: () {
-          voiceRecordProvider.playVoice(record.content);
+          voiceRecordProvider.playVoice(record.contentModel.voicePath);
         },
         child: ChatRow(
-          avatarUrl: record.avatarUrl,
+          avatarUrl: record.user.avatar,
           content: Container(
             width: 100 * rpx,
             child: Row(
-              mainAxisAlignment: record.sender == SENDER.SELF
+              mainAxisAlignment: record.user.userId == globalDataProvider.userId
                   ? MainAxisAlignment.end
                   : MainAxisAlignment.start,
               children: <Widget>[
-                record.sender == SENDER.SELF
-                    ? Text(record.voiceDuration.toString())
+                record.user.userId == globalDataProvider.userId
+                    ? Text(record.contentModel.voiceLength.toString())
                     : Transform.rotate(angle: pi / 2, child: Icon(Icons.wifi)),
-                record.sender == SENDER.SELF
+                record.user.userId == globalDataProvider.userId
                     ? Transform.rotate(angle: -pi / 2, child: Icon(Icons.wifi))
                     : Text(record.toString())
               ],
             ),
           ),
-          sender: record.sender,
+          sender: record.user.userId,
           chatType: CHATTYPE.VOICE,
-          voiceDuration: record.voiceDuration,
+          voiceDuration: record.contentModel.voiceLength,
         ));
   }
 }

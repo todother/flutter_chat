@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chat_demo/Model/chatModel.dart';
 import 'package:chat_demo/Model/chatRecordModel.dart';
 import 'package:chat_demo/Pages/VideoPage/videoPageMain.dart';
 import 'package:chat_demo/Provider/videoProvider.dart';
@@ -11,18 +12,18 @@ import 'chatRow.dart';
 
 class ImageRecordRow extends StatelessWidget {
   const ImageRecordRow({Key key, @required this.record}) : super(key: key);
-  final ChatRecord record;
+  final ChatModel record;
   @override
   Widget build(BuildContext context) {
     var tag=Uuid().v4();
     double rpx = MediaQuery.of(context).size.width / 750;
     
     return ChatRow(
-      avatarUrl: record.avatarUrl,
-      sender: record.sender,
+      avatarUrl: record.user.avatar,
+      sender: record.user.userId,
       content: Container(
-        width: record.imgWidth,
-        height: record.imgHeight,
+        // width: record.imgWidth,
+        // height: record.imgHeight,
         child: Stack(children: [
           GestureDetector(
               onTap: () {
@@ -33,22 +34,22 @@ class ImageRecordRow extends StatelessWidget {
                               providers: [
                                 ChangeNotifierProvider(
                                   builder: (context) =>
-                                      VideoProvider(record.videoPath),
+                                      VideoProvider(record.contentModel.videoPath),
                                 ),
                               ],
-                              child: VideoPlayerPage(tag:record.content,),
+                              child: VideoPlayerPage(tag:record.contentModel.content,),
                             )));
               },
               child: Hero(
-                tag: record.content,
+                tag: record.contentModel.contentType,
                 child: Image.file(
-                  File(record.content),
-                  fit: record.imgFitType,
+                  File(record.contentModel.imgPath),
+                  fit: BoxFit.fitWidth, //!!!!!!need to update
                 )
               )),
           Positioned(
-              left: (record.imgWidth - 80 * rpx) / 2,
-              top: (record.imgHeight - 110 * rpx) / 2,
+              // left: (record.imgWidth - 80 * rpx) / 2,
+              // top: (record.imgHeight - 110 * rpx) / 2,
               child: Container(
                   width: 60 * rpx,
                   margin: EdgeInsets.all(10 * rpx),

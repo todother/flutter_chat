@@ -48,6 +48,7 @@ class JPushProvider with ChangeNotifier {
                       ],
                       child: DetailPage(
                         webRTCProvider: webRTCProvider,
+                        
                       ))));
     });
   }

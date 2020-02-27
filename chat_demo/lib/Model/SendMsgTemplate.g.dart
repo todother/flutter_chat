@@ -8,21 +8,19 @@ part of 'SendMsgTemplate.dart';
 
 SendMsgTemplate _$SendMsgTemplateFromJson(Map<String, dynamic> json) {
   return SendMsgTemplate(
-    fromWho: json['fromWho'] as String,
-    message: json['message'] as String,
-    toWho: json['toWho'] as String,
+    fromUser: json['fromUser'] as String,
+    content: json['content'] as String,
+    toUser: json['toUser'] as String,
     voiceLength: json['voiceLength'] as int,
-    avatarUrl: json['avatarUrl'] as String,
-    makerName: json['makerName'] as String,
+    contentType: json['contentType'] as int,
   );
 }
 
 Map<String, dynamic> _$SendMsgTemplateToJson(SendMsgTemplate instance) =>
     <String, dynamic>{
-      'fromWho': instance.fromWho,
-      'toWho': instance.toWho,
-      'message': instance.message,
+      'fromUser': instance.fromUser,
+      'toUser': instance.toUser,
+      'content': instance.content,
       'voiceLength': instance.voiceLength,
-      'makerName': instance.makerName,
-      'avatarUrl': instance.avatarUrl,
+      'contentType': instance.contentType,
     };

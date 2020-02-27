@@ -3,8 +3,11 @@ import 'package:chat_demo/Pages/ChatPage/chatDetail.dart';
 import 'package:chat_demo/Provider/XFVoiceProvider.dart';
 import 'package:chat_demo/Provider/bottomRowAnimProvider.dart';
 import 'package:chat_demo/Provider/chatListProvider.dart';
+import 'package:chat_demo/Provider/chatRecordsProvider.dart';
 import 'package:chat_demo/Provider/chooseFileProvider.dart';
 import 'package:chat_demo/Provider/contentEditingProvider.dart';
+import 'package:chat_demo/Provider/globalDataProvider.dart';
+import 'package:chat_demo/Provider/goSocketProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
 import 'package:chat_demo/Provider/webRTCProvider.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +20,10 @@ class ChatList extends StatelessWidget {
   Widget build(BuildContext context) {
     ChatListProvider provider = Provider.of<ChatListProvider>(context);
     WebRTCProvider webRTCProvider = Provider.of<WebRTCProvider>(context);
+    GlobalDataProvider globalDataProvider =
+        Provider.of<GlobalDataProvider>(context);
+    GoSocketProvider goSocketProvider = Provider.of<GoSocketProvider>(context);
+    goSocketProvider.chatListProvider=provider;
     if (provider == null) {
       return Center(child: CircularProgressIndicator());
     }
@@ -26,10 +33,10 @@ class ChatList extends StatelessWidget {
         SingleChildScrollView(
             controller: controller,
             child: Column(mainAxisSize: MainAxisSize.min, children: [
-              ChatBox(),
+              // ChatBox(),
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: provider.chats.length,
+                itemCount: provider.chatModels.length,
                 controller: controller,
                 itemBuilder: (BuildContext context, int index) {
                   return Column(mainAxisSize: MainAxisSize.min, children: [
@@ -59,19 +66,34 @@ class ChatList extends StatelessWidget {
                                             ChangeNotifierProvider(
                                               builder: (_) =>
                                                   ChooseFileProvider(),
+                                            ),
+                                            ChangeNotifierProvider(
+                                              builder: (_) =>
+                                                  ChatRecordsProvider(
+                                                      globalDataProvider.userId,
+                                                      provider
+                                                          .chatModels[index]
+                                                          .contentModel
+                                                          .otherId),
                                             )
                                           ],
                                           child: DetailPage(
                                             webRTCProvider: webRTCProvider,
+                                            goSocketProvider: goSocketProvider,
+                                            otherId: provider.chatModels[index]
+                                                .contentModel.otherId,
+                                            chatListProvider:provider
                                           ))));
                         },
                         child: ListTile(
                           leading: Image.network(
-                              provider.chats[index].userIds[0].avatarUrl),
-                          title:
-                              Text(provider.chats[index].userIds[0].userName),
-                          subtitle: Text(provider.chats[index].lastContent),
-                          trailing: Text(provider.chats[index].lastUpdateTime),
+                              provider.chatModels[index].user.avatar),
+                          title: Text(provider.chatModels[index].user.userName),
+                          subtitle: Text(
+                              provider.chatModels[index].contentModel.content),
+                          trailing: Text(provider
+                              .chatModels[index].contentModel.insertTime
+                              .toString()),
                         )),
                     Divider()
                   ]);

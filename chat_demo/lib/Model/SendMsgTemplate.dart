@@ -4,13 +4,14 @@ part 'SendMsgTemplate.g.dart';
 @JsonSerializable()
 
 class SendMsgTemplate{
-  String fromWho;
-  String toWho;
-  String message;
+  String fromUser;
+  String toUser;
+  String content;
   int voiceLength;
-  String makerName;
-  String avatarUrl;
-  SendMsgTemplate({this.fromWho,this.message,this.toWho,this.voiceLength,this.avatarUrl,this.makerName});
+  int contentType;
+  // String makerName;
+  // String avatarUrl;
+  SendMsgTemplate({this.fromUser,this.content,this.toUser,this.voiceLength,this.contentType});
 
   factory SendMsgTemplate.fromJson(Map<String, dynamic> json) => _$SendMsgTemplateFromJson(json);
   Map<String, dynamic> toJson() => _$SendMsgTemplateToJson(this);

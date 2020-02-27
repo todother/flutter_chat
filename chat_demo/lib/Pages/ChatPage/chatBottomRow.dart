@@ -1,12 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:chat_demo/Model/chatModel.dart';
+import 'package:chat_demo/Model/sqliteModel/tchatlog.dart';
+import 'package:chat_demo/Model/sqliteModel/tuser.dart';
 import 'package:chat_demo/Model/xFVoiceConvertModel.dart';
 import 'package:chat_demo/Provider/XFVoiceProvider.dart';
 import 'package:chat_demo/Provider/bottomRowAnimProvider.dart';
+import 'package:chat_demo/Provider/chatRecordsProvider.dart';
+import 'package:chat_demo/Provider/globalDataProvider.dart';
 import 'package:chat_demo/Provider/goSocketProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
 import 'package:chat_demo/Provider/webRTCProvider.dart';
+import 'package:chat_demo/Tools/StaticMembers.dart';
+import 'package:chat_demo/Tools/sqliteHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -26,7 +33,8 @@ class ChatBottomRow extends StatelessWidget {
       @required this.voiceRecordProvider,
       @required this.xfVoiceProvider,
       @required this.txtController,
-      @required this.webRTCProvider})
+      @required this.webRTCProvider,
+      @required this.otherId})
       : super(key: key);
   final double rpx;
   final double toBottom;
@@ -35,104 +43,129 @@ class ChatBottomRow extends StatelessWidget {
   final TextEditingController txtController;
   final GoSocketProvider provider;
   final WebRTCProvider webRTCProvider;
+  final String otherId;
   @override
   Widget build(BuildContext context) {
     // var channel = voiceRecordProvider.channel;
-    BottomRowAnimProvider bottomRowAnimProvider=Provider.of<BottomRowAnimProvider>(context);
-    var file=null;
+    BottomRowAnimProvider bottomRowAnimProvider =
+        Provider.of<BottomRowAnimProvider>(context);
+    GlobalDataProvider globalDataProvider =
+        Provider.of<GlobalDataProvider>(context);
+    ChatRecordsProvider chatRecordsProvider =
+        Provider.of<ChatRecordsProvider>(context);
+    
+    var file = null;
     return Container(
-      color: Colors.grey[100],
-      child: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [ Container(
-                  color: Colors.grey[100],
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.only(bottom: toBottom),
-                  height: 110 * rpx,
-                  child: Row(
-                    children: <Widget>[
-                      voiceRecordProvider.ifVoiceRecord
-                          ? OutlinedIconButton(
-                              icon: Icon(Icons.keyboard),
-                              onTap: () {
-                                voiceRecordProvider.updateVoiceRecord();
-                              },
-                            )
-                          : Transform.rotate(
-                              angle: pi / 2,
-                              child: OutlinedIconButton(
-                                icon: Icon(Icons.wifi),
-                                onTap: () {
-                                  voiceRecordProvider.updateVoiceRecord();
-                                },
-                              )),
-                      SizedBox(
-                        width: 10 * rpx,
-                      ),
-                      Expanded(
-                          child: voiceRecordProvider.ifVoiceRecord
-                              ? RecordVoiceRow()
-                              : Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10 * rpx),
-                                  color: Colors.white,
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                    ),
-                                    maxLines: 1,
-                                    autocorrect: false,
-                                    controller: txtController,
-                                  ))),
-                      SizedBox(
-                        width: 10 * rpx,
-                      ),
-                      OutlinedIconButton(
-                        icon: Icon(Icons.face),
-                        onTap: () async {
-                          file=await ImagePicker.pickVideo(source: ImageSource.gallery);
-                          var a=0;
+        color: Colors.grey[100],
+        child: SafeArea(
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Container(
+            color: Colors.grey[100],
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.only(bottom: toBottom),
+            height: 110 * rpx,
+            child: Row(
+              children: <Widget>[
+                voiceRecordProvider.ifVoiceRecord
+                    ? OutlinedIconButton(
+                        icon: Icon(Icons.keyboard),
+                        onTap: () {
+                          voiceRecordProvider.updateVoiceRecord();
+                        },
+                      )
+                    : Transform.rotate(
+                        angle: pi / 2,
+                        child: OutlinedIconButton(
+                          icon: Icon(Icons.wifi),
+                          onTap: () {
+                            voiceRecordProvider.updateVoiceRecord();
+                          },
+                        )),
+                SizedBox(
+                  width: 10 * rpx,
+                ),
+                Expanded(
+                    child: voiceRecordProvider.ifVoiceRecord
+                        ? RecordVoiceRow()
+                        : Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10 * rpx),
+                            color: Colors.white,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                              ),
+                              maxLines: 1,
+                              autocorrect: false,
+                              controller: txtController,
+                            ))),
+                SizedBox(
+                  width: 10 * rpx,
+                ),
+                OutlinedIconButton(
+                  icon: Icon(Icons.face),
+                  onTap: () async {
+                    file = await ImagePicker.pickVideo(
+                        source: ImageSource.gallery);
+                    var a = 0;
+                  },
+                ),
+                txtController.text.length > 0
+                    ? Container(
+                        width: 140 * rpx,
+                        child: RaisedButton(
+                          color: Colors.green[300],
+                          child: Text(
+                            "提交",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () async {
+                            ChatModel chatModel = ChatModel();
+                            Tuser user = await SqliteHelper()
+                                .getUserInfo(globalDataProvider.userId);
+                            TChatLog chatLog = TChatLog(
+                                fromUser: globalDataProvider.userId,
+                                otherId: otherId,
+                                content: txtController.text,
+                                contentType: CHATTYPE.TEXT,
+                                insertTime: DateTime.now());
+                            chatModel.user = user;
+                            chatModel.contentModel = chatLog;
+                            chatRecordsProvider
+                                .updateChatRecordsInChat(chatModel);
+
+                            provider.sendMessage(
+                                txtController.text,
+                                globalDataProvider.userId,
+                                otherId,
+                                CHATTYPE.TEXT);
+
+                            txtController.clear();
+                          },
+                        ))
+                    : OutlinedIconButton(
+                        icon: Icon(Icons.add),
+                        onTap: () {
+                          bottomRowAnimProvider.runAnimation();
                         },
                       ),
-                      txtController.text.length > 0
-                          ? Container(
-                              width: 140 * rpx,
-                              child: RaisedButton(
-                                color: Colors.green[300],
-                                child: Text(
-                                  "提交",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                onPressed: () {
-                                  provider.sendMessage(txtController.text);
-                                  txtController.clear();
-                                },
-                              ))
-                          : OutlinedIconButton(
-                              icon: Icon(Icons.add),
-                              onTap: () {
-                                bottomRowAnimProvider.runAnimation();
-                              },
-                            ),
-                      SizedBox(
-                        width: 10 * rpx,
-                      ),
-                      voiceRecordProvider.appDocPath == null
-                          ? Container()
-                          : ChannelWatcher(
-                              docPath: voiceRecordProvider.appDocPath,
-                              goSocketProvider: provider,
-                              xFVoice: xfVoiceProvider,
-                            ),
-                    ],
-                  ),
+                SizedBox(
+                  width: 10 * rpx,
                 ),
-                ChatBottomFuncSheet(webRTCProvider: webRTCProvider,)
-                
-          ]
-        )
-      )
-    );
+                voiceRecordProvider.appDocPath == null
+                    ? Container()
+                    : ChannelWatcher(
+                        docPath: voiceRecordProvider.appDocPath,
+                        goSocketProvider: provider,
+                        xFVoice: xfVoiceProvider,
+                      ),
+              ],
+            ),
+          ),
+          ChatBottomFuncSheet(
+            webRTCProvider: webRTCProvider,
+            otherId: otherId,
+          )
+        ])));
   }
 }
 
@@ -148,11 +181,9 @@ class _ChannelWatcherVTTState extends State<ChannelWatcherVTT> {
   @override
   void initState() {
     // TODO: implement initState
-    xfVoiceProvider=widget.xfVoice;
-    xfVoiceProvider.addListener((){
-      setState(() {
-        
-      });
+    xfVoiceProvider = widget.xfVoice;
+    xfVoiceProvider.addListener(() {
+      setState(() {});
     });
     super.initState();
   }
@@ -204,10 +235,10 @@ class _ChannelWatcherState extends State<ChannelWatcher> {
 
   @override
   void dispose() {
-    if(channel?.sink!=null){
+    if (channel?.sink != null) {
       channel.sink.close();
     }
-    
+
     super.dispose();
   }
 
@@ -233,7 +264,7 @@ class _ChannelWatcherState extends State<ChannelWatcher> {
                       ifAdded = true;
                       File file = File(filePath);
                       file.writeAsBytesSync(fileIntList);
-                      widget.goSocketProvider.addVoiceFromXF(filePath);
+                      // widget.goSocketProvider.addVoiceFromXF(filePath);
                     }
                   });
                 }

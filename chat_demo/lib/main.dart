@@ -1,7 +1,11 @@
 import 'dart:io';
 
+// import 'package:amap/amap.dart';
 import 'package:chat_demo/Model/userLoginModel.dart';
+import 'package:chat_demo/Pages/Friends/friendsMain.dart';
 import 'package:chat_demo/Provider/chatListProvider.dart';
+import 'package:chat_demo/Provider/friendsProvider.dart';
+import 'package:chat_demo/Provider/globalDataProvider.dart';
 import 'package:chat_demo/Provider/goSocketProvider.dart';
 import 'package:chat_demo/Provider/jPushProvider.dart';
 import 'package:chat_demo/Provider/loginProvider.dart';
@@ -16,6 +20,7 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:websocket_manager/websocket_manager.dart';
 import 'Pages/Login/loginMain.dart';
 import 'Pages/MainPage/chatList.dart';
 
@@ -31,26 +36,38 @@ getImei() async {
   return imeiT;
 }
 
-void normalLogin() {
+void normalLogin(String userId) {
   runApp(MaterialApp(
       theme: ThemeData(
           splashColor: Colors.transparent, highlightColor: Colors.transparent),
       home: MultiProvider(providers: [
         ChangeNotifierProvider(
           builder: (_) => LoginProvider(),
+        ),
+        ChangeNotifierProvider(
+          builder: (_) => GlobalDataProvider(userId),
+        ),
+        ChangeNotifierProvider(
+          builder: (_) => FriendsProvider(),
         )
       ], child: LoginMain())));
 }
 
-void passLogin(SharedPreferences prefs) {
+void passLogin(SharedPreferences prefs, String userId) {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
-        builder: (_) => GoSocketProvider(),
+        builder: (_) => GoSocketProvider(userId),
       ),
       ChangeNotifierProvider(
         builder: (_) => ThemeProvider(prefs),
       ),
+      ChangeNotifierProvider(
+        builder: (_) => GlobalDataProvider(userId),
+      ),
+      ChangeNotifierProvider(
+        builder: (_) => FriendsProvider(),
+      )
     ],
     child: MyApp(
       prefs: prefs,
@@ -60,13 +77,14 @@ void passLogin(SharedPreferences prefs) {
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+  // var result=await Amap().initAmap();
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  if (!prefs.containsKey('token')) {
-    var token = await NativeTool.getTokenForNotify();
-    await prefs.setString('token', token);
-    print("token is : $token");
-  }
+  // if (!prefs.containsKey('token')) {
+  //   var token = await NativeTool.getTokenForNotify();
+  //   await prefs.setString('token', token);
+  //   print("token is : $token");
+  // }
 
   SqliteHelper sqliteHelper = SqliteHelper();
   UserLoginModel loginModel = await sqliteHelper.findCurLoginRecord();
@@ -74,18 +92,21 @@ void main(List<String> args) async {
   if (loginModel.loginId != "" && loginModel.loginId != null) {
     if (DateTime.now().difference(loginModel.loginDate).inDays <= 5) {
       var dio = DioHelper().dio;
-      var result = await dio.get("/user/ifSameIMEI",
-          queryParameters: {"loginId": loginModel.loginId, "IMEI": await getImei()});
+      var result = await dio.get("/user/ifSameIMEI", queryParameters: {
+        "loginId": loginModel.loginId,
+        "IMEI": await getImei(),
+        "pushId": "pushId"
+      });
       if (result.data['ifSame'] == true) {
-        passLogin(prefs);
+        passLogin(prefs, loginModel.loginId);
       } else {
-        normalLogin();
+        normalLogin(loginModel.loginId);
       }
     } else {
-      normalLogin();
+      normalLogin(loginModel.loginId);
     }
   } else {
-    normalLogin();
+    normalLogin("");
   }
 }
 
@@ -102,6 +123,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    // GlobalDataProvider globalDataProvider=Provider.of<GlobalDataProvider>(context);
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
     return MaterialApp(
@@ -114,7 +136,12 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
       darkTheme: ThemeData.dark(),
       themeMode:
           themeProvider.lightMode == 0 ? ThemeMode.light : ThemeMode.dark,
-      home: MainPage(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(builder: (_)=>WebRTCProvider(context),)
+        ],
+        child: MainPage()
+      ),
     );
   }
 }
@@ -177,6 +204,12 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     List<PopupMenuEntry> menus = List<PopupMenuEntry>();
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    GlobalDataProvider globalDataProvider =
+        Provider.of<GlobalDataProvider>(context);
+    GoSocketProvider goSocketProvider = Provider.of<GoSocketProvider>(context);
+    WebRTCProvider webRTCProvider = Provider.of<WebRTCProvider>(context);
+    FriendsProvider friendsProvider=Provider.of<FriendsProvider>(context);
+
     prefs = themeProvider.sharedPreferences;
     return Scaffold(
       appBar: AppBar(
@@ -203,13 +236,26 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       ),
       body: MultiProvider(providers: [
         ChangeNotifierProvider(
-          builder: (_) => ChatListProvider(),
+          builder: (_) => ChatListProvider(globalDataProvider.userId),
         ),
         ChangeNotifierProvider(
           builder: (_) => WebRTCProvider(context),
         ),
       ], child: ChatList()),
       bottomNavigationBar: BottomNavigationBar(
+        onTap: (index) async {
+          if (index == 1) {
+            await friendsProvider.getAllUsers();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => FriendsMain(
+                          goSocketProvider: goSocketProvider,
+                          webRTCProvider: webRTCProvider,
+                          globalDataProvider: globalDataProvider,
+                        )));
+          }
+        },
         items: [
           BottomNavigationBarItem(
               icon: Icon(
@@ -232,7 +278,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
                 Icons.chat_bubble,
                 color: Colors.greenAccent,
               ),
-              title: Text("聊天"))
+              title: Text("好友"))
         ],
       ),
     );

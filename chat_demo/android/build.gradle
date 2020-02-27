@@ -4,6 +4,8 @@ buildscript {
         google()
         jcenter()
         maven {url 'http://developer.huawei.com/repo/'}
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven{ url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
 //        maven { url 'http://maven.huawei.com' }
     }
 
@@ -16,6 +18,8 @@ buildscript {
 
 allprojects {
     repositories {
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven{ url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
         google()
         jcenter()
         maven {url 'http://developer.huawei.com/repo/'}

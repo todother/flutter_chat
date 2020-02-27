@@ -1,16 +1,23 @@
 import 'dart:math';
 
+import 'package:chat_demo/Model/chatModel.dart';
 import 'package:chat_demo/Model/chatRecordModel.dart';
+import 'package:chat_demo/Model/sqliteModel/tchatlog.dart';
+import 'package:chat_demo/Model/sqliteModel/tuser.dart';
 import 'package:chat_demo/Pages/MapPage/gaodeMapPage.dart';
 import 'package:chat_demo/Provider/XFVoiceProvider.dart';
 import 'package:chat_demo/Provider/bottomRowAnimProvider.dart';
+import 'package:chat_demo/Provider/chatListProvider.dart';
+import 'package:chat_demo/Provider/chatRecordsProvider.dart';
 import 'package:chat_demo/Provider/contentEditingProvider.dart';
 import 'package:chat_demo/Provider/gaodeMapProvider.dart';
+import 'package:chat_demo/Provider/globalDataProvider.dart';
 import 'package:chat_demo/Provider/goSocketProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/voiceRecordProvider.dart';
 import 'package:chat_demo/Provider/webRTCProvider.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
+import 'package:chat_demo/Tools/sqliteHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,11 +25,19 @@ import 'chatBottomRow.dart';
 import 'chatDetailList.dart';
 
 class DetailPage extends StatelessWidget {
-  const DetailPage({Key key,@required this.webRTCProvider}) : super(key: key);
+  const DetailPage(
+      {Key key,
+      @required this.webRTCProvider,
+      @required this.goSocketProvider,
+      @required this.otherId,@required this.chatListProvider})
+      : super(key: key);
   final WebRTCProvider webRTCProvider;
+  final GoSocketProvider goSocketProvider;
+  final String otherId;
+  final ChatListProvider chatListProvider;
   @override
   Widget build(BuildContext context) {
-    GoSocketProvider provider = Provider.of<GoSocketProvider>(context);
+    // GoSocketProvider provider = Provider.of<GoSocketProvider>(context);
     VoiceRecordProvider voiceRecordProvider =
         Provider.of<VoiceRecordProvider>(context);
     ContentEditingProvider contentEditingProvider =
@@ -30,6 +45,12 @@ class DetailPage extends StatelessWidget {
     XFVoiceProvider xfVoiceProvider = Provider.of<XFVoiceProvider>(context);
     BottomRowAnimProvider bottomRowAnimProvider =
         Provider.of<BottomRowAnimProvider>(context);
+    GlobalDataProvider globalDataProvider =
+        Provider.of<GlobalDataProvider>(context);
+    ChatRecordsProvider chatRecordsProvider =
+        Provider.of<ChatRecordsProvider>(context);
+    goSocketProvider.updateChatDetail(chatRecordsProvider);
+    // goSocketProvider.updateChatListProvider(chatListProvider);
     // if (provider == null || provider.conn == null || provider.connId == null) {
     //   return Center(
     //     child: CircularProgressIndicator(),
@@ -67,15 +88,19 @@ class DetailPage extends StatelessWidget {
                               ),
                             ], child: GaodeMapMain())));
                 if (result != null) {
-                  ChatRecord chatRecord = ChatRecord(
-                      address: result["address"],
-                      title: result["title"],
-                      locationImg: result["filePath"],
-                      chatType: CHATTYPE.LOCATION,
-                      avatarUrl:
-                          'https://pic2.zhimg.com/v2-d2f3715564b0b40a8dafbfdec3803f97_is.jpg',
-                      sender: SENDER.SELF);
-                  provider.addChatRecord(chatRecord);
+                  TChatLog chatRecord = TChatLog(
+                    locaddress: result["address"],
+                    title: result["title"],
+                    locationImg: result["filePath"],
+                    contentType: CHATTYPE.LOCATION,
+                  );
+                  ChatModel model = ChatModel();
+                  // TChatLog newChat=TChatLog();
+                  Tuser user = await SqliteHelper()
+                      .getUserInfo(globalDataProvider.userId);
+                  model.contentModel = chatRecord;
+                  model.user = user;
+                  chatRecordsProvider.updateChatRecordsInChat(model);
                 }
               },
             )
@@ -86,13 +111,14 @@ class DetailPage extends StatelessWidget {
               bottomRowAnimProvider.reverseAnim();
             },
             child: ChatDetailList(
-              chatProvider: provider,
+              chatProvider: goSocketProvider,
             )),
         bottomNavigationBar:
             // RecordVoiceRow()
             ChatBottomRow(
-              webRTCProvider: webRTCProvider,
-          provider: provider,
+          otherId: otherId,
+          webRTCProvider: webRTCProvider,
+          provider: goSocketProvider,
           voiceRecordProvider: voiceRecordProvider,
           xfVoiceProvider: xfVoiceProvider,
           txtController: txtController,

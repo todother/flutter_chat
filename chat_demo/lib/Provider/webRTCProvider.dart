@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:chat_demo/Pages/VideoChat/webRtcPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/webrtc.dart';
-import 'package:signalr_client/signalr_client.dart';
+// import 'package:signalr_client/signalr_client.dart';
 import 'package:uuid/uuid.dart';
 
 class WebRTCProvider with ChangeNotifier {
@@ -50,7 +50,7 @@ class WebRTCProvider with ChangeNotifier {
   BuildContext context;
   RTCPeerConnection pc;
   String hostUrl = "http://192.168.0.3";
-  HubConnection conn;
+  // HubConnection conn;
   WebRTCProvider(pagecontext) {
     String url = '';
     localRenderer = RTCVideoRenderer();
@@ -63,66 +63,66 @@ class WebRTCProvider with ChangeNotifier {
     } else {
       url = '$hostUrl:5000/webRtcHub';
     }
-    conn = HubConnectionBuilder().withUrl(url).build();
-    conn.start();
-    conn.keepAliveIntervalInMilliseconds = 600000;
-    conn.on('receiveConnId', (result) {
-      connId = result.first.toString();
-    });
-    conn.on('receiveOffer', (result) async {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => WebRtcMainPage(
-                    webRtcProvider: this,
-                  )));
-      var response = json.decode(result.first);
-      pc = await createPeerConnection(iceServer, {});
-      await pc.addCandidate(RTCIceCandidate(response['candidate'],
-          response['sdpMid'], response['sdpMlineIndex']));
-      localStream = await navigator.getUserMedia(mediaConstraints);
-      pc.addStream(localStream);
+    // // conn = HubConnectionBuilder().withUrl(url).build();
+    // // conn.start();
+    // // conn.keepAliveIntervalInMilliseconds = 600000;
+    // // conn.on('receiveConnId', (result) {
+    // //   connId = result.first.toString();
+    // // });
+    // // conn.on('receiveOffer', (result) async {
+    // //   Navigator.push(
+    // //       context,
+    // //       MaterialPageRoute(
+    // //           builder: (_) => WebRtcMainPage(
+    // //                 webRtcProvider: this,
+    // //               )));
+    // //   var response = json.decode(result.first);
+    // //   pc = await createPeerConnection(iceServer, {});
+    // //   await pc.addCandidate(RTCIceCandidate(response['candidate'],
+    // //       response['sdpMid'], response['sdpMlineIndex']));
+    // //   localStream = await navigator.getUserMedia(mediaConstraints);
+    // //   pc.addStream(localStream);
 
-      localRenderer.srcObject = localStream;
-      pc.onAddStream = (stream) {
-        remoteStream = stream;
-        remoteRenderer.srcObject = stream;
-        // notifyListeners();
-      };
-      await pc.setRemoteDescription(
-          RTCSessionDescription(response['sdp'], response['type']));
-      var ansSdp = await pc.createAnswer(defaultSdpConstraints);
+    // //   localRenderer.srcObject = localStream;
+    // //   pc.onAddStream = (stream) {
+    // //     remoteStream = stream;
+    // //     remoteRenderer.srcObject = stream;
+    // //     // notifyListeners();
+    // //   };
+    // //   await pc.setRemoteDescription(
+    // //       RTCSessionDescription(response['sdp'], response['type']));
+    // //   var ansSdp = await pc.createAnswer(defaultSdpConstraints);
       
 
-      await pc.setLocalDescription(ansSdp);
+    // //   await pc.setLocalDescription(ansSdp);
       
 
       
-      pc.onIceCandidate = (candidate) {
-        if (!ifSendAnswer) {
-          ifSendAnswer = true;
-          conn.invoke('createAnswer', args: [
-            json.encode({
-              "sessionId": sessionId,
-              'connId': connId,
-              'sdp': ansSdp.sdp,
-              'type': ansSdp.type,
-              'candidate': candidate.candidate,
-              'sdpMid': candidate.sdpMid,
-              'sdpMlineIndex': candidate.sdpMlineIndex
-            })
-          ]);
-        }
-      };
-    });
+    // //   pc.onIceCandidate = (candidate) {
+    // //     if (!ifSendAnswer) {
+    // //       ifSendAnswer = true;
+    // //       conn.invoke('createAnswer', args: [
+    // //         json.encode({
+    // //           "sessionId": sessionId,
+    // //           'connId': connId,
+    // //           'sdp': ansSdp.sdp,
+    // //           'type': ansSdp.type,
+    // //           'candidate': candidate.candidate,
+    // //           'sdpMid': candidate.sdpMid,
+    // //           'sdpMlineIndex': candidate.sdpMlineIndex
+    // //         })
+    // //       ]);
+    // //     }
+    // //   };
+    // });
 
-    conn.on('receiveAnswer', (result) async {
-      var response = json.decode(result.first);
-      await pc.setRemoteDescription(
-          RTCSessionDescription(response['sdp'], response['type']));
-      await pc.addCandidate(RTCIceCandidate(response['candidate'],
-          response['sdpMid'], response['sdpMlineIndex']));
-    });
+    // conn.on('receiveAnswer', (result) async {
+    //   var response = json.decode(result.first);
+    //   await pc.setRemoteDescription(
+    //       RTCSessionDescription(response['sdp'], response['type']));
+    //   await pc.addCandidate(RTCIceCandidate(response['candidate'],
+    //       response['sdpMid'], response['sdpMlineIndex']));
+    // });
   }
 
   createOffer() async {
@@ -142,17 +142,17 @@ class WebRTCProvider with ChangeNotifier {
     pc.onIceCandidate = (candidate) async {
       if (!ifSendOffer) {
         ifSendOffer = true;
-        await conn.invoke('createOffer', args: [
-          json.encode({
-            "sessionId": sessionId,
-            'connId': connId,
-            'sdp': sdp.sdp,
-            'type': sdp.type,
-            'candidate': candidate.candidate,
-            'sdpMid': candidate.sdpMid,
-            'sdpMlineIndex': candidate.sdpMlineIndex
-          })
-        ]);
+        // await conn.invoke('createOffer', args: [
+        //   json.encode({
+        //     "sessionId": sessionId,
+        //     'connId': connId,
+        //     'sdp': sdp.sdp,
+        //     'type': sdp.type,
+        //     'candidate': candidate.candidate,
+        //     'sdpMid': candidate.sdpMid,
+        //     'sdpMlineIndex': candidate.sdpMlineIndex
+        //   })
+        // ]);
       }
     };
   }

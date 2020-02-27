@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
+// import 'package:amap/amap.dart';
 import 'package:chat_demo/Model/userLoginModel.dart';
+import 'package:chat_demo/Provider/globalDataProvider.dart';
 import 'package:chat_demo/Provider/themeProvider.dart';
 import 'package:chat_demo/Tools/dioHelper.dart';
 import 'package:chat_demo/Tools/sqliteHelper.dart';
@@ -13,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
+import 'friendsProvider.dart';
 import 'goSocketProvider.dart';
 
 class LoginProvider extends State<StatefulWidget>
@@ -51,9 +54,7 @@ class LoginProvider extends State<StatefulWidget>
     initPage();
   }
 
-  Future ifNeedLogin() async {
-    
-  }
+  Future ifNeedLogin() async {}
 
   initPage() {
     curLoginWidget = 0;
@@ -120,7 +121,10 @@ class LoginProvider extends State<StatefulWidget>
     if (result.data["result"] == true) {
       sqliteHelper = SqliteHelper();
       await sqliteHelper.delCurLoginRecord();
-      String loginId=result.data["userId"];
+      String loginId = result.data["userId"];
+      GlobalDataProvider globalDataProvider =
+          Provider.of<GlobalDataProvider>(context);
+      globalDataProvider.updateUserId(loginId);
       await sqliteHelper.addNewLogin(loginId, imei);
       Navigator.pushAndRemoveUntil(
           context,
@@ -128,11 +132,17 @@ class LoginProvider extends State<StatefulWidget>
               builder: (context) => MultiProvider(
                     providers: [
                       ChangeNotifierProvider(
-                        builder: (_) => GoSocketProvider(),
+                        builder: (_) => GoSocketProvider(loginId),
                       ),
                       ChangeNotifierProvider(
                         builder: (_) => ThemeProvider(prefs),
                       ),
+                      ChangeNotifierProvider(
+                        builder: (_) => GlobalDataProvider(loginId),
+                      ),
+                      ChangeNotifierProvider(
+                        builder: (_) => FriendsProvider(),
+                      )
                     ],
                     child: MyApp(
                       prefs: prefs,

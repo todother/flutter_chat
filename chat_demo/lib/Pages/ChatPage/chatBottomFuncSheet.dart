@@ -1,21 +1,29 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:chat_demo/Model/chatModel.dart';
 import 'package:chat_demo/Model/chatRecordModel.dart';
+import 'package:chat_demo/Model/sqliteModel/tchatlog.dart';
+import 'package:chat_demo/Model/sqliteModel/tuser.dart';
 import 'package:chat_demo/Pages/VideoChat/webRtcPage.dart';
 import 'package:chat_demo/Provider/bottomRowAnimProvider.dart';
+import 'package:chat_demo/Provider/chatRecordsProvider.dart';
 import 'package:chat_demo/Provider/chooseFileProvider.dart';
+import 'package:chat_demo/Provider/globalDataProvider.dart';
 import 'package:chat_demo/Provider/goSocketProvider.dart';
 import 'package:chat_demo/Provider/signalRProvider.dart';
 import 'package:chat_demo/Provider/webRTCProvider.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
+import 'package:chat_demo/Tools/sqliteHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class ChatBottomFuncSheet extends StatelessWidget {
-  const ChatBottomFuncSheet({Key key, @required this.webRTCProvider})
+  const ChatBottomFuncSheet({Key key, @required this.webRTCProvider,@required this.otherId})
       : super(key: key);
   final WebRTCProvider webRTCProvider;
+  final String otherId;
   @override
   Widget build(BuildContext context) {
     double rpx = MediaQuery.of(context).size.width / 750;
@@ -24,6 +32,8 @@ class ChatBottomFuncSheet extends StatelessWidget {
     ChooseFileProvider chooseFileProvider =
         Provider.of<ChooseFileProvider>(context);
     GoSocketProvider goSocketProvider = Provider.of<GoSocketProvider>(context);
+    GlobalDataProvider globalDataProvider=Provider.of<GlobalDataProvider>(context);
+    ChatRecordsProvider chatRecordsProvider=Provider.of<ChatRecordsProvider>(context);
     return Container(
         height: provider.bottomSheetHeight,
         width: MediaQuery.of(context).size.width,
@@ -92,17 +102,17 @@ class ChatBottomFuncSheet extends StatelessWidget {
                         width = width / scale;
                       }
 
-                      ChatRecord record = ChatRecord(
-                          chatType: CHATTYPE.IMAGE,
-                          imgFitType: fitType,
+                      TChatLog record = TChatLog(
+                          contentType: CHATTYPE.IMAGE,
+                          // imgFitType: fitType,
                           imgWidth: width,
                           imgHeight: height,
                           content: resultFrameImage,
-                          videoPath: filePath,
-                          avatarUrl:
-                              'https://pic2.zhimg.com/v2-d2f3715564b0b40a8dafbfdec3803f97_is.jpg',
-                          sender: SENDER.SELF);
-                      goSocketProvider.addChatRecord(record);
+                          videoPath: filePath,);
+                      Tuser user=await SqliteHelper().getUserInfo(globalDataProvider.userId);
+                      ChatModel model=ChatModel(user: user,contentModel: record);
+                      goSocketProvider.chatRecordsProvider.updateChatRecordsInChat(model);
+                      goSocketProvider.sendMessage(json.encode(model.toJson()), globalDataProvider.userId, otherId, CHATTYPE.IMAGE);
                     },
                   )),
                   Container(

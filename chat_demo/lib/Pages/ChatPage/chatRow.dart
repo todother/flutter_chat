@@ -1,6 +1,8 @@
 import 'dart:math';
+import 'package:chat_demo/Provider/globalDataProvider.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'chatDetail.dart';
 
@@ -13,13 +15,14 @@ class ChatRow extends StatelessWidget {
       @required this.chatType,
       this.voiceDuration})
       : super(key: key);
-  final int sender; //0 self 1 other
+  final String sender; //0 self 1 other
   final Widget content;
   final String avatarUrl;
   final int chatType;
   final int voiceDuration;
   @override
   Widget build(BuildContext context) {
+    GlobalDataProvider globalDataProvider=Provider.of<GlobalDataProvider>(context);
     double rpx = MediaQuery.of(context).size.width / 750;
     double arrowWidth = 10 * rpx;
     Color green = Color.fromARGB(255, 129, 233, 85);
@@ -27,19 +30,19 @@ class ChatRow extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20 * rpx, vertical: 20 * rpx),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: sender == SENDER.OTHER
+        mainAxisAlignment: sender!=globalDataProvider.userId 
             ? MainAxisAlignment.start
             : MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          sender == SENDER.OTHER
+          sender != globalDataProvider.userId 
               ? Container(
                   margin: EdgeInsets.only(right: 20 * rpx),
                   child: CircleAvatar(
                     backgroundImage: NetworkImage(avatarUrl),
                   ))
               : Container(),
-          sender == SENDER.OTHER
+          sender != globalDataProvider.userId 
               ? (chatType==CHATTYPE.IMAGE?Container(): Container(
                   padding: EdgeInsets.only(top: 20 * rpx),
                   child: CustomPaint(
@@ -54,12 +57,12 @@ class ChatRow extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: arrowWidth),
             // padding: EdgeInsets.symmetric(horizontal:15 * rpx,vertical: 10*rpx),
             decoration: BoxDecoration(
-                color: sender == SENDER.SELF
+                color: sender == globalDataProvider.userId 
                     ? (chatType == CHATTYPE.LOCATION ? Colors.white : green)
                     : Colors.white,
                 borderRadius: BorderRadius.circular(10 * rpx)),
           ),
-          sender == SENDER.SELF
+          sender == globalDataProvider.userId 
               ? (chatType==CHATTYPE.IMAGE?Container(): Container(
                   padding: EdgeInsets.only(top: 30 * rpx),
                   child: Transform.rotate(
@@ -75,7 +78,7 @@ class ChatRow extends StatelessWidget {
                     )),
                   )))
               : Container(),
-          sender == SENDER.SELF
+          sender == globalDataProvider.userId 
               ? ( Container(
                   margin: EdgeInsets.only(left: 20 * rpx),
                   child: CircleAvatar(

@@ -18,7 +18,7 @@ class GaodeMapMain extends StatelessWidget {
         body: Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
+        children: <Widget>[ 
           Container(
             height: gaodeMapProvider.mapHeight,
             child: GaodeMapView(),

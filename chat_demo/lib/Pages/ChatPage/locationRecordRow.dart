@@ -1,40 +1,44 @@
 
 import 'dart:io';
 
+import 'package:chat_demo/Model/chatModel.dart';
 import 'package:chat_demo/Model/chatRecordModel.dart';
+import 'package:chat_demo/Provider/globalDataProvider.dart';
 import 'package:chat_demo/Tools/StaticMembers.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'chatRow.dart';
 
 class LocationRecordRow extends StatelessWidget {
   const LocationRecordRow({Key key, @required this.record}) : super(key: key);
-  final ChatRecord record;
+  final ChatModel record;
   @override
   Widget build(BuildContext context) {
     double rpx = MediaQuery.of(context).size.width / 750;
+    GlobalDataProvider globalDataProvider=Provider.of<GlobalDataProvider>(context);
     double width=450*rpx;
     return ChatRow(
-      avatarUrl: record.avatarUrl,
+      avatarUrl: record.user.avatar,
       content: Container(
         width: width,
         child: Row(
-          mainAxisAlignment: record.sender == SENDER.SELF
+          mainAxisAlignment: record.user.userId == globalDataProvider.userId
               ? MainAxisAlignment.end
               : MainAxisAlignment.start,
           children: <Widget>[
             LocationCard(
-              address: record.address,
-              title: record.title,
-              locationImg: record.locationImg,
+              address: record.contentModel.locaddress,
+              title: record.contentModel.title,
+              locationImg: record.contentModel.locationImg,
               width: width,
             )
           ],
         ),
       ),
-      sender: record.sender,
+      sender: record.user.userId,
       chatType: CHATTYPE.LOCATION,
-      voiceDuration: record.voiceDuration,
+      voiceDuration: record.contentModel.voiceLength,
     );
   }
 }

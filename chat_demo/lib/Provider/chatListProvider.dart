@@ -2,41 +2,67 @@ import 'dart:math';
 
 import 'package:chat_demo/Model/chatContentModel.dart';
 import 'package:chat_demo/Model/chatModel.dart';
+import 'package:chat_demo/Model/sqliteModel/tchatlog.dart';
+import 'package:chat_demo/Model/sqliteModel/tuser.dart';
 import 'package:chat_demo/Model/userModel.dart';
+import 'package:chat_demo/Tools/sqliteHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatListProvider with ChangeNotifier {
-  List<ChatContentModel> chats;
-  List<UserModel> users;
+  List<TChatLog> chats;
+  List<Tuser> users;
   List<ChatModel> chatModels;
-  ChatListProvider() {
-    chats = List<ChatContentModel>();
-    users = List<UserModel>();
-    data.forEach((item) {
-      users.add(UserModel(
-          avatarUrl: item['avatar_url'],
-          userId: Uuid().v4().toString(),
-          userName: item['name'],
-          ifMale: true));
-    });
 
-    users =
-        users.getRange(5, data.length >= 50 ? 50 : data.length - 1).toList();
-    users.forEach((item) {
-      List<UserModel> userIds = List<UserModel>();
-      userIds.add(item);
-      chats.add(ChatContentModel(
-          ifRead: false,
-          lastContent: "这是我发来的最后一条消息",
-          lastUpdateTime: genRandomTime(),
-          userIds: userIds));
-    });
+  refreshChatList(String loginId) async {
+    chatModels=List<ChatModel>();
+    List<TChatLog> chats =
+        await SqliteHelper().getLatestChatLogForEachInstance(loginId);
+    // chats.forEach((item) async {
+    //   await genChatModel(item);
+    // });
+    int i=0;
+    for(i=0;i<chats.length;i++){
+      await genChatModel(chats[i]);
+    }
+    
+    notifyListeners();
+  }
+
+  genChatModel(TChatLog chatLog)async {
+    Tuser user=await SqliteHelper().getUserInfo(chatLog.otherId);
+    ChatModel model=ChatModel(contentModel: chatLog,user: user);
+    chatModels.add(model);
+  }
+
+  ChatListProvider(String loginId) {
+    chats = List<TChatLog>();
+    users = List<Tuser>();
+     chatModels=List<ChatModel>();
+    refreshChatList(loginId);
+    // data.forEach((item) {
+    //   users.add(UserModel(
+    //       avatarUrl: item['avatar_url'],
+    //       userId: Uuid().v4().toString(),
+    //       userName: item['name'],
+    //       ifMale: true));
+    // });
+
+    // users =
+    //     users.getRange(5, data.length >= 50 ? 50 : data.length - 1).toList();
+    // users.forEach((item) {
+    //   List<UserModel> userIds = List<UserModel>();
+    //   userIds.add(item);
+    //   chats.add(ChatContentModel(
+    //       ifRead: false,
+    //       lastContent: "这是我发来的最后一条消息",
+    //       lastUpdateTime: genRandomTime(),
+    //       userIds: userIds));
+    // });
 
     // chats.forEach((item){
     //   chatModels.add(ChatModel(chatId: Uuid().v4().toString(),contentModel: item));
     // });
-    
   }
 
   String genRandomTime() {
@@ -50,10 +76,9 @@ class ChatListProvider with ChangeNotifier {
       return "${diff.inDays}天前";
     } else if (diff.inHours > 0 && diff.inDays == 0) {
       return "${diff.inHours}小时前";
-    } else if (diff.inHours == 0 && diff.inDays == 0 && diff.inMinutes>5) {
+    } else if (diff.inHours == 0 && diff.inDays == 0 && diff.inMinutes > 5) {
       return "${diff.inMinutes}分前";
-    }
-    else{
+    } else {
       return "刚刚";
     }
     // return randTime.toString();

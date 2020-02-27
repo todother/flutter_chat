@@ -8,15 +8,16 @@ part of 'chatModel.dart';
 
 ChatModel _$ChatModelFromJson(Map<String, dynamic> json) {
   return ChatModel(
-    chatId: json['chatId'] as String,
+    user: json['user'] == null
+        ? null
+        : Tuser.fromJson(json['user'] as Map<String, dynamic>),
     contentModel: json['contentModel'] == null
         ? null
-        : ChatContentModel.fromJson(
-            json['contentModel'] as Map<String, dynamic>),
+        : TChatLog.fromJson(json['contentModel'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$ChatModelToJson(ChatModel instance) => <String, dynamic>{
-      'chatId': instance.chatId,
+      'user': instance.user,
       'contentModel': instance.contentModel,
     };
