@@ -11,6 +11,8 @@ func Register(app *iris.Application) {
 		userController.Get("/updateUserName", UpdateUserName)
 		userController.Get("/testUpdate", TestUpdateUserInfo)
 		userController.Get("/ifUserExistsByTelNo", IfUserExistsByTelNo)
+		userController.Get("/ifSameIMEI", IFSameIMEI)
+		userController.Get("/getAllUsers", GetAllUsers)
 	}
 
 	chatController := app.Party("/chat")

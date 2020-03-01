@@ -24,6 +24,11 @@ func AddNewUser(userName string) *DataEntity.Tbl_User {
 	return &user
 }
 
+func GetAllUsers() *[]DataEntity.Tbl_User {
+	users := DataAccess.GetAllUsers()
+	return users
+}
+
 func UpdateUserName() {
 	user := DataEntity.Tbl_User{
 		UserId:   "aaa",
@@ -40,6 +45,23 @@ func TestUpdateUserInfo() {
 	DataAccess.TestUpdateUserInfo(&user)
 }
 
-func IfUserExistsByTelNo(telNo string) bool {
-	return DataAccess.IfUserExistsByTelNo(telNo)
+func IfUserExistsByTelNo(telNo string, imei string, pushId string) (bool, *string) {
+	ifexists, userId := DataAccess.IfUserExistsByTelNo(telNo, imei, pushId)
+	if !ifexists {
+		var user DataEntity.Tbl_User
+		tempId := tsgutils.UUID()
+		userId = &tempId
+		user.UserId = tempId
+		user.UserName = "newuser"
+		user.Avatar = "https://pic2.zhimg.com/v2-d2f3715564b0b40a8dafbfdec3803f97_is.jpg"
+		user.Imei = &imei
+		user.TelNo = telNo
+		user.PushId = &pushId
+		DataAccess.AddNewUser(&user)
+	}
+	return ifexists, userId
+}
+
+func IFSameIMEI(userId string, imei string) bool {
+	return DataAccess.IfSameIMEI(userId, imei)
 }

@@ -20,6 +20,11 @@ func GetPosts(ctx iris.Context) {
 	ctx.JSON(rows)
 }
 
+func GetAllUsers(ctx iris.Context) {
+	users := Handler.GetAllUsers()
+	ctx.JSON(*users)
+}
+
 type UrlValue struct {
 	UrlPath string `json:"urlPath"`
 }
@@ -51,9 +56,21 @@ func TestUpdateUserInfo(ctx iris.Context) {
 
 func IfUserExistsByTelNo(ctx iris.Context) {
 	telNo := ctx.URLParam("telNo")
-	ifFound := Handler.IfUserExistsByTelNo(telNo)
+	IMEI := ctx.URLParam("imei")
+	pushId := ctx.URLParamDefault("pushId", "")
+	ifFound, userId := Handler.IfUserExistsByTelNo(telNo, IMEI, pushId)
 
 	ctx.JSON(iris.Map{
 		"result": ifFound,
+		"userId": *userId,
+	})
+}
+
+func IFSameIMEI(ctx iris.Context) {
+	IMEI := ctx.URLParam("IMEI")
+	LoginId := ctx.URLParam("loginId")
+	IFSame := Handler.IFSameIMEI(LoginId, IMEI)
+	ctx.JSON(iris.Map{
+		"ifSame": IFSame,
 	})
 }

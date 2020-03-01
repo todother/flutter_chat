@@ -4,7 +4,6 @@ import (
 	"com.todother/DBHelper"
 	"com.todother/DataEntity"
 	"fmt"
-	"github.com/typa01/go-utils"
 )
 
 func GetUserInfo(userId string) *DataEntity.Tbl_User {
@@ -23,10 +22,6 @@ func AddNewUser(user *DataEntity.Tbl_User) {
 	defer db.Close()
 
 	tx := db.Begin()
-
-	//user:=
-	user.UserId = tsgutils.UUID()
-
 	err := tx.Create(user).Error
 	if err != nil {
 		tx.Rollback()
@@ -39,13 +34,6 @@ func AddNewUser(user *DataEntity.Tbl_User) {
 func TestUpdateUserInfo(user *DataEntity.Tbl_User) {
 	db := DBHelper.NewInstance()
 	defer db.Close()
-	//user.UserName = "updateindb"
-	//user.Imei = "1234"
-	//user.TelNo = "12345"
-	////err := db.Save(user).Error
-	////if err != nil {
-	////	fmt.Println(err)
-	////}
 	tx := db.Begin()
 	//
 	err := tx.Model(&user).UpdateColumn("username", "testUser").Where("userId=?", &user.UserId).Error
@@ -101,11 +89,69 @@ func UpdateUserName(user *DataEntity.Tbl_User) {
 	tx.Commit()
 }
 
-func IfUserExistsByTelNo(telNo string) bool {
+func IfUserExistsByTelNo(telNo string, imei string, pushId string) (bool, *string) {
 	db := DBHelper.NewInstance()
 	defer db.Close()
 	var user DataEntity.Tbl_User
 
-	ifFound := db.Where("telno=?", telNo).Find(&user).RecordNotFound()
-	return !ifFound
+	ifNOTFound := db.Where("telno=?", telNo).Find(&user).RecordNotFound()
+	if !ifNOTFound {
+		if imei != *user.Imei {
+			tx := db.Begin()
+			err := tx.Model(&user).UpdateColumn("imei", imei).UpdateColumn("pushId", pushId).
+				Where("userId=?", &user.UserId).Error
+			if err != nil {
+				tx.Rollback()
+				fmt.Println(err)
+			} else {
+				tx.Commit()
+			}
+		}
+	}
+	return !ifNOTFound, &user.UserId
+}
+
+func IfSameIMEI(userId string, imei string) bool {
+	db := DBHelper.NewInstance()
+	defer db.Close()
+
+	var user DataEntity.Tbl_User
+	err := db.Where("userId=?", userId).Find(&user).Error
+	if err != nil {
+		fmt.Println(err)
+	}
+	return imei == *user.Imei
+}
+
+func GetAllUsers() *[]DataEntity.Tbl_User {
+	db := DBHelper.NewInstance()
+	defer db.Close()
+
+	var users []DataEntity.Tbl_User
+
+	err := db.Find(&users).Error
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	return &users
+}
+
+func UpdateConnId(userId string, connId string) {
+	db := DBHelper.NewInstance()
+	defer db.Close()
+	tx := db.Begin()
+	var user DataEntity.Tbl_User
+	ifNOTFound := tx.Where("userId=?", userId).Find(&user).RecordNotFound()
+	if !ifNOTFound {
+		err := tx.Model(&user).UpdateColumn("connId", connId).Where("userId=?", &user.UserId).Error
+		if err != nil {
+			fmt.Println(err)
+			tx.Rollback()
+		} else {
+			tx.Commit()
+		}
+	} else {
+		tx.Rollback()
+	}
 }
